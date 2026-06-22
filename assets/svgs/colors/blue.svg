@@ -30,14 +30,28 @@
     </filter>
   </defs>
 
-  <!-- Background -->
+  <!-- Background Circle -->
   <circle cx="256" cy="256" r="236" fill="url(#bg-blue)" stroke="#C2DFFF" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.4" />
+
+  <!-- Soft Paint Streak behind character -->
+  <path d="M 100 160 Q 256 200 412 160 L 412 280 Q 256 320 100 280 Z" fill="url(#front-blue)" opacity="0.15" />
 
   <!-- Sparkles -->
   <g fill="#FFD43B">
     <circle cx="100" cy="130" r="8" />
     <circle cx="400" cy="120" r="10" />
     <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <g>
+    <rect x="210" y="295" width="20" height="40" rx="10" fill="url(#side-blue)" />
+    <rect x="282" y="295" width="20" height="40" rx="10" fill="url(#side-blue)" />
+    <ellipse cx="210" cy="335" rx="18" ry="10" fill="#2f3542" />
+    <ellipse cx="302" cy="335" rx="18" ry="10" fill="#2f3542" />
   </g>
 
   <!-- Color Splat Body -->
@@ -57,6 +71,23 @@
       <circle cx="380" cy="250" r="16" />
       <circle cx="170" cy="290" r="10" />
     </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <g>
+    <!-- Left Arm holding paintbrush -->
+    <path d="M 170 210 Q 130 220 145 250" stroke="url(#front-blue)" stroke-width="12" fill="none" stroke-linecap="round" />
+    
+    <!-- Paintbrush -->
+    <g transform="translate(130 260)">
+      <path d="M -15 -15 L 10 10" stroke="#8B5A2B" stroke-width="6" stroke-linecap="round" />
+      <rect x="7" y="7" width="10" height="8" fill="#a4b0be" transform="rotate(45 12 12)" />
+      <path d="M 12 12 Q 22 22 25 32 Q 15 25 12 12" fill="url(#front-blue)" />
+      <circle cx="28" cy="38" r="4" fill="url(#front-blue)" />
+    </g>
+
+    <!-- Right Arm -->
+    <path d="M 340 210 Q 385 240 370 280" stroke="url(#front-blue)" stroke-width="12" fill="none" stroke-linecap="round" />
   </g>
 
   <!-- Cute Sprout on Top of Blob -->
@@ -82,23 +113,24 @@
   <!-- Smile -->
   <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
 
-  <!-- Floating Bubble for Illustration -->
-  <g filter="url(#shadow-blue)">
-    <circle cx="370" cy="370" r="66" fill="#ffffff" stroke="#C2DFFF" stroke-width="5" />
-  </g>
-  
-    <!-- Blue Balloon -->
-    <circle cx="370" cy="358" r="32" fill="#1e90ff" />
-    <polygon points="370,390 365,398 375,398" fill="#1e90ff" />
-    <path d="M 370 398 Q 365 410 370 422" stroke="#b2bec3" stroke-width="2.5" fill="none" />
-        
+  <!-- Floating Illustration -->
+  <!-- Blue Balloon -->
+    <g transform="translate(370 180)">
+      <circle cx="0" cy="0" r="28" fill="#1e90ff" stroke="#0a529c" stroke-width="3" />
+      <polygon points="0,28 -5,35 5,35" fill="#1e90ff" stroke="#0a529c" stroke-width="1.5" />
+      <path d="M 0 35 Q -10 65 0 100" stroke="#b2bec3" stroke-width="2.5" fill="none" />
+    </g>
 
-  <!-- Bottom Banner -->
+  <!-- Bottom Paint Palette Name Banner -->
   <g filter="url(#shadow-blue)">
-    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#C2DFFF" stroke-width="4" />
-    <text x="256" y="455" 
+    <path d="M 130 445 C 120 415, 180 395, 230 405 C 280 410, 360 395, 385 415 C 405 430, 410 465, 385 475 C 360 485, 280 470, 230 480 C 180 490, 120 470, 130 445 Z" fill="#EAD4B3" stroke="#8B5A2B" stroke-width="4" />
+    <circle cx="170" cy="445" r="10" fill="url(#bg-blue)" stroke="#8B5A2B" stroke-width="3" />
+    <circle cx="210" cy="430" r="7" fill="#ff4757" />
+    <circle cx="235" cy="425" r="7" fill="#2ed573" />
+    <circle cx="355" cy="435" r="7" fill="#1e90ff" />
+    <text x="285" y="454" 
           text-anchor="middle" 
-          font-size="28" 
+          font-size="26" 
           font-weight="900" 
           font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
           fill="#7C5730">Blue</text>

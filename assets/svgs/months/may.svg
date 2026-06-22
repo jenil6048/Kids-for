@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-may" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFDE7" />
+      <stop offset="100%" stop-color="#F0F4C3" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-may" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffeaa7" />
+      <stop offset="100%" stop-color="#ffd13b" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-may" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d5a100" />
+      <stop offset="100%" stop-color="#a07800" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-may" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-may">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-may)" stroke="#D4E157" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.4" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <!-- Flower Stem & Leaves -->
+    <path d="M 256,250 L 256,300" stroke="#2ed573" stroke-width="10" stroke-linecap="round" />
+    <path d="M 256,275 C 236,275 226,260 236,250 C 246,250 256,265 256,275 Z" fill="#2ed573" />
+    <path d="M 256,285 C 276,285 286,270 276,260 C 266,260 256,275 256,285 Z" fill="#2ed573" />
+    <rect x="230" y="295" width="16" height="35" rx="8" fill="url(#side-may)" />
+    <rect x="266" y="295" width="16" height="35" rx="8" fill="url(#side-may)" />
+    <ellipse cx="230" cy="325" rx="14" ry="8" fill="#2f3542" />
+    <ellipse cx="276" cy="325" rx="14" ry="8" fill="#2f3542" />
+
+  <!-- Bubbly Shape Body -->
+  <g filter="url(#shadow-may)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-may)" stroke="url(#side-may)" transform="translate(0, 12)">
+      <!-- Petals -->
+    <circle cx="206" cy="205" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="306" cy="205" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="256" cy="155" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="220" cy="255" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="292" cy="255" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <!-- Yellow Core -->
+    <circle cx="256" cy="205" r="45" fill="url(#front-may)" stroke="url(#side-may)" stroke-width="3" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-may)" stroke="url(#front-may)">
+      <!-- Petals -->
+    <circle cx="206" cy="205" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="306" cy="205" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="256" cy="155" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="220" cy="255" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <circle cx="292" cy="255" r="32" fill="#ffffff" stroke="#e0e0e0" stroke-width="2" />
+    <!-- Yellow Core -->
+    <circle cx="256" cy="205" r="45" fill="url(#front-may)" stroke="url(#side-may)" stroke-width="3" />
+    </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <path d="M 215 210 Q 180 220 195 250" stroke="url(#front-may)" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M 297 210 Q 332 220 317 250" stroke="url(#front-may)" stroke-width="10" fill="none" stroke-linecap="round" />
+
+  <!-- Cute Sprout on Top -->
+  <g transform="translate(256 120)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-may)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-may)" />
+  </g>
+
+  <!-- Custom Face Elements -->
+  <g>
+      <circle cx="238" cy="195" r="10" fill="#222" />
+      <circle cx="235" cy="191" r="3" fill="#FFF" />
+      <circle cx="274" cy="195" r="10" fill="#222" />
+      <circle cx="271" cy="191" r="3" fill="#FFF" />
+    </g>
+    <ellipse cx="222" cy="210" rx="10" ry="6" fill="#FF6B81" opacity="0.45" />
+    <ellipse cx="290" cy="210" rx="10" ry="6" fill="#FF6B81" opacity="0.45" />
+    <path d="M244 215 Q256 226 268 215" stroke="#7A1022" stroke-width="4" fill="none" stroke-linecap="round" />
+
+  <!-- Bottom Wooden Plank Name Banner -->
+  <g filter="url(#shadow-may)">
+    <!-- Plank -->
+    <rect x="120" y="420" width="272" height="54" rx="10" fill="#D7A15C" stroke="#7C5730" stroke-width="4" />
+    <!-- Wood grain detail lines -->
+    <path d="M 130 432 Q 256 438 380 432" stroke="#9C6B30" stroke-width="2.5" fill="none" />
+    <path d="M 140 460 Q 256 466 370 460" stroke="#9C6B30" stroke-width="1.5" fill="none" />
+    <!-- Name Text -->
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">May</text>
+  </g>
+</svg>

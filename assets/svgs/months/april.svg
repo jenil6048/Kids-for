@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-april" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E0F7FA" />
+      <stop offset="100%" stop-color="#B2EBF2" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-april" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#70a1ff" />
+      <stop offset="100%" stop-color="#1e90ff" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-april" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0f71d4" />
+      <stop offset="100%" stop-color="#0a529c" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-april" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-april">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-april)" stroke="#80DEEA" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.4" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <!-- Raindrops & Legs -->
+    <path d="M 140,110 Q 140,120 145,120 Q 150,120 140,110 Z" fill="#29b6f6" />
+    <path d="M 370,105 Q 370,115 375,115 Q 380,115 370,105 Z" fill="#29b6f6" />
+    <path d="M 200,90 Q 200,100 205,100 Q 210,100 200,90 Z" fill="#29b6f6" />
+    <rect x="210" y="270" width="16" height="40" rx="8" fill="url(#side-april)" />
+    <rect x="286" y="270" width="16" height="40" rx="8" fill="url(#side-april)" />
+    <rect x="198" y="300" width="24" height="15" rx="5" fill="#ffd13b" />
+    <rect x="286" y="300" width="24" height="15" rx="5" fill="#ffd13b" />
+
+  <!-- Bubbly Shape Body -->
+  <g filter="url(#shadow-april)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-april)" stroke="url(#side-april)" transform="translate(0, 12)">
+      <!-- Umbrella Canopy -->
+    <path d="M 160,210 C 160,130 352,130 352,210 C 352,210 320,195 288,210 C 256,195 224,195 192,210 C 160,195 160,210 160,210 Z" />
+    <path d="M 256,210 L 256,285 A 15,15 0 0,1 226,285" fill="none" stroke="#8B5A2B" stroke-width="8" stroke-linecap="round" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-april)" stroke="url(#front-april)">
+      <!-- Umbrella Canopy -->
+    <path d="M 160,210 C 160,130 352,130 352,210 C 352,210 320,195 288,210 C 256,195 224,195 192,210 C 160,195 160,210 160,210 Z" />
+    <path d="M 256,210 L 256,285 A 15,15 0 0,1 226,285" fill="none" stroke="#8B5A2B" stroke-width="8" stroke-linecap="round" />
+    </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <path d="M 180 205 Q 140 220 150 250" stroke="url(#front-april)" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M 330 205 Q 370 220 360 250" stroke="url(#front-april)" stroke-width="10" fill="none" stroke-linecap="round" />
+
+  <!-- Cute Sprout on Top -->
+  <g transform="translate(256 125)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-april)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-april)" />
+  </g>
+
+  <!-- Custom Face Elements -->
+  <g>
+      <circle cx="230" cy="175" r="14" fill="#222" />
+      <circle cx="226" cy="169" r="5" fill="#FFF" />
+      <circle cx="282" cy="175" r="14" fill="#222" />
+      <circle cx="278" cy="169" r="5" fill="#FFF" />
+    </g>
+    <ellipse cx="205" cy="195" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <ellipse cx="307" cy="195" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <path d="M238 205 Q256 225 274 205" stroke="#7A1022" stroke-width="6" fill="none" stroke-linecap="round" />
+
+  <!-- Bottom Wooden Plank Name Banner -->
+  <g filter="url(#shadow-april)">
+    <!-- Plank -->
+    <rect x="120" y="420" width="272" height="54" rx="10" fill="#D7A15C" stroke="#7C5730" stroke-width="4" />
+    <!-- Wood grain detail lines -->
+    <path d="M 130 432 Q 256 438 380 432" stroke="#9C6B30" stroke-width="2.5" fill="none" />
+    <path d="M 140 460 Q 256 466 370 460" stroke="#9C6B30" stroke-width="1.5" fill="none" />
+    <!-- Name Text -->
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">April</text>
+  </g>
+</svg>

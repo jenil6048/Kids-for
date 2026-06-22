@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-october" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3E0" />
+      <stop offset="100%" stop-color="#FFE0B2" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-october" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffbe76" />
+      <stop offset="100%" stop-color="#ff7f50" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-october" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d55e00" />
+      <stop offset="100%" stop-color="#a14200" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-october" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-october">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-october)" stroke="#FFCC80" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.4" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <!-- Legs -->
+    <rect x="210" y="275" width="16" height="40" rx="8" fill="url(#side-october)" />
+    <rect x="286" y="275" width="16" height="40" rx="8" fill="url(#side-october)" />
+    <ellipse cx="210" cy="310" rx="14" ry="8" fill="#2f3542" />
+    <ellipse cx="296" cy="310" rx="14" ry="8" fill="#2f3542" />
+
+  <!-- Bubbly Shape Body -->
+  <g filter="url(#shadow-october)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-october)" stroke="url(#side-october)" transform="translate(0, 12)">
+      <!-- Pumpkin -->
+    <ellipse cx="256" cy="205" rx="90" ry="75" fill="url(#front-october)" stroke="url(#side-october)" stroke-width="3" />
+    <ellipse cx="256" cy="205" rx="55" ry="75" fill="none" stroke="url(#side-october)" stroke-width="3" />
+    <ellipse cx="256" cy="205" rx="24" ry="75" fill="none" stroke="url(#side-october)" stroke-width="3" />
+    <path d="M 256,135 L 256,115 Q 262,105 270,110" stroke="#8B5A2B" stroke-width="8" stroke-linecap="round" fill="none" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-october)" stroke="url(#front-october)">
+      <!-- Pumpkin -->
+    <ellipse cx="256" cy="205" rx="90" ry="75" fill="url(#front-october)" stroke="url(#side-october)" stroke-width="3" />
+    <ellipse cx="256" cy="205" rx="55" ry="75" fill="none" stroke="url(#side-october)" stroke-width="3" />
+    <ellipse cx="256" cy="205" rx="24" ry="75" fill="none" stroke="url(#side-october)" stroke-width="3" />
+    <path d="M 256,135 L 256,115 Q 262,105 270,110" stroke="#8B5A2B" stroke-width="8" stroke-linecap="round" fill="none" />
+    </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <path d="M 170 210 Q 130 220 145 250" stroke="url(#front-october)" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M 342 210 Q 382 220 367 250" stroke="url(#front-october)" stroke-width="10" fill="none" stroke-linecap="round" />
+
+  <!-- Cute Sprout on Top -->
+  <g transform="translate(270 100)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-october)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-october)" />
+  </g>
+
+  <!-- Custom Face Elements -->
+  <g>
+      <circle cx="225" cy="185" r="14" fill="#222" />
+      <circle cx="221" cy="179" r="5" fill="#FFF" />
+      <circle cx="287" cy="185" r="14" fill="#222" />
+      <circle cx="283" cy="179" r="5" fill="#FFF" />
+    </g>
+    <ellipse cx="200" cy="210" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <ellipse cx="312" cy="210" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <path d="M235 220 Q256 242 277 220" stroke="#7A1022" stroke-width="6" fill="none" stroke-linecap="round" />
+
+  <!-- Bottom Wooden Plank Name Banner -->
+  <g filter="url(#shadow-october)">
+    <!-- Plank -->
+    <rect x="120" y="420" width="272" height="54" rx="10" fill="#D7A15C" stroke="#7C5730" stroke-width="4" />
+    <!-- Wood grain detail lines -->
+    <path d="M 130 432 Q 256 438 380 432" stroke="#9C6B30" stroke-width="2.5" fill="none" />
+    <path d="M 140 460 Q 256 466 370 460" stroke="#9C6B30" stroke-width="1.5" fill="none" />
+    <!-- Name Text -->
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">October</text>
+  </g>
+</svg>

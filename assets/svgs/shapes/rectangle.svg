@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-rectangle" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBF5" />
+      <stop offset="100%" stop-color="#FFF5E6" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-rectangle" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffbe76" />
+      <stop offset="100%" stop-color="#ff7f50" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-rectangle" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d55e00" />
+      <stop offset="100%" stop-color="#a14200" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-rectangle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-rectangle">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-rectangle)" stroke="#FFE0B2" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.5" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <!-- Legs -->
+    <rect x="190" y="275" width="20" height="50" rx="10" fill="url(#side-rectangle)" />
+    <rect x="302" y="275" width="20" height="50" rx="10" fill="url(#side-rectangle)" />
+    <ellipse cx="190" cy="325" rx="18" ry="10" fill="#2f3542" />
+    <ellipse cx="322" cy="325" rx="18" ry="10" fill="#2f3542" />
+
+  <!-- Bubbly Shape Body -->
+  <g filter="url(#shadow-rectangle)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-rectangle)" stroke="url(#side-rectangle)" transform="translate(0, 12)">
+      <rect x="141" y="125" width="230" height="160" rx="30" ry="30" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-rectangle)" stroke="url(#front-rectangle)">
+      <rect x="141" y="125" width="230" height="160" rx="30" ry="30" />
+    </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <!-- Arms -->
+    <path d="M 150 200 Q 110 200 95 240" stroke="url(#front-rectangle)" stroke-width="12" fill="none" stroke-linecap="round" />
+    <path d="M 360 200 Q 400 180 410 150" stroke="url(#front-rectangle)" stroke-width="12" fill="none" stroke-linecap="round" />
+
+  <!-- Cute Sprout on Top -->
+  <g transform="translate(256 95)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-rectangle)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-rectangle)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Floating Illustration -->
+  <!-- Blackboard next to Rectangle -->
+    <g transform="translate(80 250) scale(0.9)">
+      <rect x="-40" y="-30" width="80" height="60" rx="4" fill="#2ed573" stroke="#8B5A2B" stroke-width="6" />
+      <rect x="-25" y="15" width="10" height="4" fill="#ffffff" />
+      <line x1="-30" y1="30" x2="-40" y2="55" stroke="#8B5A2B" stroke-width="4" stroke-linecap="round" />
+      <line x1="30" y1="30" x2="40" y2="55" stroke="#8B5A2B" stroke-width="4" stroke-linecap="round" />
+    </g>
+
+  <!-- Bottom Cloud Name Banner -->
+  <g filter="url(#shadow-rectangle)">
+    <path d="M 130 445 C 120 430, 140 410, 165 420 C 185 395, 235 395, 255 420 C 275 395, 325 395, 345 420 C 370 410, 390 430, 380 445 C 395 460, 375 480, 350 470 C 330 485, 280 485, 255 470 C 230 485, 180 485, 160 470 C 135 480, 115 460, 130 445 Z" fill="#ffffff" stroke="#FFE0B2" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">Rectangle</text>
+  </g>
+</svg>

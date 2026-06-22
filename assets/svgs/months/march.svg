@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-march" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8F5E9" />
+      <stop offset="100%" stop-color="#C8E6C9" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-march" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#81ecec" />
+      <stop offset="100%" stop-color="#2bcbba" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-march" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0c8a83" />
+      <stop offset="100%" stop-color="#055c58" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-march" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-march">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Circle -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-march)" stroke="#A5D6A7" stroke-width="6" />
+
+  <!-- Premium Stitched-Sticker Dotted Inner Circle -->
+  <circle cx="256" cy="256" r="216" fill="none" stroke="#ffffff" stroke-width="4" stroke-dasharray="8,8" opacity="0.4" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Back Limbs (Legs/Feet) -->
+  <!-- Kite Tail & Legs -->
+    <path d="M 256 280 Q 240 315 270 345 Q 250 375 256 400" stroke="#ff4757" stroke-width="3.5" fill="none" />
+    <polygon points="248,310 240,305 242,315" fill="#ffd13b" />
+    <polygon points="262,340 270,335 268,345" fill="#2ed573" />
+    <rect x="210" y="275" width="16" height="35" rx="8" fill="url(#side-march)" />
+    <rect x="286" y="275" width="16" height="35" rx="8" fill="url(#side-march)" />
+    <ellipse cx="210" cy="310" rx="14" ry="8" fill="#2f3542" />
+    <ellipse cx="296" cy="310" rx="14" ry="8" fill="#2f3542" />
+
+  <!-- Bubbly Shape Body -->
+  <g filter="url(#shadow-march)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-march)" stroke="url(#side-march)" transform="translate(0, 12)">
+      <!-- Kite Body -->
+    <polygon points="256,110 330,195 256,280 182,195" />
+    <line x1="182" y1="195" x2="330" y2="195" stroke="#222" stroke-width="2" />
+    <line x1="256" y1="110" x2="256" y2="280" stroke="#222" stroke-width="2" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-march)" stroke="url(#front-march)">
+      <!-- Kite Body -->
+    <polygon points="256,110 330,195 256,280 182,195" />
+    <line x1="182" y1="195" x2="330" y2="195" stroke="#222" stroke-width="2" />
+    <line x1="256" y1="110" x2="256" y2="280" stroke="#222" stroke-width="2" />
+    </g>
+  </g>
+
+  <!-- Front Limbs (Arms) -->
+  <path d="M 185 200 Q 140 210 155 240" stroke="url(#front-march)" stroke-width="10" fill="none" stroke-linecap="round" />
+    <path d="M 327 200 Q 372 210 357 240" stroke="url(#front-march)" stroke-width="10" fill="none" stroke-linecap="round" />
+
+  <!-- Cute Sprout on Top -->
+  <g transform="translate(256 95)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-march)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-march)" />
+  </g>
+
+  <!-- Custom Face Elements -->
+  <g>
+      <circle cx="230" cy="180" r="14" fill="#222" />
+      <circle cx="226" cy="174" r="5" fill="#FFF" />
+      <circle cx="282" cy="180" r="14" fill="#222" />
+      <circle cx="278" cy="174" r="5" fill="#FFF" />
+    </g>
+    <ellipse cx="205" cy="205" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <ellipse cx="307" cy="205" rx="14" ry="9" fill="#FF6B81" opacity="0.45" />
+    <path d="M238 215 Q256 235 274 215" stroke="#7A1022" stroke-width="6" fill="none" stroke-linecap="round" />
+
+  <!-- Bottom Wooden Plank Name Banner -->
+  <g filter="url(#shadow-march)">
+    <!-- Plank -->
+    <rect x="120" y="420" width="272" height="54" rx="10" fill="#D7A15C" stroke="#7C5730" stroke-width="4" />
+    <!-- Wood grain detail lines -->
+    <path d="M 130 432 Q 256 438 380 432" stroke="#9C6B30" stroke-width="2.5" fill="none" />
+    <path d="M 140 460 Q 256 466 370 460" stroke="#9C6B30" stroke-width="1.5" fill="none" />
+    <!-- Name Text -->
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">March</text>
+  </g>
+</svg>
