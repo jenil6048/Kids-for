@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-26" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fcfff9" />
+      <stop offset="100%" stop-color="#f7ffef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-26" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c4ff89" />
+      <stop offset="100%" stop-color="#7af400" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-26" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60c100" />
+      <stop offset="100%" stop-color="#478e00" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-26" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-26">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-26)" stroke="#d8eac6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-26)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-26)" 
+          stroke="url(#side-26)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">26</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-26)" 
+          stroke="url(#front-26)" 
+          stroke-width="18">26</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-26)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-26)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <polygon points="113.8,309.4 98.8,302.0 98.8,316.9" fill="#a29bfe" /><polygon points="113.8,309.4 128.7,302.0 128.7,316.9" fill="#a29bfe" /><circle cx="113.8" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="149.3,309.4 134.4,302.0 134.4,316.9" fill="#a29bfe" /><polygon points="149.3,309.4 164.3,302.0 164.3,316.9" fill="#a29bfe" /><circle cx="149.3" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="184.9,309.4 170.0,302.0 170.0,316.9" fill="#a29bfe" /><polygon points="184.9,309.4 199.8,302.0 199.8,316.9" fill="#a29bfe" /><circle cx="184.9" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="220.4,309.4 205.5,302.0 205.5,316.9" fill="#a29bfe" /><polygon points="220.4,309.4 235.4,302.0 235.4,316.9" fill="#a29bfe" /><circle cx="220.4" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="256.0,309.4 241.1,302.0 241.1,316.9" fill="#a29bfe" /><polygon points="256.0,309.4 270.9,302.0 270.9,316.9" fill="#a29bfe" /><circle cx="256.0" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="291.6,309.4 276.6,302.0 276.6,316.9" fill="#a29bfe" /><polygon points="291.6,309.4 306.5,302.0 306.5,316.9" fill="#a29bfe" /><circle cx="291.6" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="327.1,309.4 312.2,302.0 312.2,316.9" fill="#a29bfe" /><polygon points="327.1,309.4 342.0,302.0 342.0,316.9" fill="#a29bfe" /><circle cx="327.1" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="362.7,309.4 347.7,302.0 347.7,316.9" fill="#a29bfe" /><polygon points="362.7,309.4 377.6,302.0 377.6,316.9" fill="#a29bfe" /><circle cx="362.7" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="398.2,309.4 383.3,302.0 383.3,316.9" fill="#a29bfe" /><polygon points="398.2,309.4 413.2,302.0 413.2,316.9" fill="#a29bfe" /><circle cx="398.2" cy="309.4" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="113.8,345.0 98.8,337.5 98.8,352.5" fill="#a29bfe" /><polygon points="113.8,345.0 128.7,337.5 128.7,352.5" fill="#a29bfe" /><circle cx="113.8" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="149.3,345.0 134.4,337.5 134.4,352.5" fill="#a29bfe" /><polygon points="149.3,345.0 164.3,337.5 164.3,352.5" fill="#a29bfe" /><circle cx="149.3" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="184.9,345.0 170.0,337.5 170.0,352.5" fill="#a29bfe" /><polygon points="184.9,345.0 199.8,337.5 199.8,352.5" fill="#a29bfe" /><circle cx="184.9" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="220.4,345.0 205.5,337.5 205.5,352.5" fill="#a29bfe" /><polygon points="220.4,345.0 235.4,337.5 235.4,352.5" fill="#a29bfe" /><circle cx="220.4" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="256.0,345.0 241.1,337.5 241.1,352.5" fill="#a29bfe" /><polygon points="256.0,345.0 270.9,337.5 270.9,352.5" fill="#a29bfe" /><circle cx="256.0" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="291.6,345.0 276.6,337.5 276.6,352.5" fill="#a29bfe" /><polygon points="291.6,345.0 306.5,337.5 306.5,352.5" fill="#a29bfe" /><circle cx="291.6" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="327.1,345.0 312.2,337.5 312.2,352.5" fill="#a29bfe" /><polygon points="327.1,345.0 342.0,337.5 342.0,352.5" fill="#a29bfe" /><circle cx="327.1" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="362.7,345.0 347.7,337.5 347.7,352.5" fill="#a29bfe" /><polygon points="362.7,345.0 377.6,337.5 377.6,352.5" fill="#a29bfe" /><circle cx="362.7" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="398.2,345.0 383.3,337.5 383.3,352.5" fill="#a29bfe" /><polygon points="398.2,345.0 413.2,337.5 413.2,352.5" fill="#a29bfe" /><circle cx="398.2" cy="345.0" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="113.8,380.6 98.8,373.1 98.8,388.0" fill="#a29bfe" /><polygon points="113.8,380.6 128.7,373.1 128.7,388.0" fill="#a29bfe" /><circle cx="113.8" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="149.3,380.6 134.4,373.1 134.4,388.0" fill="#a29bfe" /><polygon points="149.3,380.6 164.3,373.1 164.3,388.0" fill="#a29bfe" /><circle cx="149.3" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="184.9,380.6 170.0,373.1 170.0,388.0" fill="#a29bfe" /><polygon points="184.9,380.6 199.8,373.1 199.8,388.0" fill="#a29bfe" /><circle cx="184.9" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="220.4,380.6 205.5,373.1 205.5,388.0" fill="#a29bfe" /><polygon points="220.4,380.6 235.4,373.1 235.4,388.0" fill="#a29bfe" /><circle cx="220.4" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="256.0,380.6 241.1,373.1 241.1,388.0" fill="#a29bfe" /><polygon points="256.0,380.6 270.9,373.1 270.9,388.0" fill="#a29bfe" /><circle cx="256.0" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="291.6,380.6 276.6,373.1 276.6,388.0" fill="#a29bfe" /><polygon points="291.6,380.6 306.5,373.1 306.5,388.0" fill="#a29bfe" /><circle cx="291.6" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="327.1,380.6 312.2,373.1 312.2,388.0" fill="#a29bfe" /><polygon points="327.1,380.6 342.0,373.1 342.0,388.0" fill="#a29bfe" /><circle cx="327.1" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+<polygon points="362.7,380.6 347.7,373.1 347.7,388.0" fill="#a29bfe" /><polygon points="362.7,380.6 377.6,373.1 377.6,388.0" fill="#a29bfe" /><circle cx="362.7" cy="380.6" r="10.5" fill="#fd79a8" stroke="#ffffff" stroke-width="1.0" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-26)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#d8eac6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">26 - Twenty Six</text>
+  </g>
+</svg>

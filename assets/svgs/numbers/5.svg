@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffbf9" />
+      <stop offset="100%" stop-color="#fff3ef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffa589" />
+      <stop offset="100%" stop-color="#f43900" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-5" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c12d00" />
+      <stop offset="100%" stop-color="#8e2100" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-5">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-5)" stroke="#eacfc6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-5)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-5)" 
+          stroke="url(#side-5)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">5</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-5)" 
+          stroke="url(#front-5)" 
+          stroke-width="18">5</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-5)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-5)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <path d="M 128.0 361.0 C 104.0 341.0 112.0 329.0 128.0 337.0 C 144.0 329.0 152.0 341.0 128.0 361.0 Z" fill="#ff7675" />
+<path d="M 192.0 361.0 C 168.0 341.0 176.0 329.0 192.0 337.0 C 208.0 329.0 216.0 341.0 192.0 361.0 Z" fill="#ff7675" />
+<path d="M 256.0 361.0 C 232.0 341.0 240.0 329.0 256.0 337.0 C 272.0 329.0 280.0 341.0 256.0 361.0 Z" fill="#ff7675" />
+<path d="M 320.0 361.0 C 296.0 341.0 304.0 329.0 320.0 337.0 C 336.0 329.0 344.0 341.0 320.0 361.0 Z" fill="#ff7675" />
+<path d="M 384.0 361.0 C 360.0 341.0 368.0 329.0 384.0 337.0 C 400.0 329.0 408.0 341.0 384.0 361.0 Z" fill="#ff7675" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-5)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#eacfc6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">5 - Five</text>
+  </g>
+</svg>

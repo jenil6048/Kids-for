@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdfbff" />
+      <stop offset="100%" stop-color="#f5ebff" />
+    </linearGradient>
+    
+    <!-- 3D Base Shadow -->
+    <filter id="block-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="10" flood-color="#310a59" flood-opacity="0.25" />
+    </filter>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#dec4fc" />
+      <stop offset="40%" stop-color="#b180f6" />
+      <stop offset="100%" stop-color="#8854d0" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#682aab" />
+      <stop offset="100%" stop-color="#48177d" />
+    </linearGradient>
+
+    <!-- Glossy Highlight Gradient -->
+    <linearGradient id="gloss-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.7" />
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7bed9f" />
+      <stop offset="100%" stop-color="#2ed573" />
+    </linearGradient>
+  </defs>
+
+  <!-- Circular Base Canvas with Border -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-grad)" stroke="#e6ceff" stroke-width="6" />
+
+  <!-- Playful Background Sparkles -->
+  <g fill="#ffd13b" opacity="0.8">
+    <path d="M 400 130 Q 400 115 385 115 Q 400 115 400 100 Q 400 115 415 115 Q 400 115 400 130 Z" />
+    <path d="M 90 280 Q 90 270 80 270 Q 90 270 90 260 Q 90 270 100 270 Q 90 270 90 280 Z" />
+  </g>
+
+  <!-- Bubbly Letter with 3D Offset Extrusion -->
+  <g filter="url(#block-shadow)">
+    <!-- 3D Offset Extrusion Layer -->
+    <text x="236" y="325" 
+          font-family="Comic Sans MS, Impact, Arial Rounded MT Bold, sans-serif" 
+          font-weight="900" 
+          font-size="280" 
+          text-anchor="middle" 
+          fill="url(#side-grad)" 
+          stroke="url(#side-grad)" 
+          stroke-width="28" 
+          stroke-linejoin="round" 
+          stroke-linecap="round"
+          transform="translate(0, 14)">V</text>
+
+    <!-- Main Front Face Layer -->
+    <text x="236" y="325" 
+          font-family="Comic Sans MS, Impact, Arial Rounded MT Bold, sans-serif" 
+          font-weight="900" 
+          font-size="280" 
+          text-anchor="middle" 
+          fill="url(#front-grad)" 
+          stroke="url(#front-grad)" 
+          stroke-width="28" 
+          stroke-linejoin="round" 
+          stroke-linecap="round">V</text>
+  </g>
+
+  <!-- Smooth Edge Glow / Highlight -->
+  <path d="M 236 90 
+           C 255 90, 270 102, 280 125 
+           L 305 195 
+           C 290 180, 265 170, 236 170 
+           C 207 170, 182 180, 167 195 
+           L 192 125 
+           C 202 102, 217 90, 236 90 Z" 
+        fill="url(#gloss-grad)" />
+
+  <!-- A Cute Little Green Sprout on Top of Letter! -->
+  <g transform="translate(236, 68)">
+    <path d="M 0 0 Q -5 -15 -10 -25" stroke="#7d5027" stroke-width="6" stroke-linecap="round" fill="none" />
+    <path d="M -10 -25 C -25 -25, -30 -10, -10 0 C 0 -10, -5 -25, -10 -25 Z" fill="url(#leaf-grad)" />
+    <path d="M -10 -25 C -5 -35, 15 -30, 5 -10 C -5 -15, -5 -25, -10 -25 Z" fill="url(#leaf-grad)" />
+  </g>
+
+  <!-- Rosy Cheeks -->
+  <ellipse cx="160" cy="225" rx="18" ry="12" fill="#ff2f4b" opacity="0.4" />
+  <ellipse cx="312" cy="225" rx="18" ry="12" fill="#ff2f4b" opacity="0.4" />
+
+  <!-- Big Animated Shiny Eyes -->
+  <!-- Left Eye -->
+  <g>
+    <circle cx="190" cy="200" r="16" fill="#2d3436" />
+    <circle cx="184" cy="192" r="6" fill="#ffffff" />
+    <circle cx="195" cy="206" r="3" fill="#ffffff" />
+  </g>
+  <!-- Right Eye -->
+  <g>
+    <circle cx="282" cy="200" r="16" fill="#2d3436" />
+    <circle cx="276" cy="192" r="6" fill="#ffffff" />
+    <circle cx="287" cy="206" r="3" fill="#ffffff" />
+  </g>
+
+  <!-- Happy Mouth showing a Tongue -->
+  <g>
+    <path d="M 214 215 C 214 215, 218 240, 236 240 C 254 240, 258 215, 258 215 Z" fill="#4d0e17" />
+    <path d="M 222 228 C 228 224, 244 224, 250 228 C 248 238, 224 238, 222 228 Z" fill="#ff798e" />
+  </g>
+
+  <!-- Floating Bubble for Illustration -->
+  <g filter="url(#block-shadow)">
+    <circle cx="370" cy="370" r="66" fill="#ffffff" stroke="#b180f6" stroke-width="5" />
+  </g>
+  
+    <!-- Vase with Flowers -->
+    <line x1="370" y1="352" x2="370" y2="380" stroke="#2ecc71" stroke-width="3" />
+    <circle cx="370" cy="352" r="8" fill="#e74c3c" />
+    <circle cx="370" cy="352" r="3" fill="#f1c40f" />
+    
+    <line x1="355" y1="358" x2="368" y2="380" stroke="#2ecc71" stroke-width="3" />
+    <circle cx="355" cy="358" r="7" fill="#e17055" />
+    <circle cx="355" cy="358" r="2.5" fill="#f1c40f" />
+    
+    <path d="M 350 380 L 354 415 Q 370 422 386 415 L 390 380 Q 370 376 350 380 Z" fill="#9b59b6" stroke="#8e44ad" stroke-width="3" />
+    <ellipse cx="370" cy="380" rx="20" ry="5" fill="#8e44ad" />
+        
+
+  <!-- Banner for A for Apple word -->
+  <g filter="url(#block-shadow)">
+    <rect x="96" y="420" width="320" height="50" rx="25" fill="#ffffff" stroke="#e6ceff" stroke-width="4" />
+    <text x="256" y="456" 
+          font-family="Comic Sans MS, Impact, Arial Rounded MT Bold, sans-serif" 
+          font-weight="900" 
+          font-size="28" 
+          text-anchor="middle" 
+          fill="#7C5730">V for Vase</text>
+  </g>
+</svg>

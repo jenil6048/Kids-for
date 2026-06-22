@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-12" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffdf9" />
+      <stop offset="100%" stop-color="#fff9ef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-12" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffd589" />
+      <stop offset="100%" stop-color="#f49f00" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-12" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c17d00" />
+      <stop offset="100%" stop-color="#8e5c00" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-12" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-12">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-12)" stroke="#eadec6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-12)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-12)" 
+          stroke="url(#side-12)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">12</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-12)" 
+          stroke="url(#front-12)" 
+          stroke-width="18">12</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-12)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-12)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <polygon points="122.7,298.3 128.0,311.1 141.7,312.2 131.2,321.1 134.4,334.5 122.7,327.3 110.9,334.5 114.1,321.1 103.6,312.2 117.4,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="176.0,298.3 181.3,311.1 195.0,312.2 184.6,321.1 187.8,334.5 176.0,327.3 164.2,334.5 167.4,321.1 157.0,312.2 170.7,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="229.3,298.3 234.6,311.1 248.4,312.2 237.9,321.1 241.1,334.5 229.3,327.3 217.6,334.5 220.8,321.1 210.3,312.2 224.0,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="282.7,298.3 288.0,311.1 301.7,312.2 291.2,321.1 294.4,334.5 282.7,327.3 270.9,334.5 274.1,321.1 263.6,312.2 277.4,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="336.0,298.3 341.3,311.1 355.0,312.2 344.6,321.1 347.8,334.5 336.0,327.3 324.2,334.5 327.4,321.1 317.0,312.2 330.7,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="389.3,298.3 394.6,311.1 408.4,312.2 397.9,321.1 401.1,334.5 389.3,327.3 377.6,334.5 380.8,321.1 370.3,312.2 384.0,311.1" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="122.7,351.7 128.0,364.4 141.7,365.5 131.2,374.4 134.4,387.8 122.7,380.7 110.9,387.8 114.1,374.4 103.6,365.5 117.4,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="176.0,351.7 181.3,364.4 195.0,365.5 184.6,374.4 187.8,387.8 176.0,380.7 164.2,387.8 167.4,374.4 157.0,365.5 170.7,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="229.3,351.7 234.6,364.4 248.4,365.5 237.9,374.4 241.1,387.8 229.3,380.7 217.6,387.8 220.8,374.4 210.3,365.5 224.0,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="282.7,351.7 288.0,364.4 301.7,365.5 291.2,374.4 294.4,387.8 282.7,380.7 270.9,387.8 274.1,374.4 263.6,365.5 277.4,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="336.0,351.7 341.3,364.4 355.0,365.5 344.6,374.4 347.8,387.8 336.0,380.7 324.2,387.8 327.4,374.4 317.0,365.5 330.7,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="389.3,351.7 394.6,364.4 408.4,365.5 397.9,374.4 401.1,387.8 389.3,380.7 377.6,387.8 380.8,374.4 370.3,365.5 384.0,364.4" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-12)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#eadec6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">12 - Twelve</text>
+  </g>
+</svg>

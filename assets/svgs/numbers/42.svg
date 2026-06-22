@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-42" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f9fffc" />
+      <stop offset="100%" stop-color="#effff6" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-42" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#89ffbe" />
+      <stop offset="100%" stop-color="#00f46e" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-42" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#00c157" />
+      <stop offset="100%" stop-color="#008e40" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-42" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-42">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-42)" stroke="#c6ead6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-42)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-42)" 
+          stroke="url(#side-42)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">42</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-42)" 
+          stroke="url(#front-42)" 
+          stroke-width="18">42</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-42)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-42)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <polygon points="118.5,292.2 121.6,299.5 129.5,300.2 123.4,305.4 125.3,313.1 118.5,308.9 111.7,313.1 113.6,305.4 107.5,300.2 115.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="146.0,292.2 149.1,299.5 157.0,300.2 150.9,305.4 152.8,313.1 146.0,308.9 139.2,313.1 141.1,305.4 135.0,300.2 142.9,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="173.5,292.2 176.6,299.5 184.5,300.2 178.4,305.4 180.3,313.1 173.5,308.9 166.7,313.1 168.6,305.4 162.5,300.2 170.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="201.0,292.2 204.1,299.5 212.0,300.2 205.9,305.4 207.8,313.1 201.0,308.9 194.2,313.1 196.1,305.4 190.0,300.2 197.9,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="228.5,292.2 231.6,299.5 239.5,300.2 233.4,305.4 235.3,313.1 228.5,308.9 221.7,313.1 223.6,305.4 217.5,300.2 225.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="256.0,292.2 259.1,299.5 267.0,300.2 260.9,305.4 262.8,313.1 256.0,308.9 249.2,313.1 251.1,305.4 245.0,300.2 252.9,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="283.5,292.2 286.6,299.5 294.5,300.2 288.4,305.4 290.3,313.1 283.5,308.9 276.7,313.1 278.6,305.4 272.5,300.2 280.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="311.0,292.2 314.1,299.5 322.0,300.2 315.9,305.4 317.8,313.1 311.0,308.9 304.2,313.1 306.1,305.4 300.0,300.2 307.9,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="338.5,292.2 341.6,299.5 349.5,300.2 343.4,305.4 345.3,313.1 338.5,308.9 331.7,313.1 333.6,305.4 327.5,300.2 335.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="366.0,292.2 369.1,299.5 377.0,300.2 370.9,305.4 372.8,313.1 366.0,308.9 359.2,313.1 361.1,305.4 355.0,300.2 362.9,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="393.5,292.2 396.6,299.5 404.5,300.2 398.4,305.4 400.3,313.1 393.5,308.9 386.7,313.1 388.6,305.4 382.5,300.2 390.4,299.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="118.5,319.7 121.6,327.0 129.5,327.7 123.4,332.9 125.3,340.6 118.5,336.4 111.7,340.6 113.6,332.9 107.5,327.7 115.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="146.0,319.7 149.1,327.0 157.0,327.7 150.9,332.9 152.8,340.6 146.0,336.4 139.2,340.6 141.1,332.9 135.0,327.7 142.9,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="173.5,319.7 176.6,327.0 184.5,327.7 178.4,332.9 180.3,340.6 173.5,336.4 166.7,340.6 168.6,332.9 162.5,327.7 170.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="201.0,319.7 204.1,327.0 212.0,327.7 205.9,332.9 207.8,340.6 201.0,336.4 194.2,340.6 196.1,332.9 190.0,327.7 197.9,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="228.5,319.7 231.6,327.0 239.5,327.7 233.4,332.9 235.3,340.6 228.5,336.4 221.7,340.6 223.6,332.9 217.5,327.7 225.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="256.0,319.7 259.1,327.0 267.0,327.7 260.9,332.9 262.8,340.6 256.0,336.4 249.2,340.6 251.1,332.9 245.0,327.7 252.9,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="283.5,319.7 286.6,327.0 294.5,327.7 288.4,332.9 290.3,340.6 283.5,336.4 276.7,340.6 278.6,332.9 272.5,327.7 280.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="311.0,319.7 314.1,327.0 322.0,327.7 315.9,332.9 317.8,340.6 311.0,336.4 304.2,340.6 306.1,332.9 300.0,327.7 307.9,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="338.5,319.7 341.6,327.0 349.5,327.7 343.4,332.9 345.3,340.6 338.5,336.4 331.7,340.6 333.6,332.9 327.5,327.7 335.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="366.0,319.7 369.1,327.0 377.0,327.7 370.9,332.9 372.8,340.6 366.0,336.4 359.2,340.6 361.1,332.9 355.0,327.7 362.9,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="393.5,319.7 396.6,327.0 404.5,327.7 398.4,332.9 400.3,340.6 393.5,336.4 386.7,340.6 388.6,332.9 382.5,327.7 390.4,327.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="118.5,347.2 121.6,354.5 129.5,355.2 123.4,360.4 125.3,368.1 118.5,363.9 111.7,368.1 113.6,360.4 107.5,355.2 115.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="146.0,347.2 149.1,354.5 157.0,355.2 150.9,360.4 152.8,368.1 146.0,363.9 139.2,368.1 141.1,360.4 135.0,355.2 142.9,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="173.5,347.2 176.6,354.5 184.5,355.2 178.4,360.4 180.3,368.1 173.5,363.9 166.7,368.1 168.6,360.4 162.5,355.2 170.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="201.0,347.2 204.1,354.5 212.0,355.2 205.9,360.4 207.8,368.1 201.0,363.9 194.2,368.1 196.1,360.4 190.0,355.2 197.9,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="228.5,347.2 231.6,354.5 239.5,355.2 233.4,360.4 235.3,368.1 228.5,363.9 221.7,368.1 223.6,360.4 217.5,355.2 225.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="256.0,347.2 259.1,354.5 267.0,355.2 260.9,360.4 262.8,368.1 256.0,363.9 249.2,368.1 251.1,360.4 245.0,355.2 252.9,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="283.5,347.2 286.6,354.5 294.5,355.2 288.4,360.4 290.3,368.1 283.5,363.9 276.7,368.1 278.6,360.4 272.5,355.2 280.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="311.0,347.2 314.1,354.5 322.0,355.2 315.9,360.4 317.8,368.1 311.0,363.9 304.2,368.1 306.1,360.4 300.0,355.2 307.9,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="338.5,347.2 341.6,354.5 349.5,355.2 343.4,360.4 345.3,368.1 338.5,363.9 331.7,368.1 333.6,360.4 327.5,355.2 335.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="366.0,347.2 369.1,354.5 377.0,355.2 370.9,360.4 372.8,368.1 366.0,363.9 359.2,368.1 361.1,360.4 355.0,355.2 362.9,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="393.5,347.2 396.6,354.5 404.5,355.2 398.4,360.4 400.3,368.1 393.5,363.9 386.7,368.1 388.6,360.4 382.5,355.2 390.4,354.5" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="118.5,374.7 121.6,382.0 129.5,382.7 123.4,387.9 125.3,395.6 118.5,391.4 111.7,395.6 113.6,387.9 107.5,382.7 115.4,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="146.0,374.7 149.1,382.0 157.0,382.7 150.9,387.9 152.8,395.6 146.0,391.4 139.2,395.6 141.1,387.9 135.0,382.7 142.9,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="173.5,374.7 176.6,382.0 184.5,382.7 178.4,387.9 180.3,395.6 173.5,391.4 166.7,395.6 168.6,387.9 162.5,382.7 170.4,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="201.0,374.7 204.1,382.0 212.0,382.7 205.9,387.9 207.8,395.6 201.0,391.4 194.2,395.6 196.1,387.9 190.0,382.7 197.9,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="228.5,374.7 231.6,382.0 239.5,382.7 233.4,387.9 235.3,395.6 228.5,391.4 221.7,395.6 223.6,387.9 217.5,382.7 225.4,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="256.0,374.7 259.1,382.0 267.0,382.7 260.9,387.9 262.8,395.6 256.0,391.4 249.2,395.6 251.1,387.9 245.0,382.7 252.9,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="283.5,374.7 286.6,382.0 294.5,382.7 288.4,387.9 290.3,395.6 283.5,391.4 276.7,395.6 278.6,387.9 272.5,382.7 280.4,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="311.0,374.7 314.1,382.0 322.0,382.7 315.9,387.9 317.8,395.6 311.0,391.4 304.2,395.6 306.1,387.9 300.0,382.7 307.9,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+<polygon points="338.5,374.7 341.6,382.0 349.5,382.7 343.4,387.9 345.3,395.6 338.5,391.4 331.7,395.6 333.6,387.9 327.5,382.7 335.4,382.0" fill="#FFD43B" stroke="#e67e22" stroke-width="1.2" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-42)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#c6ead6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">42 - Forty Two</text>
+  </g>
+</svg>

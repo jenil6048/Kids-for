@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-13" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffdf9" />
+      <stop offset="100%" stop-color="#fffaef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-13" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffdd89" />
+      <stop offset="100%" stop-color="#f4af00" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-13" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c18a00" />
+      <stop offset="100%" stop-color="#8e6600" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-13" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-13">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-13)" stroke="#eae0c6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-13)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-13)" 
+          stroke="url(#side-13)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">13</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-13)" 
+          stroke="url(#front-13)" 
+          stroke-width="18">13</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-13)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-13)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <circle cx="118.9" cy="318.3" r="15.4" fill="#3498db" /><polygon points="118.9,333.7 116.0,337.5 121.7,337.5" fill="#3498db" /><path d="M 118.9 337.5 Q 115.0 347.1 118.9 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="164.6" cy="318.3" r="15.4" fill="#3498db" /><polygon points="164.6,333.7 161.7,337.5 167.5,337.5" fill="#3498db" /><path d="M 164.6 337.5 Q 160.7 347.1 164.6 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="210.3" cy="318.3" r="15.4" fill="#3498db" /><polygon points="210.3,333.7 207.4,337.5 213.2,337.5" fill="#3498db" /><path d="M 210.3 337.5 Q 206.4 347.1 210.3 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="256.0" cy="318.3" r="15.4" fill="#3498db" /><polygon points="256.0,333.7 253.1,337.5 258.9,337.5" fill="#3498db" /><path d="M 256.0 337.5 Q 252.2 347.1 256.0 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="301.7" cy="318.3" r="15.4" fill="#3498db" /><polygon points="301.7,333.7 298.8,337.5 304.6,337.5" fill="#3498db" /><path d="M 301.7 337.5 Q 297.9 347.1 301.7 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="347.4" cy="318.3" r="15.4" fill="#3498db" /><polygon points="347.4,333.7 344.5,337.5 350.3,337.5" fill="#3498db" /><path d="M 347.4 337.5 Q 343.6 347.1 347.4 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="393.1" cy="318.3" r="15.4" fill="#3498db" /><polygon points="393.1,333.7 390.3,337.5 396.0,337.5" fill="#3498db" /><path d="M 393.1 337.5 Q 389.3 347.1 393.1 356.7" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="118.9" cy="364.0" r="15.4" fill="#3498db" /><polygon points="118.9,379.4 116.0,383.2 121.7,383.2" fill="#3498db" /><path d="M 118.9 383.2 Q 115.0 392.8 118.9 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="164.6" cy="364.0" r="15.4" fill="#3498db" /><polygon points="164.6,379.4 161.7,383.2 167.5,383.2" fill="#3498db" /><path d="M 164.6 383.2 Q 160.7 392.8 164.6 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="210.3" cy="364.0" r="15.4" fill="#3498db" /><polygon points="210.3,379.4 207.4,383.2 213.2,383.2" fill="#3498db" /><path d="M 210.3 383.2 Q 206.4 392.8 210.3 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="256.0" cy="364.0" r="15.4" fill="#3498db" /><polygon points="256.0,379.4 253.1,383.2 258.9,383.2" fill="#3498db" /><path d="M 256.0 383.2 Q 252.2 392.8 256.0 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="301.7" cy="364.0" r="15.4" fill="#3498db" /><polygon points="301.7,379.4 298.8,383.2 304.6,383.2" fill="#3498db" /><path d="M 301.7 383.2 Q 297.9 392.8 301.7 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+<circle cx="347.4" cy="364.0" r="15.4" fill="#3498db" /><polygon points="347.4,379.4 344.5,383.2 350.3,383.2" fill="#3498db" /><path d="M 347.4 383.2 Q 343.6 392.8 347.4 402.4" stroke="#b2bec3" stroke-width="1.5" fill="none" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-13)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#eae0c6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">13 - Thirteen</text>
+  </g>
+</svg>

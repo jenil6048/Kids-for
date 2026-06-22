@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FAF5FF" />
+      <stop offset="100%" stop-color="#F1E6FF" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#d6a2e8" />
+      <stop offset="100%" stop-color="#a55eea" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-purple" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8237c5" />
+      <stop offset="100%" stop-color="#5c1996" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-purple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-purple">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-purple)" stroke="#E1BEE7" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Color Splat Body -->
+  <g filter="url(#shadow-purple)">
+    <!-- Side (3D Offset Layer) -->
+    <g fill="url(#side-purple)" transform="translate(0, 12)">
+      <path d="M 256 110 C 320 110, 370 140, 370 200 C 370 260, 340 310, 276 310 C 212 310, 160 260, 160 200 C 160 140, 192 110, 256 110 Z" />
+      <circle cx="130" cy="150" r="12" />
+      <circle cx="380" cy="250" r="16" />
+      <circle cx="170" cy="290" r="10" />
+    </g>
+
+    <!-- Front Face Layer -->
+    <g fill="url(#front-purple)">
+      <path d="M 256 110 C 320 110, 370 140, 370 200 C 370 260, 340 310, 276 310 C 212 310, 160 260, 160 200 C 160 140, 192 110, 256 110 Z" />
+      <circle cx="130" cy="150" r="12" />
+      <circle cx="380" cy="250" r="16" />
+      <circle cx="170" cy="290" r="10" />
+    </g>
+  </g>
+
+  <!-- Cute Sprout on Top of Blob -->
+  <g transform="translate(256 95)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-purple)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-purple)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Floating Bubble for Illustration -->
+  <g filter="url(#shadow-purple)">
+    <circle cx="370" cy="370" r="66" fill="#ffffff" stroke="#E1BEE7" stroke-width="5" />
+  </g>
+  
+    <!-- Grapes -->
+    <circle cx="370" cy="350" r="10" fill="#a55eea" />
+    <circle cx="358" cy="365" r="10" fill="#8854d0" />
+    <circle cx="382" cy="365" r="10" fill="#8854d0" />
+    <circle cx="370" cy="380" r="10" fill="#a55eea" />
+    <path d="M 370 340 L 370 330" stroke="#8B5A2B" stroke-width="3" fill="none" />
+        
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-purple)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#E1BEE7" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">Purple</text>
+  </g>
+</svg>

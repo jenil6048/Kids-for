@@ -1,0 +1,15 @@
+id,category_key,title,color,is_premium,group_id,image_path,lottie_path,display_order
+1,alphabet,"{""en"": ""Alphabet"", ""gu"": ""અક્ષરમાળા"", ""hi"": ""वर्णमाला""}",#FFC107,false,early_learning,,,1
+2,colors,"{""en"": ""Colors"", ""gu"": ""રંગો"", ""hi"": ""रंग""}",#E91E63,false,early_learning,,,2
+3,numbers,"{""en"": ""Numbers"", ""gu"": ""સંખ્યાઓ"", ""hi"": ""संख्याएँ""}",#FF5722,false,early_learning,,,3
+4,shapes,"{""en"": ""Shapes"", ""gu"": ""આકારો"", ""hi"": ""आकार""}",#00BCD4,false,early_learning,,,4
+5,animals,"{""en"": ""Animals"", ""gu"": ""પ્રાણીઓ"", ""hi"": ""जानवर""}",#4CAF50,false,natures_world,,,5
+6,occupations,"{""en"": ""Occupations"", ""gu"": ""વ્યવસાયો"", ""hi"": ""व्यवसाय""}",#009688,false,brain_and_skill,,,6
+7,sports,"{""en"": ""Sports"", ""gu"": ""રમતો"", ""hi"": ""खेल""}",#2196F3,false,fun,,,7
+8,vehicles,"{""en"": ""Vehicles"", ""gu"": ""વાહનો"", ""hi"": ""वाहन""}",#9C27B0,false,fun,,,8
+9,nature,"{""en"": ""Nature"", ""gu"": ""કુદરત (પ્રકૃતિ)"", ""hi"": ""प्रकृति""}",#607D8B,false,natures_world,,,9
+10,space,"{""en"": ""Space"", ""gu"": ""અવકાશ"", ""hi"": ""अंतरिक्ष""}",#3F51B5,false,world_around_us,,,10
+11,countries,"{""en"": ""Countries & Cultures"", ""gu"": ""દેશો અને સંસ્કૃતિ"", ""hi"": ""देश और संस्कृति""}",#FF5722,false,world_around_us,,,11
+12,country_flags,"{""en"": ""Country Flags"", ""gu"": ""દેશોના ધ્વજ"", ""hi"": ""देशों के झंडे""}",#3F51B5,false,world_around_us,,,12
+13,science,"{""en"": ""Science & Discovery"", ""gu"": ""વિજ્ઞાન અને શોધ"", ""hi"": ""विज्ञान और खोज""}",#E91E63,false,brain_and_skill,,,13
+14,months,"{""en"": ""Months"", ""gu"": ""મહિના"", ""hi"": ""महीने""}",#5C6BC0,false,early_learning,,,14

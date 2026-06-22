@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-18" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fefff9" />
+      <stop offset="100%" stop-color="#feffef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-18" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fdff89" />
+      <stop offset="100%" stop-color="#f0f400" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-18" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#bec100" />
+      <stop offset="100%" stop-color="#8c8e00" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-18" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-18">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-18)" stroke="#eaeac6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-18)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-18)" 
+          stroke="url(#side-18)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">18</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-18)" 
+          stroke="url(#front-18)" 
+          stroke-width="18">18</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-18)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-18)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <circle cx="164.3" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="164.3" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="164.3,302.9 165.9,306.8 169.7,306.8 166.6,309.9 168.2,313.7 164.3,311.4 160.5,313.7 162.0,309.9 158.9,306.8 162.8,306.8" fill="#ffffff" />
+<circle cx="201.0" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="201.0" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="201.0,302.9 202.5,306.8 206.4,306.8 203.3,309.9 204.8,313.7 201.0,311.4 197.2,313.7 198.7,309.9 195.6,306.8 199.5,306.8" fill="#ffffff" />
+<circle cx="237.7" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="237.7" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="237.7,302.9 239.2,306.8 243.1,306.8 240.0,309.9 241.5,313.7 237.7,311.4 233.8,313.7 235.4,309.9 232.3,306.8 236.1,306.8" fill="#ffffff" />
+<circle cx="274.3" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="274.3" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="274.3,302.9 275.9,306.8 279.7,306.8 276.6,309.9 278.2,313.7 274.3,311.4 270.5,313.7 272.0,309.9 268.9,306.8 272.8,306.8" fill="#ffffff" />
+<circle cx="311.0" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="311.0" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="311.0,302.9 312.5,306.8 316.4,306.8 313.3,309.9 314.8,313.7 311.0,311.4 307.1,313.7 308.7,309.9 305.6,306.8 309.5,306.8" fill="#ffffff" />
+<circle cx="347.7" cy="308.3" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="347.7" cy="308.3" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="347.7,302.9 349.2,306.8 353.1,306.8 350.0,309.9 351.5,313.7 347.7,311.4 343.8,313.7 345.4,309.9 342.3,306.8 346.1,306.8" fill="#ffffff" />
+<circle cx="164.3" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="164.3" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="164.3,339.6 165.9,343.5 169.7,343.5 166.6,346.5 168.2,350.4 164.3,348.1 160.5,350.4 162.0,346.5 158.9,343.5 162.8,343.5" fill="#ffffff" />
+<circle cx="201.0" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="201.0" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="201.0,339.6 202.5,343.5 206.4,343.5 203.3,346.5 204.8,350.4 201.0,348.1 197.2,350.4 198.7,346.5 195.6,343.5 199.5,343.5" fill="#ffffff" />
+<circle cx="237.7" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="237.7" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="237.7,339.6 239.2,343.5 243.1,343.5 240.0,346.5 241.5,350.4 237.7,348.1 233.8,350.4 235.4,346.5 232.3,343.5 236.1,343.5" fill="#ffffff" />
+<circle cx="274.3" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="274.3" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="274.3,339.6 275.9,343.5 279.7,343.5 276.6,346.5 278.2,350.4 274.3,348.1 270.5,350.4 272.0,346.5 268.9,343.5 272.8,343.5" fill="#ffffff" />
+<circle cx="311.0" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="311.0" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="311.0,339.6 312.5,343.5 316.4,343.5 313.3,346.5 314.8,350.4 311.0,348.1 307.1,350.4 308.7,346.5 305.6,343.5 309.5,343.5" fill="#ffffff" />
+<circle cx="347.7" cy="345.0" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="347.7" cy="345.0" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="347.7,339.6 349.2,343.5 353.1,343.5 350.0,346.5 351.5,350.4 347.7,348.1 343.8,350.4 345.4,346.5 342.3,343.5 346.1,343.5" fill="#ffffff" />
+<circle cx="164.3" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="164.3" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="164.3,376.3 165.9,380.1 169.7,380.1 166.6,383.2 168.2,387.1 164.3,384.7 160.5,387.1 162.0,383.2 158.9,380.1 162.8,380.1" fill="#ffffff" />
+<circle cx="201.0" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="201.0" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="201.0,376.3 202.5,380.1 206.4,380.1 203.3,383.2 204.8,387.1 201.0,384.7 197.2,387.1 198.7,383.2 195.6,380.1 199.5,380.1" fill="#ffffff" />
+<circle cx="237.7" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="237.7" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="237.7,376.3 239.2,380.1 243.1,380.1 240.0,383.2 241.5,387.1 237.7,384.7 233.8,387.1 235.4,383.2 232.3,380.1 236.1,380.1" fill="#ffffff" />
+<circle cx="274.3" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="274.3" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="274.3,376.3 275.9,380.1 279.7,380.1 276.6,383.2 278.2,387.1 274.3,384.7 270.5,387.1 272.0,383.2 268.9,380.1 272.8,380.1" fill="#ffffff" />
+<circle cx="311.0" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="311.0" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="311.0,376.3 312.5,380.1 316.4,380.1 313.3,383.2 314.8,387.1 311.0,384.7 307.1,387.1 308.7,383.2 305.6,380.1 309.5,380.1" fill="#ffffff" />
+<circle cx="347.7" cy="381.7" r="15.4" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="347.7" cy="381.7" r="10.8" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="347.7,376.3 349.2,380.1 353.1,380.1 350.0,383.2 351.5,387.1 347.7,384.7 343.8,387.1 345.4,383.2 342.3,380.1 346.1,380.1" fill="#ffffff" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-18)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#eaeac6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">18 - Eighteen</text>
+  </g>
+</svg>

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-8" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffcf9" />
+      <stop offset="100%" stop-color="#fff6ef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-8" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffba89" />
+      <stop offset="100%" stop-color="#f46600" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-8" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c15000" />
+      <stop offset="100%" stop-color="#8e3b00" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-8">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-8)" stroke="#ead5c6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-8)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-8)" 
+          stroke="url(#side-8)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">8</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-8)" 
+          stroke="url(#front-8)" 
+          stroke-width="18">8</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-8)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-8)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <circle cx="173.5" cy="317.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="173.5" cy="317.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="173.5,310.5 175.5,315.5 180.5,315.5 176.5,319.5 178.5,324.5 173.5,321.5 168.5,324.5 170.5,319.5 166.5,315.5 171.5,315.5" fill="#ffffff" />
+<circle cx="228.5" cy="317.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="228.5" cy="317.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="228.5,310.5 230.5,315.5 235.5,315.5 231.5,319.5 233.5,324.5 228.5,321.5 223.5,324.5 225.5,319.5 221.5,315.5 226.5,315.5" fill="#ffffff" />
+<circle cx="283.5" cy="317.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="283.5" cy="317.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="283.5,310.5 285.5,315.5 290.5,315.5 286.5,319.5 288.5,324.5 283.5,321.5 278.5,324.5 280.5,319.5 276.5,315.5 281.5,315.5" fill="#ffffff" />
+<circle cx="338.5" cy="317.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="338.5" cy="317.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="338.5,310.5 340.5,315.5 345.5,315.5 341.5,319.5 343.5,324.5 338.5,321.5 333.5,324.5 335.5,319.5 331.5,315.5 336.5,315.5" fill="#ffffff" />
+<circle cx="173.5" cy="372.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="173.5" cy="372.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="173.5,365.5 175.5,370.5 180.5,370.5 176.5,374.5 178.5,379.5 173.5,376.5 168.5,379.5 170.5,374.5 166.5,370.5 171.5,370.5" fill="#ffffff" />
+<circle cx="228.5" cy="372.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="228.5" cy="372.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="228.5,365.5 230.5,370.5 235.5,370.5 231.5,374.5 233.5,379.5 228.5,376.5 223.5,379.5 225.5,374.5 221.5,370.5 226.5,370.5" fill="#ffffff" />
+<circle cx="283.5" cy="372.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="283.5" cy="372.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="283.5,365.5 285.5,370.5 290.5,370.5 286.5,374.5 288.5,379.5 283.5,376.5 278.5,379.5 280.5,374.5 276.5,370.5 281.5,370.5" fill="#ffffff" />
+<circle cx="338.5" cy="372.5" r="20.0" fill="#f1c40f" stroke="#e67e22" stroke-width="1.2" /><circle cx="338.5" cy="372.5" r="14.0" fill="none" stroke="#f39c12" stroke-width="1.2" stroke-dasharray="1.5,1.5" /><polygon points="338.5,365.5 340.5,370.5 345.5,370.5 341.5,374.5 343.5,379.5 338.5,376.5 333.5,379.5 335.5,374.5 331.5,370.5 336.5,370.5" fill="#ffffff" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-8)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#ead5c6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">8 - Eight</text>
+  </g>
+</svg>

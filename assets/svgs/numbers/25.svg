@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-25" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fcfff9" />
+      <stop offset="100%" stop-color="#f8ffef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-25" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ccff89" />
+      <stop offset="100%" stop-color="#8af400" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-25" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6dc100" />
+      <stop offset="100%" stop-color="#508e00" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-25" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-25">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-25)" stroke="#dbeac6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-25)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-25)" 
+          stroke="url(#side-25)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">25</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-25)" 
+          stroke="url(#front-25)" 
+          stroke-width="18">25</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-25)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-25)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <path d="M 113.8 321.4 C 95.9 306.5 101.8 297.5 113.8 303.5 C 125.7 297.5 131.7 306.5 113.8 321.4 Z" fill="#ff7675" />
+<path d="M 149.3 321.4 C 131.4 306.5 137.4 297.5 149.3 303.5 C 161.3 297.5 167.3 306.5 149.3 321.4 Z" fill="#ff7675" />
+<path d="M 184.9 321.4 C 167.0 306.5 172.9 297.5 184.9 303.5 C 196.8 297.5 202.8 306.5 184.9 321.4 Z" fill="#ff7675" />
+<path d="M 220.4 321.4 C 202.5 306.5 208.5 297.5 220.4 303.5 C 232.4 297.5 238.4 306.5 220.4 321.4 Z" fill="#ff7675" />
+<path d="M 256.0 321.4 C 238.1 306.5 244.1 297.5 256.0 303.5 C 267.9 297.5 273.9 306.5 256.0 321.4 Z" fill="#ff7675" />
+<path d="M 291.6 321.4 C 273.6 306.5 279.6 297.5 291.6 303.5 C 303.5 297.5 309.5 306.5 291.6 321.4 Z" fill="#ff7675" />
+<path d="M 327.1 321.4 C 309.2 306.5 315.2 297.5 327.1 303.5 C 339.1 297.5 345.0 306.5 327.1 321.4 Z" fill="#ff7675" />
+<path d="M 362.7 321.4 C 344.7 306.5 350.7 297.5 362.7 303.5 C 374.6 297.5 380.6 306.5 362.7 321.4 Z" fill="#ff7675" />
+<path d="M 398.2 321.4 C 380.3 306.5 386.3 297.5 398.2 303.5 C 410.2 297.5 416.1 306.5 398.2 321.4 Z" fill="#ff7675" />
+<path d="M 113.8 356.9 C 95.9 342.0 101.8 333.1 113.8 339.0 C 125.7 333.1 131.7 342.0 113.8 356.9 Z" fill="#ff7675" />
+<path d="M 149.3 356.9 C 131.4 342.0 137.4 333.1 149.3 339.0 C 161.3 333.1 167.3 342.0 149.3 356.9 Z" fill="#ff7675" />
+<path d="M 184.9 356.9 C 167.0 342.0 172.9 333.1 184.9 339.0 C 196.8 333.1 202.8 342.0 184.9 356.9 Z" fill="#ff7675" />
+<path d="M 220.4 356.9 C 202.5 342.0 208.5 333.1 220.4 339.0 C 232.4 333.1 238.4 342.0 220.4 356.9 Z" fill="#ff7675" />
+<path d="M 256.0 356.9 C 238.1 342.0 244.1 333.1 256.0 339.0 C 267.9 333.1 273.9 342.0 256.0 356.9 Z" fill="#ff7675" />
+<path d="M 291.6 356.9 C 273.6 342.0 279.6 333.1 291.6 339.0 C 303.5 333.1 309.5 342.0 291.6 356.9 Z" fill="#ff7675" />
+<path d="M 327.1 356.9 C 309.2 342.0 315.2 333.1 327.1 339.0 C 339.1 333.1 345.0 342.0 327.1 356.9 Z" fill="#ff7675" />
+<path d="M 362.7 356.9 C 344.7 342.0 350.7 333.1 362.7 339.0 C 374.6 333.1 380.6 342.0 362.7 356.9 Z" fill="#ff7675" />
+<path d="M 398.2 356.9 C 380.3 342.0 386.3 333.1 398.2 339.0 C 410.2 333.1 416.1 342.0 398.2 356.9 Z" fill="#ff7675" />
+<path d="M 113.8 392.5 C 95.9 377.6 101.8 368.6 113.8 374.6 C 125.7 368.6 131.7 377.6 113.8 392.5 Z" fill="#ff7675" />
+<path d="M 149.3 392.5 C 131.4 377.6 137.4 368.6 149.3 374.6 C 161.3 368.6 167.3 377.6 149.3 392.5 Z" fill="#ff7675" />
+<path d="M 184.9 392.5 C 167.0 377.6 172.9 368.6 184.9 374.6 C 196.8 368.6 202.8 377.6 184.9 392.5 Z" fill="#ff7675" />
+<path d="M 220.4 392.5 C 202.5 377.6 208.5 368.6 220.4 374.6 C 232.4 368.6 238.4 377.6 220.4 392.5 Z" fill="#ff7675" />
+<path d="M 256.0 392.5 C 238.1 377.6 244.1 368.6 256.0 374.6 C 267.9 368.6 273.9 377.6 256.0 392.5 Z" fill="#ff7675" />
+<path d="M 291.6 392.5 C 273.6 377.6 279.6 368.6 291.6 374.6 C 303.5 368.6 309.5 377.6 291.6 392.5 Z" fill="#ff7675" />
+<path d="M 327.1 392.5 C 309.2 377.6 315.2 368.6 327.1 374.6 C 339.1 368.6 345.0 377.6 327.1 392.5 Z" fill="#ff7675" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-25)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#dbeac6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">25 - Twenty Five</text>
+  </g>
+</svg>

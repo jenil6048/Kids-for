@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-11" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffcf9" />
+      <stop offset="100%" stop-color="#fff8ef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-11" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffd089" />
+      <stop offset="100%" stop-color="#f49200" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-11" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c17400" />
+      <stop offset="100%" stop-color="#8e5500" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-11" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-11">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-11)" stroke="#eadcc6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-11)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-11)" 
+          stroke="url(#side-11)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">11</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-11)" 
+          stroke="url(#front-11)" 
+          stroke-width="18">11</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-11)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-11)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <circle cx="122.7" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 122.7 298.3 Q 128.7 288.3 132.7 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 122.7 299.3 C 111.7 291.3 107.7 293.3 114.7 303.3 Z" fill="#2ED573" />
+<circle cx="176.0" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 176.0 298.3 Q 182.0 288.3 186.0 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 176.0 299.3 C 165.0 291.3 161.0 293.3 168.0 303.3 Z" fill="#2ED573" />
+<circle cx="229.3" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 229.3 298.3 Q 235.3 288.3 239.3 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 229.3 299.3 C 218.3 291.3 214.3 293.3 221.3 303.3 Z" fill="#2ED573" />
+<circle cx="282.7" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 282.7 298.3 Q 288.7 288.3 292.7 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 282.7 299.3 C 271.7 291.3 267.7 293.3 274.7 303.3 Z" fill="#2ED573" />
+<circle cx="336.0" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 336.0 298.3 Q 342.0 288.3 346.0 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 336.0 299.3 C 325.0 291.3 321.0 293.3 328.0 303.3 Z" fill="#2ED573" />
+<circle cx="389.3" cy="318.3" r="20.0" fill="#FF4757" /><path d="M 389.3 298.3 Q 395.3 288.3 399.3 283.3" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 389.3 299.3 C 378.3 291.3 374.3 293.3 381.3 303.3 Z" fill="#2ED573" />
+<circle cx="122.7" cy="371.7" r="20.0" fill="#FF4757" /><path d="M 122.7 351.7 Q 128.7 341.7 132.7 336.7" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 122.7 352.7 C 111.7 344.7 107.7 346.7 114.7 356.7 Z" fill="#2ED573" />
+<circle cx="176.0" cy="371.7" r="20.0" fill="#FF4757" /><path d="M 176.0 351.7 Q 182.0 341.7 186.0 336.7" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 176.0 352.7 C 165.0 344.7 161.0 346.7 168.0 356.7 Z" fill="#2ED573" />
+<circle cx="229.3" cy="371.7" r="20.0" fill="#FF4757" /><path d="M 229.3 351.7 Q 235.3 341.7 239.3 336.7" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 229.3 352.7 C 218.3 344.7 214.3 346.7 221.3 356.7 Z" fill="#2ED573" />
+<circle cx="282.7" cy="371.7" r="20.0" fill="#FF4757" /><path d="M 282.7 351.7 Q 288.7 341.7 292.7 336.7" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 282.7 352.7 C 271.7 344.7 267.7 346.7 274.7 356.7 Z" fill="#2ED573" />
+<circle cx="336.0" cy="371.7" r="20.0" fill="#FF4757" /><path d="M 336.0 351.7 Q 342.0 341.7 346.0 336.7" stroke="#8B5A2B" stroke-width="3" fill="none" stroke-linecap="round" /><path d="M 336.0 352.7 C 325.0 344.7 321.0 346.7 328.0 356.7 Z" fill="#2ED573" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-11)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#eadcc6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">11 - Eleven</text>
+  </g>
+</svg>

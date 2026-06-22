@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bg-7" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fffbf9" />
+      <stop offset="100%" stop-color="#fff5ef" />
+    </linearGradient>
+
+    <!-- Front Face Gradient -->
+    <linearGradient id="front-7" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffb289" />
+      <stop offset="100%" stop-color="#f45500" />
+    </linearGradient>
+
+    <!-- 3D Side/Extrusion Color -->
+    <linearGradient id="side-7" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#c14300" />
+      <stop offset="100%" stop-color="#8e3100" />
+    </linearGradient>
+
+    <!-- Leaf Sprout Gradient -->
+    <linearGradient id="leaf-7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7BED9F" />
+      <stop offset="100%" stop-color="#2ED573" />
+    </linearGradient>
+
+    <!-- 3D Base Shadow -->
+    <filter id="shadow-7">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#000000" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <circle cx="256" cy="256" r="236" fill="url(#bg-7)" stroke="#ead3c6" stroke-width="6" />
+
+  <!-- Sparkles -->
+  <g fill="#FFD43B">
+    <circle cx="100" cy="130" r="8" />
+    <circle cx="400" cy="120" r="10" />
+    <circle cx="430" cy="330" r="7" />
+  </g>
+
+  <!-- Number -->
+  <g filter="url(#shadow-7)">
+    <!-- Side -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#side-7)" 
+          stroke="url(#side-7)" 
+          stroke-width="18" 
+          transform="translate(0, 12)">7</text>
+
+    <!-- Front -->
+    <text x="256" y="215" 
+          text-anchor="middle" 
+          font-size="180" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="url(#front-7)" 
+          stroke="url(#front-7)" 
+          stroke-width="18">7</text>
+  </g>
+
+  <!-- Cute Sprout -->
+  <g transform="translate(256 65)">
+    <path d="M0 0 Q-4 -15 -8 -24" stroke="#8B5A2B" stroke-width="5" fill="none" />
+    <path d="M-8 -24 C-28 -28 -30 -5 -10 0 Z" fill="url(#leaf-7)" />
+    <path d="M-8 -24 C5 -35 22 -20 5 -5 Z" fill="url(#leaf-7)" />
+  </g>
+
+  <!-- Eyes -->
+  <g>
+    <circle cx="215" cy="180" r="18" fill="#222" />
+    <circle cx="208" cy="172" r="6" fill="#FFF" />
+
+    <circle cx="297" cy="180" r="18" fill="#222" />
+    <circle cx="290" cy="172" r="6" fill="#FFF" />
+  </g>
+
+  <!-- Cheeks -->
+  <ellipse cx="185" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+  <ellipse cx="327" cy="210" rx="18" ry="12" fill="#FF6B81" opacity="0.45" />
+
+  <!-- Smile -->
+  <path d="M225 225 Q256 255 287 225" stroke="#7A1022" stroke-width="8" fill="none" stroke-linecap="round" />
+
+  <!-- Counting Object -->
+  <g>
+    <circle cx="173.5" cy="308.5" r="8.0" fill="#ffbe76" /><circle cx="182.1" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="178.8" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="168.2" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="164.9" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="173.5" cy="317.5" r="7.0" fill="#f1c40f" />
+<circle cx="228.5" cy="308.5" r="8.0" fill="#ffbe76" /><circle cx="237.1" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="233.8" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="223.2" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="219.9" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="228.5" cy="317.5" r="7.0" fill="#f1c40f" />
+<circle cx="283.5" cy="308.5" r="8.0" fill="#ffbe76" /><circle cx="292.1" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="288.8" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="278.2" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="274.9" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="283.5" cy="317.5" r="7.0" fill="#f1c40f" />
+<circle cx="338.5" cy="308.5" r="8.0" fill="#ffbe76" /><circle cx="347.1" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="343.8" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="333.2" cy="324.8" r="8.0" fill="#ffbe76" /><circle cx="329.9" cy="314.7" r="8.0" fill="#ffbe76" /><circle cx="338.5" cy="317.5" r="7.0" fill="#f1c40f" />
+<circle cx="173.5" cy="363.5" r="8.0" fill="#ffbe76" /><circle cx="182.1" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="178.8" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="168.2" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="164.9" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="173.5" cy="372.5" r="7.0" fill="#f1c40f" />
+<circle cx="228.5" cy="363.5" r="8.0" fill="#ffbe76" /><circle cx="237.1" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="233.8" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="223.2" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="219.9" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="228.5" cy="372.5" r="7.0" fill="#f1c40f" />
+<circle cx="283.5" cy="363.5" r="8.0" fill="#ffbe76" /><circle cx="292.1" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="288.8" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="278.2" cy="379.8" r="8.0" fill="#ffbe76" /><circle cx="274.9" cy="369.7" r="8.0" fill="#ffbe76" /><circle cx="283.5" cy="372.5" r="7.0" fill="#f1c40f" />
+  </g>
+
+  <!-- Bottom Banner -->
+  <g filter="url(#shadow-7)">
+    <rect x="96" y="420" width="320" height="54" rx="27" fill="#FFF" stroke="#ead3c6" stroke-width="4" />
+    <text x="256" y="455" 
+          text-anchor="middle" 
+          font-size="28" 
+          font-weight="900" 
+          font-family="Comic Sans MS, Arial Rounded MT Bold, sans-serif" 
+          fill="#7C5730">7 - Seven</text>
+  </g>
+</svg>
