@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'custom_text.dart';
+import 'custom_loading.dart';
 
 class CustomImage extends StatelessWidget {
   final String pathOrUrl;
@@ -122,12 +123,10 @@ class CustomImage extends StatelessWidget {
 
   Widget _buildPlaceholderWidget() {
     return placeholder ??
-        SizedBox(
-          width: width,
-          height: height,
-          child: const Center(
-            child: CircularProgressIndicator(strokeWidth: 2.5, valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF43A047))),
-          ),
+        CustomLoading(
+          width: width ?? double.infinity,
+          height: height ?? double.infinity,
+          borderRadius: 12,
         );
   }
 

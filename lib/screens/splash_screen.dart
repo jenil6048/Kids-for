@@ -2,7 +2,9 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../constants/app_strings.dart';
+import '../constants/app_assets.dart';
 import '../widgets/custom_text.dart';
+import '../widgets/custom_image.dart';
 
 class SplashScreen extends StatefulWidget {
   final VoidCallback onComplete;
@@ -84,21 +86,18 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
         children: [
           // Background Immersive Jungle Image
           Positioned.fill(
-            child: Image.asset(
-              'assets/images/jungle_bg.jpg',
+            child: CustomImage(
+              pathOrUrl: AppAssets.jungleBg,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                // Return a nice fallback gradient if offline
-                return Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF1B4D3E), Color(0xFF0F2D24)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+              errorWidget: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color(0xFF1B4D3E), Color(0xFF0F2D24)],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ),
 
@@ -217,19 +216,17 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                           border: Border.all(color: Colors.white.withOpacity(0.3), width: 6),
                         ),
                         child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/lion_explorer.png',
+                          child: CustomImage(
+                            pathOrUrl: AppAssets.lionExplorer,
                             width: 200,
                             height: 200,
                             fit: BoxFit.cover,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Container(
-                                width: 200,
-                                height: 200,
-                                color: Colors.orange,
-                                child: const Icon(Icons.face_rounded, size: 100, color: Colors.white),
-                              );
-                            },
+                            errorWidget: Container(
+                              width: 200,
+                              height: 200,
+                              color: Colors.orange,
+                              child: const Icon(Icons.face_rounded, size: 100, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),

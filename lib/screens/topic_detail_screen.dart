@@ -1,11 +1,13 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../models/category_model.dart';
 import '../models/topic_model.dart';
 import '../services/supabase_service.dart';
 import '../services/tts_service.dart';
+import '../widgets/custom_image.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_button.dart';
-import '../widgets/custom_image.dart';
+import '../widgets/custom_loading.dart';
 
 // ==========================================
 // KID CLOUD CARD WIDGET
@@ -70,28 +72,34 @@ class CategoryTopicsScreen extends StatefulWidget {
   State<CategoryTopicsScreen> createState() => _CategoryTopicsScreenState();
 }
 
-class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> {
+class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with SingleTickerProviderStateMixin {
   final SupabaseService _supabaseService = SupabaseService.instance;
   late Future<List<TopicModel>> _topicsFuture;
   late PageController _pageController;
   int _currentPage = 0;
   bool _isGridView = true; // Toggle between Grid and Slider
 
+  late AnimationController _bgAnimationController;
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
-    // Default to Grid View for alphabet category to show the ordered list
-    // _isGridView = widget.category.categoryKey == 'alphabet';
     _topicsFuture = _supabaseService.getTopicsForCategory(
       widget.category.categoryKey,
       widget.category.id,
     );
+
+    _bgAnimationController = AnimationController(
+      duration: const Duration(seconds: 20),
+      vsync: this,
+    )..repeat();
   }
 
   @override
   void dispose() {
     _pageController.dispose();
+    _bgAnimationController.dispose();
     TtsService.instance.stop();
     super.dispose();
   }
@@ -118,23 +126,28 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> {
     final themeColor = _parseHexColor(widget.category.color);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FE),
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: CustomText(
           widget.category.getTitle(locale: widget.activeLanguage),
           fontSize: 22,
           fontWeight: FontWeight.w900,
           color: Colors.white,
+          hasShadow: true,
         ),
-        backgroundColor: themeColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        leading: CustomButton(
-          padding: EdgeInsets.zero,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 28),
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: CustomButton(
+            padding: EdgeInsets.zero,
+            backgroundColor: Colors.white.withOpacity(0.3),
+            borderRadius: 12,
+            elevation: 0,
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Icon(Icons.arrow_back_rounded, color: Colors.white, size: 28),
+          ),
         ),
         actions: [
           // View Toggle Button
@@ -142,22 +155,25 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> {
             future: _topicsFuture,
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                return CustomButton(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  backgroundColor: Colors.transparent,
-                  elevation: 0,
-                  onPressed: () {
-                    setState(() {
-                      _isGridView = !_isGridView;
-                      // When switching to slider, ensure we start at a valid page
-                      if (!_isGridView) {
-                        _pageController = PageController(initialPage: _currentPage);
-                      }
-                    });
-                  },
-                  child: Icon(
-                    _isGridView ? Icons.view_carousel_rounded : Icons.grid_view_rounded,
-                    color: Colors.white,
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                  child: CustomButton(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    backgroundColor: Colors.white.withOpacity(0.3),
+                    borderRadius: 12,
+                    elevation: 0,
+                    onPressed: () {
+                      setState(() {
+                        _isGridView = !_isGridView;
+                        if (!_isGridView) {
+                          _pageController = PageController(initialPage: _currentPage);
+                        }
+                      });
+                    },
+                    child: Icon(
+                      _isGridView ? Icons.view_carousel_rounded : Icons.grid_view_rounded,
+                      color: Colors.white,
+                    ),
                   ),
                 );
               }
@@ -170,20 +186,19 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> {
               if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 final total = snapshot.data!.length;
                 return Padding(
-                  padding: const EdgeInsets.only(right: 16.0),
-                  child: Center(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: CustomText(
-                        '${_currentPage + 1} / $total',
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 14,
-                      ),
+                  padding: const EdgeInsets.only(right: 12.0, top: 8, bottom: 8),
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: CustomText(
+                      '${_currentPage + 1} / $total',
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 14,
                     ),
                   ),
                 );
@@ -193,124 +208,209 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> {
           ),
         ],
       ),
-      body: FutureBuilder<List<TopicModel>>(
-        future: _topicsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: Stack(
+        children: [
+          // Playful Background
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  themeColor,
+                  themeColor.withOpacity(0.7),
+                  const Color(0xFFF8F9FE),
+                ],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                stops: const [0.0, 0.3, 0.6],
+              ),
+            ),
+          ),
+          
+          // Animated Background Shapes
+          AnimatedBuilder(
+            animation: _bgAnimationController,
+            builder: (context, child) {
+              return Stack(
                 children: [
-                  CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(themeColor)),
-                  const SizedBox(height: 16),
-                  CustomText(
-                    'Loading adventures...',
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: const Color(0xFF7C5730),
+                  _buildAnimatedShape(
+                    top: 100 + 20 * math.sin(_bgAnimationController.value * 2 * math.pi),
+                    left: -20,
+                    size: 100,
+                    color: Colors.white.withOpacity(0.1),
+                  ),
+                  _buildAnimatedShape(
+                    top: 250 + 30 * math.cos(_bgAnimationController.value * 2 * math.pi),
+                    right: -30,
+                    size: 150,
+                    color: Colors.white.withOpacity(0.05),
+                  ),
+                  _buildAnimatedShape(
+                    bottom: 100 + 20 * math.sin(_bgAnimationController.value * 2 * math.pi + math.pi),
+                    left: 50,
+                    size: 80,
+                    color: Colors.white.withOpacity(0.1),
                   ),
                 ],
-              ),
-            );
-          }
-
-          if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.sentiment_dissatisfied_rounded, size: 64, color: Colors.orange),
-                    const SizedBox(height: 16),
-                    CustomText(
-                      'No lessons found in this section!',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: const Color(0xFF7C5730),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
-          final topics = snapshot.data!;
-
-          if (_isGridView) {
-            return GridView.builder(
-              padding: const EdgeInsets.all(20),
-              physics: const BouncingScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.85,
-              ),
-              itemCount: topics.length,
-              itemBuilder: (context, index) {
-                final topic = topics[index];
-                // Determine image path (prioritize SVG for alphabets)
-                final imgPath = (topic.svgPath != null && topic.svgPath!.isNotEmpty)
-                    ? topic.svgPath!
-                    : (topic.lottiePath ?? (topic.imagePath ?? ''));
-
-                return CustomButton(
-                  padding: const EdgeInsets.all(8),
-                  backgroundColor: Colors.white,
-                  borderRadius: 20,
-                  elevation: 3,
-                  onPressed: () {
-                    setState(() {
-                      _currentPage = index;
-                      _isGridView = false;
-                      _pageController = PageController(initialPage: index);
-                    });
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: CustomImage(
-                          pathOrUrl: imgPath,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      CustomText(
-                        topic.getName(locale: widget.activeLanguage),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w900,
-                        color: themeColor,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          }
-
-          return PageView.builder(
-            controller: _pageController,
-            physics: const BouncingScrollPhysics(),
-            itemCount: topics.length,
-            onPageChanged: (index) {
-              setState(() {
-                _currentPage = index;
-              });
-            },
-            itemBuilder: (context, index) {
-              final topic = topics[index];
-              return TopicDetailScreen(
-                topic: topic,
-                category: widget.category,
-                activeLanguage: widget.activeLanguage,
-                embedInPageView: true,
-                isActive: _currentPage == index,
               );
             },
-          );
-        },
+          ),
+
+          SafeArea(
+            child: FutureBuilder<List<TopicModel>>(
+              future: _topicsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.all(20),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.85,
+                    ),
+                    itemCount: 9,
+                    itemBuilder: (context, index) => const CustomLoading(borderRadius: 24),
+                  );
+                }
+
+                if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(
+                    child: KidCloudCard(
+                      borderRadius: 32,
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.sentiment_dissatisfied_rounded, size: 80, color: Colors.orange),
+                            const SizedBox(height: 20),
+                            CustomText(
+                              'Oops! No lessons found.',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xFF7C5730),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
+                final topics = snapshot.data!;
+
+                if (_isGridView) {
+                  return GridView.builder(
+                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                    physics: const BouncingScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 16,
+                      crossAxisSpacing: 16,
+                      childAspectRatio: 0.8,
+                    ),
+                    itemCount: topics.length,
+                    itemBuilder: (context, index) {
+                      final topic = topics[index];
+                      final imgPath = (topic.svgPath != null && topic.svgPath!.isNotEmpty)
+                          ? topic.svgPath!
+                          : (topic.lottiePath ?? (topic.imagePath ?? ''));
+
+                      return CustomButton(
+                        padding: const EdgeInsets.all(4),
+                        backgroundColor: Colors.white,
+                        borderRadius: 24,
+                        elevation: 6,
+                        borderColor: themeColor.withOpacity(0.2),
+                        borderWidth: 2,
+                        onPressed: () {
+                          setState(() {
+                            _currentPage = index;
+                            _isGridView = false;
+                            _pageController = PageController(initialPage: index);
+                          });
+                        },
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: themeColor.withOpacity(0.05),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CustomImage(
+                                  pathOrUrl: imgPath,
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: themeColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: CustomText(
+                                topic.getName(locale: widget.activeLanguage),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w900,
+                                color: themeColor,
+                                textAlign: TextAlign.center,
+                                maxLines: 1,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                }
+
+                return PageView.builder(
+                  controller: _pageController,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: topics.length,
+                  onPageChanged: (index) {
+                    setState(() {
+                      _currentPage = index;
+                    });
+                  },
+                  itemBuilder: (context, index) {
+                    final topic = topics[index];
+                    return TopicDetailScreen(
+                      topic: topic,
+                      category: widget.category,
+                      activeLanguage: widget.activeLanguage,
+                      embedInPageView: true,
+                      isActive: _currentPage == index,
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAnimatedShape({double? top, double? left, double? right, double? bottom, required double size, required Color color}) {
+    return Positioned(
+      top: top,
+      left: left,
+      right: right,
+      bottom: bottom,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          color: color,
+          shape: BoxShape.circle,
+        ),
       ),
     );
   }
@@ -339,7 +439,8 @@ class TopicDetailScreen extends StatefulWidget {
   State<TopicDetailScreen> createState() => _TopicDetailScreenState();
 }
 
-class _TopicDetailScreenState extends State<TopicDetailScreen> {
+class _TopicDetailScreenState extends State<TopicDetailScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _floatController;
 
   @override
   void initState() {
@@ -347,6 +448,16 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> {
     if (widget.isActive) {
       _playNarration();
     }
+    _floatController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    )..repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _floatController.dispose();
+    super.dispose();
   }
 
   @override
@@ -397,236 +508,259 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> {
     final explanation = widget.topic.getExplanation(locale: widget.activeLanguage);
     final fact = widget.topic.getFact(locale: widget.activeLanguage);
 
-    // Dynamic Image / Lottie asset determination
     final imagePath = (widget.topic.lottiePath != null && widget.topic.lottiePath!.isNotEmpty)
         ? widget.topic.lottiePath!
         : ((widget.topic.svgPath != null && widget.topic.svgPath!.isNotEmpty)
             ? widget.topic.svgPath!
             : (widget.topic.imagePath ?? ''));
 
-    Widget content = SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.fromLTRB(
-        24,
-        16,
-        24,
-        widget.embedInPageView ? 120 : 24,
-      ),
-      child: Column(
-        children: [
-          // Header Cloud Card
-          KidCloudCard(
-            backgroundColor: themeColor,
-            borderRadius: 24,
-            shadowOffset: 3,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              child: Row(
-                children: [
-                  const SizedBox(width: 32), // balances the speaker icon on the right
-                  Expanded(
-                    child: CustomText(
-                      title,
-                      fontSize: 24,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  CustomButton(
-                    padding: const EdgeInsets.all(8),
-                    backgroundColor: Colors.white,
-                    borderRadius: 100,
-                    elevation: 2,
-                    onPressed: _playNarration,
-                    child: Icon(
-                      Icons.volume_up_rounded,
-                      color: themeColor,
-                      size: 20,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          
-          // Centered floating illustration
-          Center(
-            child: Hero(
-              tag: 'topic_illustration_${widget.topic.id}',
-              child: ClipOval(
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    color: themeColor.withOpacity(0.08),
-                    shape: BoxShape.circle,
-                    border: Border.all(color: themeColor.withOpacity(0.15), width: 3),
-                  ),
-                  child: CustomImage(
-                    pathOrUrl: imagePath,
-                    fit: BoxFit.cover ,
-                  ),
+    Widget content = Stack(
+      children: [
+        if (widget.embedInPageView)
+          Positioned.fill(
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    themeColor.withOpacity(0.05),
+                    Colors.white,
+                  ],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                 ),
               ),
             ),
           ),
-          const SizedBox(height: 20),
-
-          // Explanation Card wrapped in KidCloudCard
-          KidCloudCard(
-            borderRadius: 24,
-            borderColor: Colors.grey.shade100,
-            borderWidth: 1.5,
-            shadowOffset: 3,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding: EdgeInsets.fromLTRB(
+            24,
+            widget.embedInPageView ? 16 : 16,
+            24,
+            widget.embedInPageView ? 120 : 24,
+          ),
+          child: Column(
+            children: [
+              // Header Cloud Card
+              KidCloudCard(
+                backgroundColor: themeColor,
+                borderRadius: 24,
+                shadowOffset: 3,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                  child: Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: BoxDecoration(
-                          color: Colors.amber.shade50,
-                          shape: BoxShape.circle,
+                      const SizedBox(width: 40),
+                      Expanded(
+                        child: CustomText(
+                          title,
+                          fontSize: 26,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                          textAlign: TextAlign.center,
+                          hasShadow: true,
                         ),
-                        child: const Icon(Icons.auto_stories_rounded, color: Colors.amber, size: 20),
                       ),
-                      const SizedBox(width: 10),
+                      CustomButton(
+                        padding: const EdgeInsets.all(10),
+                        backgroundColor: Colors.white,
+                        borderRadius: 100,
+                        elevation: 2,
+                        onPressed: _playNarration,
+                        child: Icon(
+                          Icons.volume_up_rounded,
+                          color: themeColor,
+                          size: 24,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              
+              // Centered floating illustration
+              AnimatedBuilder(
+                animation: _floatController,
+                builder: (context, child) {
+                  return Transform.translate(
+                    offset: Offset(0, 10 * math.sin(_floatController.value * 2 * math.pi)),
+                    child: child,
+                  );
+                },
+                child: Center(
+                  child: Hero(
+                    tag: 'topic_illustration_${widget.topic.id}',
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: themeColor.withOpacity(0.2),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
+                          ),
+                        ],
+                        border: Border.all(color: themeColor.withOpacity(0.3), width: 6),
+                      ),
+                      child: ClipOval(
+                        child: CustomImage(
+                          pathOrUrl: imagePath,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+
+              // Explanation Card
+              KidCloudCard(
+                borderRadius: 28,
+                borderColor: themeColor.withOpacity(0.1),
+                borderWidth: 2,
+                shadowOffset: 5,
+                child: Container(
+                  padding: const EdgeInsets.all(24),
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: themeColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(Icons.auto_stories_rounded, color: themeColor, size: 22),
+                          ),
+                          const SizedBox(width: 12),
+                          CustomText(
+                            widget.activeLanguage == 'gu'
+                                ? 'અભ્યાસ વિશે'
+                                : (widget.activeLanguage == 'hi' ? 'पाठ के बारे में' : 'About Lesson'),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w900,
+                            color: themeColor,
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
                       CustomText(
-                        widget.activeLanguage == 'gu'
-                            ? 'અભ્યાસ વિશે'
-                            : (widget.activeLanguage == 'hi' ? 'पाठ के बारे में' : 'About Lesson'),
-                        fontSize: 16,
+                        narration,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
+                        maxLines: 4,
+                        height: 1.3,
+                      ),
+                      const SizedBox(height: 12),
+                      CustomText(
+                        explanation,
+                        fontSize: 16,
+                        color: Colors.grey.shade700,
+                        maxLines: 10,
+                        height: 1.4,
                       ),
                     ],
                   ),
-                  const SizedBox(height: 12),
-                  CustomText(
-                    narration,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                    maxLines: 4,
-                  ),
-                  const SizedBox(height: 8),
-                  CustomText(
-                    explanation,
-                    fontSize: 15,
-                    color: Colors.grey.shade600,
-                    maxLines: 6,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 16),
+              const SizedBox(height: 20),
 
-          // Fact Card wrapped in KidCloudCard with gradients
-          CustomButton(
-            padding: EdgeInsets.zero,
-            onPressed: _playFact,
-            borderRadius: 24,
-            elevation: 4,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: [themeColor, themeColor.withOpacity(0.8)]),
-                borderRadius: BorderRadius.circular(24),
+              // Fact Card
+              CustomButton(
+                padding: EdgeInsets.zero,
+                onPressed: _playFact,
+                borderRadius: 28,
+                elevation: 4,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [const Color(0xFFFF9800), const Color(0xFFFFC107)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withOpacity(0.3),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.lightbulb_rounded, color: Colors.white, size: 30),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText(
+                              widget.activeLanguage == 'gu'
+                                  ? 'શું તમે જાણો છો?'
+                                  : (widget.activeLanguage == 'hi' ? 'क्या आपको पता है?' : 'DID YOU KNOW?'),
+                              color: Colors.white.withOpacity(0.9),
+                              fontWeight: FontWeight.w900,
+                              fontSize: 12,
+                              letterSpacing: 1,
+                            ),
+                            const SizedBox(height: 6),
+                            CustomText(
+                              fact,
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              maxLines: 4,
+                              height: 1.3,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              child: Row(
+              const SizedBox(height: 24),
+
+              // Actions
+              Row(
                 children: [
-                  const Icon(Icons.lightbulb_rounded, color: Colors.white, size: 32),
-                  const SizedBox(width: 14),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText(
-                          widget.activeLanguage == 'gu'
-                              ? 'શું તમે જાણો છો?'
-                              : (widget.activeLanguage == 'hi' ? 'क्या आपको पता है?' : 'DID YOU KNOW?'),
-                          color: Colors.white70,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 11,
-                        ),
-                        const SizedBox(height: 4),
-                        CustomText(
-                          fact,
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          maxLines: 3,
-                        ),
-                      ],
+                    child: _buildActionButton(
+                      context,
+                      label: widget.activeLanguage == 'gu' ? 'રમતો' : (widget.activeLanguage == 'hi' ? 'खेल' : 'PLAY'),
+                      icon: Icons.sports_esports_rounded,
+                      colors: [const Color(0xFF6366F1), const Color(0xFF4F46E5)],
+                      onPressed: () => _launchGameScreen(context, widget.topic, themeColor),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildActionButton(
+                      context,
+                      label: widget.activeLanguage == 'gu' ? 'ક્વિઝ' : (widget.activeLanguage == 'hi' ? 'ક્વિઝ' : 'QUIZ'),
+                      icon: Icons.quiz_rounded,
+                      colors: [const Color(0xFFEC4899), const Color(0xFFD946EF)],
+                      onPressed: () => _launchQuizScreen(context, widget.topic, themeColor),
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-
-          // Actions
-          Row(
-            children: [
-              Expanded(
-                child: CustomButton(
-                  gradient: const LinearGradient(colors: [Color(0xFF6366F1), Color(0xFF4F46E5)]),
-                  borderRadius: 20,
-                  onPressed: () => _launchGameScreen(context, widget.topic, themeColor),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.sports_esports_rounded, color: Colors.white, size: 24),
-                      const SizedBox(height: 4),
-                      CustomText(
-                        widget.activeLanguage == 'gu'
-                            ? 'રમતો'
-                            : (widget.activeLanguage == 'hi' ? 'खेलो' : 'PLAY'),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 14,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: CustomButton(
-                  gradient: const LinearGradient(colors: [Color(0xFFEC4899), Color(0xFFD946EF)]),
-                  borderRadius: 20,
-                  onPressed: () => _launchQuizScreen(context, widget.topic, themeColor),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.quiz_rounded, color: Colors.white, size: 24),
-                      const SizedBox(height: 4),
-                      CustomText(
-                        widget.activeLanguage == 'gu'
-                            ? 'ક્વિઝ'
-                            : (widget.activeLanguage == 'hi' ? 'प्रश्नोत्तरी' : 'QUIZ'),
-                        color: Colors.white,
-                        fontWeight: FontWeight.w900,
-                        fontSize: 14,
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
 
     if (widget.embedInPageView) {
@@ -634,23 +768,52 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> {
     }
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xFFF8F9FE),
       appBar: AppBar(
-        title: CustomText(title, fontWeight: FontWeight.bold, color: Colors.white),
-        backgroundColor: themeColor,
+        title: CustomText(title, fontWeight: FontWeight.w900, color: Colors.white, hasShadow: true),
+        backgroundColor: Colors.transparent,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          CustomButton(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            onPressed: _playNarration,
-            child: const Icon(Icons.volume_up_rounded, size: 28, color: Colors.white),
-          )
+      ),
+      body: Stack(
+        children: [
+          Container(
+            height: 300,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [themeColor, themeColor.withOpacity(0.0)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ),
+            ),
+          ),
+          SafeArea(child: content),
         ],
       ),
-      body: content,
+    );
+  }
+
+  Widget _buildActionButton(BuildContext context, {required String label, required IconData icon, required List<Color> colors, required VoidCallback onPressed}) {
+    return CustomButton(
+      gradient: LinearGradient(colors: colors, begin: Alignment.topLeft, end: Alignment.bottomRight),
+      borderRadius: 24,
+      onPressed: onPressed,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+      elevation: 6,
+      child: Column(
+        children: [
+          Icon(icon, color: Colors.white, size: 28),
+          const SizedBox(height: 6),
+          CustomText(
+            label,
+            color: Colors.white,
+            fontWeight: FontWeight.w900,
+            fontSize: 16,
+            letterSpacing: 0.5,
+          ),
+        ],
+      ),
     );
   }
 

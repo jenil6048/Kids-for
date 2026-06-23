@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../constants/app_strings.dart';
+import '../constants/app_assets.dart';
 import '../models/category_model.dart';
 import '../models/group_model.dart';
 import '../models/localized_text.dart';
@@ -10,6 +11,8 @@ import '../services/supabase_service.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_image.dart';
+import '../widgets/language_selector.dart';
+import '../widgets/custom_loading.dart';
 import 'topic_detail_screen.dart';
 import '../services/tts_service.dart';
 
@@ -249,43 +252,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildLanguagePill(String code, String label) {
-    final isSelected = context.locale.languageCode == code;
-    final primaryColor = isSelected ? const Color(0xFF4CAF50) : Colors.white;
-    final shadowColor = isSelected ? const Color(0xFF2E7D32) : const Color(0xFFD7D3C5);
-
-    return GestureDetector(
-      onTap: () {
-        context.setLocale(Locale(code));
-        HapticFeedback.lightImpact();
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-        decoration: BoxDecoration(
-          color: primaryColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? Colors.white : const Color(0xFFE0DCCF),
-            width: 3,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: shadowColor,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: CustomText(
-          label,
-          fontSize: 14,
-          fontWeight: FontWeight.w900,
-          color: isSelected ? Colors.white : const Color(0xFF7C5730),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final currentLang = context.locale.languageCode;
@@ -382,12 +348,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     ],
                                   ),
                                   child: ClipOval(
-                                    child: Image.asset(
-                                      'assets/images/lion_explorer.png',
+                                    child: CustomImage(
+                                      pathOrUrl: AppAssets.lionExplorer,
                                       width: 64,
                                       height: 64,
                                       fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) => Container(
+                                      errorWidget: Container(
                                         width: 64,
                                         height: 64,
                                         color: Colors.orange,
@@ -400,15 +366,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             ),
                             const SizedBox(height: 18),
                             // Language Selection row
-                            Row(
-                              children: [
-                                _buildLanguagePill('en', '🇬🇧 English'),
-                                const SizedBox(width: 10),
-                                _buildLanguagePill('gu', '🇮🇳 ગુજરાતી'),
-                                const SizedBox(width: 10),
-                                _buildLanguagePill('hi', '🇮🇳 हिन्दी'),
-                              ],
-                            ),
+                            const LanguageSelector(),
                           ],
                         ),
                       ),
@@ -419,24 +377,30 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       future: _categoriesFuture,
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return SliverFillRemaining(
-                            hasScrollBody: false,
-                            child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const CircularProgressIndicator(
-                                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF2E7D32)),
-                                  ),
-                                  const SizedBox(height: 16),
-                                  CustomText(
-                                    tr(AppStrings.preparingExpedition),
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF7C5730),
-                                  ),
-                                ],
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) => Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const CustomLoading(width: 150, height: 30, borderRadius: 15),
+                                    const SizedBox(height: 15),
+                                    SizedBox(
+                                      height: 200,
+                                      child: ListView.builder(
+                                        scrollDirection: Axis.horizontal,
+                                        itemCount: 3,
+                                        itemBuilder: (context, i) => const Padding(
+                                          padding: EdgeInsets.only(right: 15),
+                                          child: CustomLoading(width: 160, height: 200, borderRadius: 28),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
+                              childCount: 2,
                             ),
                           );
                         }
