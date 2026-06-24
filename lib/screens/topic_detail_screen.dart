@@ -592,8 +592,8 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> with SingleTicker
                   child: Hero(
                     tag: 'topic_illustration_${widget.topic.id}',
                     child: Container(
-                      width: 200,
-                      height: 200,
+                      width: MediaQuery.of(context).size.width*.45,
+                      height: MediaQuery.of(context).size.width*.45,
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: Colors.white,

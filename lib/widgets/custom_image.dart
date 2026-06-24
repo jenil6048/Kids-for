@@ -38,13 +38,17 @@ class CustomImage extends StatelessWidget {
     return path;
   }
   bool get _isNetwork => _cleanPath.startsWith('http://') || _cleanPath.startsWith('https://');
+  bool get _isAsset => _cleanPath.startsWith('assets/');
   bool get _isSvg => _cleanPath.toLowerCase().contains('.svg');
   bool get _isLottie => _cleanPath.toLowerCase().contains('.json');
-  bool get _isEmoji => !_isNetwork && !_cleanPath.contains('/') && !_cleanPath.contains('.');
+  bool get _isEmoji => !_isNetwork && !_isAsset && !_cleanPath.contains('/') && !_cleanPath.contains('.');
 
   @override
   Widget build(BuildContext context) {
     final path = _cleanPath;
+    final isNetwork = _isNetwork;
+    final isAsset = _isAsset;
+
     if (path.isEmpty) {
       return _buildErrorWidget();
     }
@@ -54,7 +58,7 @@ class CustomImage extends StatelessWidget {
     }
 
     if (_isLottie) {
-      return _isNetwork
+      return (isNetwork && !isAsset)
           ? Lottie.network(
               path,
               width: width,
@@ -72,7 +76,7 @@ class CustomImage extends StatelessWidget {
     }
 
     if (_isSvg) {
-      return _isNetwork
+      return (isNetwork && !isAsset)
           ? SvgPicture.network(
               path,
               width: width,
@@ -96,7 +100,7 @@ class CustomImage extends StatelessWidget {
     }
 
     // Standard Image (Raster: PNG, JPG, etc.)
-    if (_isNetwork) {
+    if (isNetwork && !isAsset) {
       return CachedNetworkImage(
         imageUrl: path,
         width: width,

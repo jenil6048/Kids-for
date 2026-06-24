@@ -67,6 +67,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/animals/
     - assets/images/test/
     - assets/images/categories/
     - assets/covers/
