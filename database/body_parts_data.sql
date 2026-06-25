@@ -1,0 +1,249 @@
+
+
+-- 2. Create body_parts table and index
+
+CREATE TABLE IF NOT EXISTS public.body_parts (
+  id bigint generated always as identity not null,
+  topic_key text not null,
+  category_id bigint null,
+  name jsonb not null default '{}'::jsonb,
+  svg_path text null,
+  image_path text null,
+  lottie_path text null,
+  narration jsonb not null default '{}'::jsonb,
+  explanation jsonb not null default '{}'::jsonb,
+  fact jsonb not null default '{}'::jsonb,
+  game_type text null,
+  is_free boolean not null default true,
+  display_order integer null,
+  constraint body_parts_pkey primary key (id),
+  constraint body_parts_topic_key_key unique (topic_key),
+  constraint body_parts_category_id_fkey foreign KEY (category_id) references categories (id) on delete CASCADE
+) TABLESPACE pg_default;
+
+CREATE INDEX IF NOT EXISTS idx_body_parts_topic_key on public.body_parts using btree (topic_key) TABLESPACE pg_default;
+
+ALTER TABLE public.body_parts DISABLE ROW LEVEL SECURITY;
+
+GRANT ALL ON public.body_parts TO anon;
+GRANT ALL ON public.body_parts TO authenticated;
+GRANT ALL ON public.body_parts TO service_role;
+
+
+-- 3. Populate body_parts table with data
+
+INSERT INTO public.body_parts
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES
+(
+  'arm',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Arm", "gu": "બાજુ", "hi": "बांह"}'::jsonb,
+  '/assets/images/body_parts/arm.png',
+  '{"en": "Arm! We use our arms to reach, swing, and hug the people we love.", "gu": "બાજુ! આપણે આપણા હાથ/બાજુનો ઉપયોગ વસ્તુઓ મેળવવા, ઝૂલવા અને વ્હાલા લોકોને ભેટવા માટે કરીએ છીએ.", "hi": "बांह! हम अपनी बांहों का उपयोग चीजों तक पहुँचने, झूलने और अपने प्रियजनों को गले लगाने के लिए करते हैं।"}'::jsonb,
+  '{"en": "Our arms are connected to our shoulders and hands. They have elbows in the middle that help them bend!", "gu": "આપણી બાજુઓ આપણા ખભા અને હાથ સાથે જોડાયેલી છે. તેમની વચ્ચે કોણી હોય છે જે તેમને વાળવામાં મદદ કરે છે!", "hi": "हमारी बांहें हमारे कंधों और हाथों से जुड़ी होती हैं। इनके बीच में कोहनी होती है जो इन्हें मोड़ने में मदद करती है!"}'::jsonb,
+  '{"en": "Did you know? Humans have two arms, and they help us keep our balance when we walk and run!", "gu": "શું તમે જાણો છો? મનુષ્યને બે બાજુ/હાથ હોય છે, જે આપણને ચાલતી અને દોડતી વખતે સંતુલન જાળવવામાં મદદ કરે છે!", "hi": "क्या आपको पता है? मनुष्यों के पास दो बांहें होती हैं, जो चलते और दौड़ते समय हमारा संतुलन बनाए रखने में मदद करती हैं!"}'::jsonb,
+  'memory',
+  true,
+  1
+),
+(
+  'back',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Back", "gu": "પીઠ", "hi": "पीठ"}'::jsonb,
+  '/assets/images/body_parts/back.png',
+  '{"en": "Back! Our back helps us stand up straight and bend down to pick up toys.", "gu": "પીઠ! આપણી પીઠ આપણને સીધા ઊભા રહેવામાં અને રમકડાં લેવા માટે નીચે નમવામાં મદદ કરે છે.", "hi": "पीठ! हमारी पीठ हमें सीधे खड़े होने और खिलौने उठाने के लिए नीचे झुकने में मदद करती है।"}'::jsonb,
+  '{"en": "The back has a long spine made of small bones called vertebrae. It protects our spinal cord!", "gu": "પીઠમાં મણકા નામના નાના હાડકાંથી બનેલી એક લાંબી કરોડરજ્જુ હોય છે. તે આપણા કરોડરજ્જુનું રક્ષણ કરે છે!", "hi": "पीठ में कशेरुका नामक छोटी हड्डियों से बनी एक लंबी रीढ़ की हड्डी होती है। यह हमारी रीढ़ की हड्डी की रक्षा करती है!"}'::jsonb,
+  '{"en": "Did you know? The spine is so flexible that it lets you twist, turn, and even do cartwheels!", "gu": "શું તમે જાણો છો? કરોડરજ્જુ એટલી લવચીક હોય છે કે તે તમને વળવા, ફરવા અને કાર્ટવ્હીલ કરવા દે છે!", "hi": "क्या आपको पता है? रीढ़ की हड्डी इतनी लचीली होती है कि यह आपको मुड़ने, घूमने और यहाँ तक कि कलाबाजी करने की अनुमति देती है!"}'::jsonb,
+  'memory',
+  true,
+  2
+),
+(
+  'brain',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Brain", "gu": "મગજ", "hi": "दिमाग"}'::jsonb,
+  '/assets/images/body_parts/brain.png',
+  '{"en": "Brain! The brain is the supercomputer of our body that controls everything we do.", "gu": "મગજ! મગજ એ આપણા શરીરનું સુપરકોમ્પ્યુટર છે જે આપણે કરીએ છીએ તે બધું નિયંત્રિત કરે છે.", "hi": "दिमाग! दिमाग हमारे शरीर का सुपरकंप्यूटर है जो हमारे द्वारा किए जाने वाले हर काम को नियंत्रित करता है।"}'::jsonb,
+  '{"en": "Your brain helps you think, learn, remember things, and feel happy, sad, or excited!", "gu": "તમારું મગજ તમને વિચારવામાં, શીખવામાં, વસ્તુઓ યાદ રાખવામાં અને ખુશી, દુઃખ કે ઉત્તેજના અનુભવવામાં મદદ કરે છે!", "hi": "आपका दिमाग आपको सोचने, सीखने, चीजों को याद रखने & खुशी, दुख या उत्साह महसूस करने में मदद करता है!"}'::jsonb,
+  '{"en": "Did you know? Even when you are fast asleep, your brain is still active and working hard!", "gu": "શું તમે જાણો છો? જ્યારે તમે ગાઢ નિદ્રામાં હોવ ત્યારે પણ તમારું મગજ સક્રિય હોય છે અને સખત મહેનત કરતું હોય છે!", "hi": "क्या आपको पता है? जब आप गहरी नींद में सो रहे होते हैं, तब भी आपका दिमाग सक्रिय रहता है और कड़ी मेहनत करता है!"}'::jsonb,
+  'memory',
+  true,
+  3
+),
+(
+  'chest',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Chest", "gu": "છાતી", "hi": "छाती"}'::jsonb,
+  '/assets/images/body_parts/chest.png',
+  '{"en": "Chest! The chest protects important parts inside us, like our heart and lungs.", "gu": "છાતી! છાતી આપણી અંદરના મહત્વપૂર્ણ ભાગો જેમ કે હૃદય અને ફેફસાંનું રક્ષણ કરે છે.", "hi": "छाती! छाती हमारे अंदर के महत्वपूर्ण अंगों, जैसे हमारे दिल और फेफड़ों की रक्षा करती है।"}'::jsonb,
+  '{"en": "The chest is supported by a cage of curved bones called ribs. When you breathe, your chest rises and falls!", "gu": "છાતી પાંસળી નામના વળાંકવાળા હાડકાંથી બનેલા પાંજરા દ્વારા સુરક્ષિત હોય છે. જ્યારે તમે શ્વાસ લો છો, ત્યારે તમારી છાતી ઊંચી અને નીચી થાય છે!", "hi": "छाती पसलियों नामक घुमावदार हड्डियों के पिंजरे से सुरक्षित होती है। जब आप सांस लेते हैं, तो आपकी छाती फूलती और सिकुड़ती है!"}'::jsonb,
+  '{"en": "Did you know? Your ribs act like a protective shield for your lungs and heart, keeping them safe!", "gu": "શું તમે જાણો છો? તમારી પાંસળીઓ તમારા ફેફસાં અને હૃદય માટે રક્ષણાત્મક ઢાલ જેવું કામ કરે છે, તેમને સુરક્ષિત રાખે છે!", "hi": "क्या आपको पता है? आपकी पसलियां आपके फेफड़ों और दिल के लिए एक सुरक्षा कवच की तरह काम करती हैं, उन्हें सुरक्षित रखती हैं!"}'::jsonb,
+  'memory',
+  true,
+  4
+),
+(
+  'ear',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Ear", "gu": "કાન", "hi": "कान"}'::jsonb,
+  '/assets/images/body_parts/ear.png',
+  '{"en": "Ear! Our ears help us listen to beautiful music, birds chirping, and our friends talking.", "gu": "કાન! આપણા કાન આપણને સુંદર સંગીત, પક્ષીઓનો કલરવ અને આપણા મિત્રોની વાતો સાંભળવામાં મદદ કરે છે.", "hi": "कान! हमारे कान हमें सुंदर संगीत, पक्षियों की चहचहाहट और अपने दोस्तों की बातें सुनने में मदद करते हैं।"}'::jsonb,
+  '{"en": "Ears catch sounds from the air and send them to the brain. They also help us stay balanced so we don''t fall!", "gu": "કાન હવામાંથી અવાજ પકડે છે અને તેને મગજમાં મોકલે છે. તેઓ આપણને સંતુલન જાળવવામાં પણ મદદ કરે છે જેથી આપણે પડી ન જઈએ!", "hi": "कान हवा से आवाजों को पकड़ते हैं और उन्हें दिमाग तक भेजते हैं। वे हमें संतुलन बनाए रखने में भी मदद करते हैं ताकि हम गिर न जाएं!"}'::jsonb,
+  '{"en": "Did you know? Your ears never stop working, even when you are asleep! Your brain just ignores the sounds!", "gu": "શું તમે જાણો છો? તમારા કાન ક્યારેય કામ કરવાનું બંધ કરતા નથી, જ્યારે તમે સૂતા હોવ ત્યારે પણ! તમારું મગજ બસ તે અવાજોને અવગણે છે!", "hi": "क्या आपको पता है? आपके कान कभी काम करना बंद नहीं करते, सोते समय भी! आपका दिमाग बस उन आवाजों को नजरअंदाज कर देता है!"}'::jsonb,
+  'memory',
+  true,
+  5
+),
+(
+  'eye',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Eye", "gu": "આંખ", "hi": "आँख"}'::jsonb,
+  '/assets/images/body_parts/eye.png',
+  '{"en": "Eye! Our eyes let us see the colorful world, read books, and look at beautiful pictures.", "gu": "આંખ! આપણી આંખો આપણને રંગબેરંગી દુનિયા જોવા, પુસ્તકો વાંચવા અને સુંદર ચિત્રો જોવા દે છે.", "hi": "आँख! हमारी आँखें हमें रंग-बिरंगी दुनिया देखने, किताबें पढ़ने और सुंदर तस्वीरें देखने देती हैं।"}'::jsonb,
+  '{"en": "Eyes work like little cameras. They blink to stay clean and wet, and close when we sleep!", "gu": "આંખો નાના કેમેરાની જેમ કામ કરે છે. તે સાફ અને ભીની રહેવા માટે પલક ઝપકાવે છે, અને જ્યારે આપણે સૂઈએ છીએ ત્યારે બંધ થાય છે!", "hi": "आँखें छोटे कैमरों की तरह काम करती हैं। वे साफ और नम रहने के लिए पलकें झपकाती हैं, और सोते समय बंद हो जाती हैं!"}'::jsonb,
+  '{"en": "Did you know? The colored part of your eye is called the iris, and everyone''s pattern is completely unique!", "gu": "શું તમે જાણો છો? તમારી આંખના રંગીન ભાગને આઇરિસ કહેવાય છે, અને દરેક વ્યક્તિની આઇરિસની પેટર્ન તદ્દન અનન્ય હોય છે!", "hi": "क्या आपको पता है? आपकी आँख के रंगीन भाग को आइरिस कहा जाता है, और हर किसी की आइरिस का पैटर्न बिल्कुल अनोखा होता है!"}'::jsonb,
+  'memory',
+  true,
+  6
+),
+(
+  'face',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Face", "gu": "ચહેરો", "hi": "चेहरा"}'::jsonb,
+  '/assets/images/body_parts/face.png',
+  '{"en": "Face! Our face shows how we feel, like when we smile to show we are happy.", "gu": "ચહેરો! આપણો ચહેરો આપણે કેવું અનુભવીએ છીએ તે દર્શાવે છે, જેમ કે જ્યારે આપણે ખુશ હોઈએ ત્યારે હસીએ છીએ.", "hi": "चेहरा! हमारा चेहरा दिखाता है कि हम कैसा महसूस करते हैं, जैसे कि जब हम खुश होते हैं तो मुस्कुराते हैं।"}'::jsonb,
+  '{"en": "The face includes our eyes, nose, mouth, and cheeks. It helps us talk, eat, and make funny expressions!", "gu": "ચહેરો આપણી આંખો, નાક, મોઢું અને ગાલ ધરાવે છે. તે આપણને વાત કરવામાં, ખાવામાં અને રમુજી હાવભાવ કરવામાં મદદ કરે છે!", "hi": "चेहरे में हमारी आँखें, नाक, मुँह और गाल शामिल होते हैं। यह हमें बात करने, खाने और मजेदार भाव बनाने में मदद करता है!"}'::jsonb,
+  '{"en": "Did you know? It takes about 17 muscles to smile, but 43 muscles to frown! So keep smiling!", "gu": "શું તમે જાણો છો? હસવા માટે લગભગ ૧૭ સ્નાયુઓનો ઉપયોગ થાય છે, પણ ગુસ્સે થવા માટે ૪૩ સ્નાયુઓ વપરાય છે! એટલે હંમેશાં હસતા રહો!", "hi": "क्या आपको पता है? मुस्कुराने के लिए लगभग 17 मांसपेशियों की आवश्यकता होती है, लेकिन गुस्सा करने के लिए 43! इसलिए मुस्कुराते रहें!"}'::jsonb,
+  'memory',
+  true,
+  7
+),
+(
+  'foot',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Foot", "gu": "પગ (પંજો)", "hi": "पैर (पंजा)"}'::jsonb,
+  '/assets/images/body_parts/foot.png',
+  '{"en": "Foot! Our feet help us stand, walk, run, and jump high in the air.", "gu": "પગ! આપણા પગ આપણને ઊભા રહેવામાં, ચાલવામાં, દોડવામાં અને આકાશમાં ઊંચો કૂદકો મારવામાં મદદ કરે છે.", "hi": "पैर! हमारे पैर हमें खड़े होने, चलने, दौड़ने और हवा में ऊँचा कूदने में मदद करते हैं।"}'::jsonb,
+  '{"en": "Each foot has 5 toes that help us keep our balance so we don''t fall over when we move!", "gu": "દરેક પગમાં ૫ આંગળીઓ હોય છે જે આપણને સંતુલન જાળવવામાં મદદ કરે છે જેથી આપણે પડી ન જઈએ!", "hi": "प्रत्येक पैर में 5 उंगलियां होती हैं जो हमें अपना संतुलन बनाए रखने में मदद करती हैं ताकि हम गिर न जाएं!"}'::jsonb,
+  '{"en": "Did you know? A quarter of all the bones in your body are located in your feet!", "gu": "શું તમે જાણો છો? તમારા શરીરના તમામ હાડકાંનો ચોથો ભાગ તમારા પગમાં આવેલો છે!", "hi": "क्या आपको पता है? आपके शरीर की कुल हड्डियों का एक चौथाई हिस्सा आपके पैरों में स्थित होता है!"}'::jsonb,
+  'memory',
+  true,
+  8
+),
+(
+  'hair',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Hair", "gu": "વાળ", "hi": "बाल"}'::jsonb,
+  '/assets/images/body_parts/hair.png',
+  '{"en": "Hair! Hair grows on our heads and comes in many different colors, lengths, and styles.", "gu": "વાળ! વાળ આપણા માથા પર ઉગે છે અને તે ઘણાં વિવિધ રંગો, લંબાઈ અને શૈલીમાં આવે છે.", "hi": "बाल! बाल हमारे सिर पर उगते हैं और कई अलग-अलग रंगों, लंबाई और शैलियों में आते हैं।"}'::jsonb,
+  '{"en": "Hair keeps our heads warm in the winter and protects us from the hot sun in the summer!", "gu": "વાળ શિયાળામાં આપણા માથાને ગરમ રાખે છે અને ઉનાળામાં આપણને ગરમ સૂર્યપ્રકાશથી બચાવે છે!", "hi": "बाल सर्दियों में हमारे सिर को गर्म रखते हैं और गर्मियों में हमें तेज धूप से बचाते हैं!"}'::jsonb,
+  '{"en": "Did you know? Hair is very strong! A single strand of hair can support the weight of a small toy!", "gu": "શું તમે જાણો છો? વાળ ખૂબ જ મજબૂત હોય છે! વાળનો એક જ તાર નાના રમકડાનું વજન સહન કરી શકે છે!", "hi": "क्या आपको पता है? बाल बहुत मजबूत होते हैं! बाल का एक अकेला धागा एक छोटे खिलौने का वजन उठा सकता है!"}'::jsonb,
+  'memory',
+  true,
+  9
+),
+(
+  'hand',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Hand", "gu": "હાથ", "hi": "हाथ"}'::jsonb,
+  '/assets/images/body_parts/hand.png',
+  '{"en": "Hand! We use our hands to write, paint, play instruments, and high-five our friends.", "gu": "હાથ! આપણે આપણા હાથનો ઉપયોગ લખવા, રંગવા, વાદ્યો વગાડવા અને આપણા મિત્રો સાથે હાઈ-ફાઈવ કરવા કરીએ છીએ.", "hi": "हाथ! हम अपने हाथों का उपयोग लिखने, पेंट करने, वाद्ययंत्र बजाने और अपने दोस्तों को हाई-फाइव देने के लिए करते हैं।"}'::jsonb,
+  '{"en": "Each hand has a palm, four fingers, and one thumb. They help us hold and pick up things easily!", "gu": "દરેક હાથમાં હથેળી, ચાર આંગળીઓ અને એક અંગૂઠો હોય છે. તેઓ આપણને વસ્તુઓ સરળતાથી પકડવામાં અને ઉપાડવામાં મદદ કરે છે!", "hi": "प्रत्येक हाथ में एक हथेली, चार उंगलियां और एक अंगूठा होता है। ये हमें चीजों को आसानी से पकड़ने और उठाने में मदद करते हैं!"}'::jsonb,
+  '{"en": "Did you know? Your thumb is very special! It lets you grip things tightly, which is called an opposing thumb!", "gu": "શું તમે જાણો છો? તમારો અંગૂઠો ખૂબ જ ખાસ છે! તે તમને વસ્તુઓને ચુસ્તપણે પકડવા દે છે, જેને વિરોધી અંગૂઠો કહેવાય છે!", "hi": "क्या आपको पता है? आपका अंगूठा बहुत खास है! यह आपको चीजों को कसकर पकड़ने की अनुमति देता है!"}'::jsonb,
+  'memory',
+  true,
+  10
+),
+(
+  'heart',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Heart", "gu": "હૃદય", "hi": "दिल"}'::jsonb,
+  '/assets/images/body_parts/heart.png',
+  '{"en": "Heart! The heart is a strong muscle that pumps blood to all parts of our body.", "gu": "હૃદય! હૃદય એ એક મજબૂત સ્નાયુ છે જે આપણા શરીરના તમામ ભાગોમાં લોહી પહોંચાડે છે.", "hi": "दिल! दिल एक मजबूत मांसपेशी है जो हमारे शरीर के सभी हिस्सों में रक्त पहुंचाती है।"}'::jsonb,
+  '{"en": "Your heart beats all day and all night. It sends oxygen and nutrients through your blood to keep you healthy!", "gu": "તમારું હૃદય આખો દિવસ અને આખી રાત ધબકે છે. તે તમને સ્વસ્થ રાખવા માટે તમારા લોહી દ્વારા ઓક્સિજન અને પોષક તત્વો મોકલે છે!", "hi": "आपका दिल दिन-रात धड़कता रहता है। यह आपको स्वस्थ रखने के लिए आपके रक्त के माध्यम से ऑक्सीजन और पोषक तत्व भेजता है!"}'::jsonb,
+  '{"en": "Did you know? If you place your hand on your chest, you can feel your heart beating: lub-dub, lub-dub!", "gu": "શું તમે જાણો છો? જો તમે તમારી છાતી પર હાથ મુકો છો, તો તમે તમારા હૃદયના ધબકારા અનુભવી શકો છો: ધક-ધક, ધક-ધક!", "hi": "क्या आपको पता है? यदि आप अपना हाथ अपनी छाती पर रखेंगे, तो आप अपने दिल की धड़कन महसूस कर सकते हैं: धक-धक, धक-धक!"}'::jsonb,
+  'memory',
+  true,
+  11
+),
+(
+  'leg',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Leg", "gu": "પગ", "hi": "पैर"}'::jsonb,
+  '/assets/images/body_parts/leg.png',
+  '{"en": "Leg! Our legs are strong and help us walk, run, climb stairs, and ride bicycles.", "gu": "પગ! આપણા પગ મજબૂત હોય છે અને તે આપણને ચાલવામાં, દોડવામાં, દાદર ચઢવામાં અને સાયકલ ચલાવવામાં મદદ કરે છે.", "hi": "पैर! हमारे पैर मजबूत होते हैं और हमें चलने, दौड़ने, सीढ़ियाँ चढ़ने और साइकिल चलाने में मदद करते हैं।"}'::jsonb,
+  '{"en": "Legs have knees in the middle that bend, and they connect to our hips at the top and feet at the bottom.", "gu": "પગની મધ્યમાં ઘૂંટણ હોય છે જે વળે છે, અને તેઓ ઉપર નિતંબ સાથે અને નીચે પગના પંજા સાથે જોડાયેલા હોય છે.", "hi": "पैरों के बीच में घुटने होते हैं जो मुड़ते हैं, और वे ऊपर कूल्हों और नीचे पैरों से जुड़े होते हैं।"}'::jsonb,
+  '{"en": "Did you know? The longest and strongest bone in your body is in your leg, and it is called the femur!", "gu": "શું તમે જાણો છો? તમારા શરીરનું સૌથી લાંબુ અને મજબૂત હાડકું તમારા પગમાં છે, અને તેને ફીમર કહેવામાં આવે છે!", "hi": "क्या आपको पता है? आपके शरीर की सबसे लंबी और सबसे मजबूत हड्डी आपके पैर में होती है, और इसे फीमर कहा जाता है!"}'::jsonb,
+  'memory',
+  true,
+  12
+),
+(
+  'lung',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Lung", "gu": "ફેફસાં", "hi": "फेफड़ा"}'::jsonb,
+  '/assets/images/body_parts/lung.png',
+  '{"en": "Lung! Lungs help us breathe in fresh air and blow out the air we don''t need.", "gu": "ફેફસાં! ફેફસાં આપણને તાજી હવા શ્વાસમાં લેવામાં અને આપણને જરૂર ન હોય તેવી હવા બહાર કાઢવામાં મદદ કરે છે.", "hi": "फेफड़ा! फेफड़े हमें ताजी हवा सांस के रूप में अंदर लेने और उस हवा को बाहर निकालने में मदद करते हैं जिसकी हमें आवश्यकता नहीं होती।"}'::jsonb,
+  '{"en": "We have two lungs in our chest. When you take a deep breath, they fill up with air like balloons!", "gu": "આપણી છાતીમાં બે ફેફસાં હોય છે. જ્યારે તમે ઊંડો શ્વાસ લો છો, ત્યારે તેઓ ફુગ્ગાની જેમ હવાથી ભરાઈ જાય છે!", "hi": "हमारी छाती में दो फेफड़े होते हैं। जब आप गहरी सांस लेते हैं, तो वे गुब्बारों की तरह हवा से भर जाते हैं!"}'::jsonb,
+  '{"en": "Did you know? Lungs are the only organs in the human body that can actually float on water!", "gu": "શું તમે જાણો છો? ફેફસાં માનવ શરીરના એકમાત્ર એવા અંગો છે જે ખરેખર પાણી પર તરી શકે છે!", "hi": "क्या आपको पता है? फेफड़े मानव शरीर के एकमात्र ऐसे अंग हैं जो वास्तव में पानी पर तैर सकते हैं!"}'::jsonb,
+  'memory',
+  true,
+  13
+),
+(
+  'mouth',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Mouth", "gu": "મોઢું", "hi": "मुँह"}'::jsonb,
+  '/assets/images/body_parts/mouth.png',
+  '{"en": "Mouth! We use our mouth to speak, eat delicious food, laugh, and sing songs.", "gu": "મોઢું! આપણે આપણા મોઢાનો ઉપયોગ બોલવા, સ્વાદિષ્ટ ખોરાક ખાવા, હસવા અને ગીતો ગાવા માટે કરીએ છીએ.", "hi": "मुँह! हम अपने मुँह का उपयोग बोलने, स्वादिष्ट भोजन खाने, हंसने और गाने गाने के लिए करते हैं।"}'::jsonb,
+  '{"en": "The mouth contains our teeth for chewing food and a tongue that helps us taste and talk!", "gu": "મોઢામાં ખોરાક ચાવવા માટે દાંત અને સ્વાદ પારખવા તથા બોલવામાં મદદ કરતી જીભ હોય છે!", "hi": "मुँह में भोजन चबाने के लिए हमारे दांत और एक जीभ होती है जो हमें स्वाद लेने और बोलने में मदद करती है!"}'::jsonb,
+  '{"en": "Did you know? Your mouth makes saliva, which helps soften your food so it is easy to swallow!", "gu": "શું તમે જાણો છો? તમારું મોં લાળ બનાવે છે, જે તમારા ખોરાકને નરમ કરવામાં મદદ કરે છે જેથી તેને ગળી જવું સરળ બને!", "hi": "क्या आपको पता है? आपका मुँह लार बनाता है, जो आपके भोजन को नरम बनाने में मदद करती है ताकि इसे निगलना आसान हो सके!"}'::jsonb,
+  'memory',
+  true,
+  14
+),
+(
+  'neck',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Neck", "gu": "ગળું", "hi": "गर्दन"}'::jsonb,
+  '/assets/images/body_parts/neck.png',
+  '{"en": "Neck! Our neck connects our head to our body and helps us turn our head left and right.", "gu": "ગળું! આપણું ગળું આપણા માથાને શરીર સાથે જોડે છે અને આપણને આપણું માથું ડાબે અને જમણે ફેરવવામાં મદદ કરે છે.", "hi": "गर्दन! हमारी गर्दन हमारे सिर को हमारे शरीर से जोड़ती है और हमारे सिर को दाएँ-बाएँ घुमाने में मदद करती है।"}'::jsonb,
+  '{"en": "The neck contains the throat, and holds up the head so we can look around at everything!", "gu": "ગળામાં શ્વાસનળી અને અન્નનળી હોય છે, અને તે માથાને ટેકો આપે છે જેથી આપણે આસપાસની બધી વસ્તુઓ જોઈ શકીએ!", "hi": "गर्दन में गला होता है, और यह सिर को सहारा देती है ताकि हम अपने आस-पास की हर चीज़ को देख सकें!"}'::jsonb,
+  '{"en": "Did you know? Even though a giraffe''s neck is very long, it has the exact same number of neck bones as humans: seven!", "gu": "શું તમે જાણો છો? જીરાફની ગરદન ખૂબ જ લાંબી હોવા છતાં, તેમાં મનુષ્યની જેમ જ ગરદનના હાડકાંની સંખ્યા સાત જ હોય છે!", "hi": "क्या आपको पता है? भले ही जिराफ़ की गर्दन बहुत लंबी होती है, लेकिन उसकी गर्दन में भी मनुष्यों की तरह ही सात हड्डियां होती हैं!"}'::jsonb,
+  'memory',
+  true,
+  15
+),
+(
+  'nose',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Nose", "gu": "નાક", "hi": "नाक"}'::jsonb,
+  '/assets/images/body_parts/nose.png',
+  '{"en": "Nose! Our nose helps us smell sweet flowers and breathe fresh air every day.", "gu": "નાક! આપણું નાક આપણને મીઠા ફૂલોની સુગંધ લેવામાં અને દરરોજ તાજી હવામાં શ્વાસ લેવામાં મદદ કરે છે.", "hi": "नाक! हमारी नाक हमें मीठे फूलों को सूंघने और हर दिन ताजी हवा में सांस लेने में मदद करती है।"}'::jsonb,
+  '{"en": "The nose has two nostrils. It cleans and warms the air we breathe before it goes into our lungs!", "gu": "નાકને બે નસકોરાં હોય છે. તે આપણે જે શ્વાસ લઈએ છીએ તે હવા ફેફસામાં જાય તે પહેલાં તેને સાફ અને ગરમ કરે છે!", "hi": "नाक में दो नथुने होते हैं। यह हमारे फेफड़ों में जाने से पहले सांस लेने वाली हवा को साफ और गर्म करती है!"}'::jsonb,
+  '{"en": "Did you know? Your nose can remember and recognize up to 50,000 different scents!", "gu": "શું તમે જાણો છો? તમારું નાક ૫૦,૦૦૦ જેટલી વિવિધ સુગંધને યાદ રાખી શકે છે અને ઓળખી શકે છે!", "hi": "क्या आपको पता है? आपकी नाक लगभग 50,000 अलग-अलग गंधों को याद रख सकती है और पहचान सकती है!"}'::jsonb,
+  'memory',
+  true,
+  16
+),
+(
+  'stomach',
+  (SELECT id FROM categories WHERE category_key = 'body_parts' LIMIT 1),
+  '{"en": "Stomach", "gu": "પેટ", "hi": "पेट"}'::jsonb,
+  '/assets/images/body_parts/stomach.png',
+  '{"en": "Stomach! The stomach is where the yummy food we eat goes to be digested.", "gu": "પેટ! આપણે જે સ્વાદિષ્ટ ખોરાક ખાઈએ છીએ તે પચવા માટે પેટમાં જાય છે.", "hi": "पेट! हम जो स्वादिष्ट भोजन खाते हैं वह पचने के लिए हमारे पेट में जाता है।"}'::jsonb,
+  '{"en": "The stomach mixes and breaks down food into tiny pieces to give us energy to run and play all day!", "gu": "પેટ ખોરાકને મિશ્રિત કરે છે અને નાના ટુકડાઓમાં તોડી નાખે છે જેથી આપણને આખો દિવસ દોડવાની અને રમવાની ઉર્જા મળે!", "hi": "पेट भोजन को मिलाता है और छोटे टुकड़ों में तोड़ता है ताकि हमें दिन भर दौड़ने और खेलने की ऊर्जा मिल सके!"}'::jsonb,
+  '{"en": "Did you know? To protect itself from its own digestive juices, your stomach grows a new lining every few days!", "gu": "શું તમે જાણો છો? પાચક રસોથી પોતાનું રક્ષણ કરવા માટે, તમારું પેટ દર થોડા દિવસોમાં એક નવું અસ્તર બનાવે છે!", "hi": "क्या आपको पता है? अपने ही पाचक रसों से खुद को बचाने के लिए, आपका पेट हर कुछ दिनों में एक नई परत विकसित करता है!"}'::jsonb,
+  'memory',
+  true,
+  17
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
