@@ -313,9 +313,11 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
                     itemCount: topics.length,
                     itemBuilder: (context, index) {
                       final topic = topics[index];
-                      final imgPath = (topic.svgPath != null && topic.svgPath!.isNotEmpty)
-                          ? topic.svgPath!
-                          : (topic.lottiePath ?? (topic.imagePath ?? ''));
+                      final imgPath = (topic.imagePath != null && topic.imagePath!.isNotEmpty)
+                          ? topic.imagePath!
+                          : ((topic.svgPath != null && topic.svgPath!.isNotEmpty)
+                              ? topic.svgPath!
+                              : (topic.lottiePath ?? ''));
 
                       return CustomButton(
                         padding: const EdgeInsets.all(4),
@@ -508,11 +510,11 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> with SingleTicker
     final explanation = widget.topic.getExplanation(locale: widget.activeLanguage);
     final fact = widget.topic.getFact(locale: widget.activeLanguage);
 
-    final imagePath = (widget.topic.lottiePath != null && widget.topic.lottiePath!.isNotEmpty)
-        ? widget.topic.lottiePath!
+    final imagePath = (widget.topic.imagePath != null && widget.topic.imagePath!.isNotEmpty)
+        ? widget.topic.imagePath!
         : ((widget.topic.svgPath != null && widget.topic.svgPath!.isNotEmpty)
             ? widget.topic.svgPath!
-            : (widget.topic.imagePath ?? ''));
+            : (widget.topic.lottiePath ?? ''));
 
     Widget content = Stack(
       children: [
@@ -1268,11 +1270,11 @@ class _KidsGameScreenState extends State<KidsGameScreen> {
       );
     } else {
       // puzzle (grid of 4 rotated parts)
-      final lottieOrImagePath = (widget.topic.lottiePath != null && widget.topic.lottiePath!.isNotEmpty)
-          ? widget.topic.lottiePath!
+      final lottieOrImagePath = (widget.topic.imagePath != null && widget.topic.imagePath!.isNotEmpty)
+          ? widget.topic.imagePath!
           : ((widget.topic.svgPath != null && widget.topic.svgPath!.isNotEmpty)
               ? widget.topic.svgPath!
-              : (widget.topic.imagePath ?? ''));
+              : (widget.topic.lottiePath ?? ''));
 
       return GridView.builder(
         shrinkWrap: true,
