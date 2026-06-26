@@ -72,10 +72,12 @@ flutter:
     - assets/images/shapes/
     - assets/images/sports/
     - assets/images/animals/
+    - assets/images/birds/
     - assets/images/flowers/
     - assets/images/science/
     - assets/images/alphabet/
     - assets/images/vehicles/
+    - assets/images/vegetables/
     - assets/images/body_parts/
     - assets/images/food_drink/
     - assets/images/occupation/

@@ -13,3 +13,5 @@ id,category_key,title,color,is_premium,group_id,image_path,lottie_path,display_o
 12,country_flags,"{""en"": ""Country Flags"", ""gu"": ""દેશોના ધ્વજ"", ""hi"": ""देशों के झंडे""}",#3F51B5,false,world_around_us,,,12
 13,science,"{""en"": ""Science & Discovery"", ""gu"": ""વિજ્ઞાન અને શોધ"", ""hi"": ""विज्ञान और खोज""}",#E91E63,false,brain_and_skill,,,13
 14,months,"{""en"": ""Months"", ""gu"": ""મહિના"", ""hi"": ""महीने""}",#5C6BC0,false,early_learning,,,14
+15,birds,"{""en"": ""Birds"", ""gu"": ""પક્ષીઓ"", ""hi"": ""पक्षी""}",#4CAF50,false,natures_world,,,15
+16,vegetables,"{""en"": ""Vegetables"", ""gu"": ""શાકભાજી"", ""hi"": ""सब्जियां""}",#8BC34A,false,natures_world,,,16
