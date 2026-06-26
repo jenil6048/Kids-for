@@ -1,0 +1,512 @@
+-- 1. Create food_drink table and index
+CREATE TABLE IF NOT EXISTS public.food_drink (
+  id bigint generated always as identity not null,
+  topic_key text not null,
+  category_id bigint null,
+  name jsonb not null default '{}'::jsonb,
+  svg_path text null,
+  image_path text null,
+  lottie_path text null,
+  narration jsonb not null default '{}'::jsonb,
+  explanation jsonb not null default '{}'::jsonb,
+  fact jsonb not null default '{}'::jsonb,
+  game_type text null,
+  is_free boolean not null default true,
+  display_order integer null,
+  constraint food_drink_pkey primary key (id),
+  constraint food_drink_topic_key_key unique (topic_key),
+  constraint food_drink_category_id_fkey foreign KEY (category_id) references categories (id) on delete CASCADE
+) TABLESPACE pg_default;
+
+CREATE INDEX IF NOT EXISTS idx_food_drink_topic_key on public.food_drink using btree (topic_key) TABLESPACE pg_default;
+
+-- Disable Row Level Security (RLS) to fix private table access issues
+ALTER TABLE public.food_drink DISABLE ROW LEVEL SECURITY;
+
+-- Grant permissions to anonymous client keys
+GRANT ALL ON public.food_drink TO anon;
+GRANT ALL ON public.food_drink TO authenticated;
+GRANT ALL ON public.food_drink TO service_role;
+
+-- 2. Populate food_drink table with data
+-- Using matching as the primary game type
+
+-- ITEM BREAD
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'bread', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Bread", "gu": "બ્રેડ", "hi": "ब्रेड"}'::jsonb, 
+  '/assets/images/food_drink/bread.png', 
+  '{"en": "This is Bread. Bread is soft and delicious to eat for breakfast.", "gu": "આ બ્રેડ છે. બ્રેડ નરમ અને સવારના નાસ્તામાં ખાવા માટે સ્વાદિષ્ટ હોય છે.", "hi": "यह ब्रेड है। ब्रेड नरम और सुबह के नाश्ते में खाने के लिए स्वादिष्ट होती है।"}'::jsonb, 
+  '{"en": "Bread is made from flour and baked in an oven. We can use it to make toast or sandwiches.", "gu": "બ્રેડ લોટમાંથી બનાવવામાં આવે છે અને ઓવનમાં બેક કરવામાં આવે છે. આપણે તેનો ઉપયોગ ટોસ્ટ કે સેન્ડવીચ બનાવવા માટે કરી શકીએ છીએ.", "hi": "ब्रेड आटे से बनाई जाती है और ओवन में सेकी जाती है। हम इसका उपयोग टोस्ट या सैंडविच बनाने के लिए कर सकते हैं।"}'::jsonb, 
+  '{"en": "Did you know? The oldest piece of bread ever found was over 14,000 years old!", "gu": "શું તમે જાણો છો? અત્યાર સુધી મળેલા બ્રેડનો સૌથી જૂનો ટુકડો ૧૪,૦૦૦ વર્ષથી વધુ જૂનો હતો!", "hi": "क्या आप जानते हैं? अब तक मिला ब्रेड का सबसे पुराना टुकड़ा 14,000 साल से भी अधिक पुराना था!"}'::jsonb, 
+  'matching', 
+  true, 
+  1
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM CEREAL
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'cereal', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Cereal", "gu": "અનાજ", "hi": "अनाज (सैरिल)"}'::jsonb, 
+  '/assets/images/food_drink/cereal.png', 
+  '{"en": "This is Cereal. Cereal is a crunchy breakfast food that we eat with milk.", "gu": "આ અનાજ છે. અનાજ એ કકડો સવારનો નાસ્તો છે જે આપણે દૂધ સાથે ખાઈએ છીએ.", "hi": "यह अनाज है। अनाज एक कुरकुरा नाश्ता है जिसे हम दूध के साथ खाते हैं।"}'::jsonb, 
+  '{"en": "Cereal is made from grains like corn, wheat, or oats. It gives us lots of energy to play and learn.", "gu": "અનાજ મકાઈ, ઘઉં અથવા ઓટ્સ જેવા અનાજમાંથી બનાવવામાં આવે છે. તે આપણને રમવા અને શીખવા માટે પુષ્કળ ઊર્જા આપે છે.", "hi": "अनाज मक्का, गेहूं या जई जैसे अनाजों से बनाया जाता है। यह हमें खेलने और सीखने के लिए बहुत ऊर्जा देता है।"}'::jsonb, 
+  '{"en": "Did you know? The first breakfast cereal was created by a doctor over 160 years ago!", "gu": "શું તમે જાણો છો? પ્રથમ સવારનો નાસ્તો (અનાજ) એક ડોક્ટર દ્વારા ૧૬૦ વર્ષ પહેલાં બનાવવામાં આવ્યો હતો!", "hi": "क्या आप जानते हैं? पहला सुबह का अनाज एक डॉक्टर द्वारा 160 साल से भी पहले बनाया गया था!"}'::jsonb, 
+  'matching', 
+  true, 
+  2
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM CHEESE
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'cheese', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Cheese", "gu": "ચીઝ", "hi": "पनीर (चीज़)"}'::jsonb, 
+  '/assets/images/food_drink/cheese.png', 
+  '{"en": "This is Cheese. Cheese is a delicious food made from milk.", "gu": "આ ચીઝ છે. ચીઝ દૂધમાંથી બનેલો એક સ્વાદિષ્ટ ખોરાક છે.", "hi": "यह पनीर है। पनीर दूध से बना एक स्वादिष्ट भोजन है।"}'::jsonb, 
+  '{"en": "Cheese comes in many shapes and colors, like yellow and white. We put cheese on pizza, sandwiches, and burgers.", "gu": "ચીઝ પીળા અને સફેદ જેવા ઘણા આકારો અને રંગોમાં આવે છે. આપણે પિઝા, સેન્ડવીચ અને બર્ગરમાં ચીઝ ઉમેરીએ છીએ.", "hi": "पनीर कई आकारों और रंगों में आता है, जैसे पीला और सफेद। हम पिज्जा, सैंडविच और बर्गर में पनीर डालते हैं।"}'::jsonb, 
+  '{"en": "Did you know? There are over 1,000 different types of cheese in the world!", "gu": "શું તમે જાણો છો? દુનિયામાં ૧,૦૦૦ થી વધુ વિવિધ પ્રકારના ચીઝ ઉપલબ્ધ છે!", "hi": "क्या आप जानते हैं? दुनिया में 1,000 से अधिक विभिन्न प्रकार के पनीर उपलब्ध हैं!"}'::jsonb, 
+  'matching', 
+  true, 
+  3
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM CHICKEN
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'chicken', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Chicken", "gu": "ચિકન", "hi": "चिकन"}'::jsonb, 
+  '/assets/images/food_drink/chicken.png', 
+  '{"en": "This is Chicken. Chicken is a popular food that is rich in protein.", "gu": "આ ચિકન છે. ચિકન એ પ્રોટીનથી ભરપૂર એક લોકપ્રિય ખોરાક છે.", "hi": "यह चिकन है। चिकन प्रोटीन से भरपूर एक लोकप्रिय भोजन है।"}'::jsonb, 
+  '{"en": "Chicken can be grilled, roasted, or cooked in soups. It helps our muscles grow strong.", "gu": "ચિકનને ગ્રીલ કરી શકાય છે, શેકી શકાય છે અથવા સૂપમાં રાંધી શકાય છે. તે આપણા સ્નાયુઓને મજબૂત બનાવવામાં મદદ કરે છે.", "hi": "चिकन को ग्रिल किया जा सकता है, भुना जा सकता है या सूप में पकाया जा सकता है। यह हमारी मांसपेशियों को मजबूत बनाने में मदद करता है।"}'::jsonb, 
+  '{"en": "Did you know? Chickens are the most common birds on Earth!", "gu": "શું તમે જાણો છો? પૃથ્વી પર ચિકન (મરઘા) એ સૌથી સામાન્ય પક્ષીઓ છે!", "hi": "क्या आप जानते हैं? पृथ्वी पर मुर्गियां सबसे आम पक्षी हैं!"}'::jsonb, 
+  'matching', 
+  true, 
+  4
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM CHOCOLATE
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'chocolate', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Chocolate", "gu": "ચોકલેટ", "hi": "चॉकलेट"}'::jsonb, 
+  '/assets/images/food_drink/chocolate.png', 
+  '{"en": "This is Chocolate. Chocolate is a sweet and yummy treat that melts in your mouth.", "gu": "આ ચોકલેટ છે. ચોકલેટ એ મોંમાં ઓગળી જાય તેવી મીઠી અને સ્વાદિષ્ટ વાનગી છે.", "hi": "यह चॉकलेट है। चॉकलेट मुंह में घुल जाने वाली एक मीठी और स्वादिष्ट चीज़ है।"}'::jsonb, 
+  '{"en": "Chocolate is made from cacao beans that grow on trees. It can be dark, milk, or white chocolate.", "gu": "ચોકલેટ વૃક્ષો પર ઉગતા કોકો બીન્સમાંથી બનાવવામાં આવે છે. તે ડાર્ક, મિલ્ક અથવા વ્હાઇટ ચોકલેટ હોઈ શકે છે.", "hi": "चॉकलेट पेड़ों पर उगने वाले कोको बीन्स से बनाई जाती है। यह डार्क, मिल्क या व्हाइट चॉकलेट हो सकती है।"}'::jsonb, 
+  '{"en": "Did you know? Chocolate was once used as money by ancient peoples!", "gu": "શું તમે જાણો છો? પ્રાચીન લોકો દ્વારા એક સમયે ચોકલેટનો ઉપયોગ સિક્કા કે પૈસા તરીકે થતો હતો!", "hi": "क्या आप जानते हैं? प्राचीन लोगों द्वारा एक समय में चॉकलेट का उपयोग मुद्रा (पैसे) के रूप में किया जाता था!"}'::jsonb, 
+  'matching', 
+  true, 
+  5
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM DONUT
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'donut', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Donut", "gu": "ડોનટ", "hi": "डोनट"}'::jsonb, 
+  '/assets/images/food_drink/donut.png', 
+  '{"en": "This is a Donut. Donuts are round, sweet treats with a hole in the middle.", "gu": "આ ડોનટ છે. ડોનટ એ વચ્ચે છિદ્ર ધરાવતી ગોળ અને મીઠી વાનગી છે.", "hi": "यह डोनट है। डोनट बीच में छेद वाली एक गोल और मीठी चीज़ है।"}'::jsonb, 
+  '{"en": "Donuts are baked or fried and often topped with colorful sprinkles, chocolate, or icing. They are fun to eat.", "gu": "ડોનટ્સને બેક અથવા ફ્રાય કરવામાં આવે છે અને ઘણીવાર તેના પર રંગબેરંગી સ્પ્રિંકલ્સ, ચોકલેટ અથવા આઈસિંગ કરવામાં આવે છે. તે ખાવામાં મજા આવે છે.", "hi": "डोनट्स को बेक या फ्राई किया जाता है और अक्सर रंग-बिरंगे स्प्रिंकल्स, चॉकलेट या आइसिंग से सजाया जाता है। इन्हें खाने में मज़ा आता है।"}'::jsonb, 
+  '{"en": "Did you know? Over 10 billion donuts are made in the United States every single year!", "gu": "શું તમે જાણો છો? યુનાઇટેડ સ્ટેટ્સમાં દર વર્ષે ૧૦ અબજથી વધુ ડોનટ્સ બનાવવામાં આવે છે!", "hi": "क्या आप जानते हैं? संयुक्त राज्य अमेरिका में हर साल 10 अरब से अधिक डोनट्स बनाए जाते हैं!"}'::jsonb, 
+  'matching', 
+  true, 
+  6
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM EGGS
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'eggs', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Eggs", "gu": "ઇંડા", "hi": "अंडे"}'::jsonb, 
+  '/assets/images/food_drink/eggs.png', 
+  '{"en": "This is an Egg. Eggs are very healthy and come from chickens.", "gu": "આ ઇંડું છે. ઇંડા ખૂબ જ આરોગ્યપ્રદ છે અને તે મરઘીઓ દ્વારા મળે છે.", "hi": "यह अंडा है। अंडे बहुत स्वास्थ्यवर्धक होते हैं और मुर्गियों से मिलते हैं।"}'::jsonb, 
+  '{"en": "Eggs have a hard shell on the outside and a yellow yolk inside. We can boil, scramble, or fry them.", "gu": "ઇંડાની બહાર કઠણ કવચ અને અંદર પીળો ભાગ (યોલ્ક) હોય છે. આપણે તેને ઉકાળી શકીએ છીએ કે તળી શકીએ છીએ.", "hi": "अंडे के बाहर एक कठोर आवरण और अंदर एक पीला भाग होता है। हम उन्हें उबाल सकते हैं या तल सकते हैं।"}'::jsonb, 
+  '{"en": "Did you know? An egg shell can have up to 17,000 tiny holes on its surface!", "gu": "શું તમે જાણો છો? ઇંડાના કવચ પર ૧૭,૦૦૦ જેટલા નાના છિદ્રો હોઈ શકે છે!", "hi": "क्या आप जानते हैं? अंडे के छिलके पर 17,000 जितने छोटे छिद्र हो सकते हैं!"}'::jsonb, 
+  'matching', 
+  true, 
+  7
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM HAMBURGER
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'hamburger', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Hamburger", "gu": "હેમબર્ગર", "hi": "हैमबर्गर"}'::jsonb, 
+  '/assets/images/food_drink/hamburger.png', 
+  '{"en": "This is a Hamburger. Hamburgers are tasty round sandwiches.", "gu": "આ હેમબર્ગર છે. હેમબર્ગર એ એક સ્વાદિષ્ટ ગોળ સેન્ડવીચ છે.", "hi": "यह हैमबर्गर है। हैमबर्गर एक स्वादिष्ट गोल सैंडविच है।"}'::jsonb, 
+  '{"en": "A hamburger has a patty, lettuce, tomato, and cheese inside a soft round bun. It is great for picnics.", "gu": "હેમબર્ગરમાં નરમ ગોળ બન વચ્ચે કબાબ (પેટ્ટી), કોબીજ, ટામેટા અને ચીઝ હોય છે. પિકનિક માટે તે ઉત્તમ છે.", "hi": "हैमबर्गर में नरम गोल बन के बीच एक टिक्की, सलाद पत्ता, टमाटर और पनीर होता है। पिकनिक के लिए यह बेहतरीन है।"}'::jsonb, 
+  '{"en": "Did you know? The largest hamburger ever made weighed more than a car!", "gu": "શું તમે જાણો છો? અત્યાર સુધી બનેલું સૌથી મોટું હેમબર્ગર કાર કરતાં પણ વધુ વજનદાર હતું!", "hi": "क्या आप जानते हैं? अब तक का सबसे बड़ा हैमबर्गर एक कार से भी अधिक भारी था!"}'::jsonb, 
+  'matching', 
+  true, 
+  8
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM HONEY
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'honey', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Honey", "gu": "મધ", "hi": "शहद"}'::jsonb, 
+  '/assets/images/food_drink/honey.png', 
+  '{"en": "This is Honey. Honey is a sweet, golden liquid made by busy honeybees.", "gu": "આ મધ છે. મધ એ મધમાખીઓ દ્વારા બનાવવામાં આવતું એક મીઠું, સોનેરી પ્રવાહી છે.", "hi": "यह शहद है। शहद मधुमक्खियों द्वारा बनाया जाने वाला एक मीठा, सुनहरा तरल है।"}'::jsonb, 
+  '{"en": "Honey is very sweet and healthy. Bees collect nectar from flowers to make honey in their hives.", "gu": "મધ ખૂબ જ મીઠું અને પૌષ્ટિક છે. મધમાખીઓ તેમના મધપૂડામાં મધ બનાવવા માટે ફૂલોમાંથી રસ એકત્રિત કરે છે.", "hi": "शहद बहुत मीठा और स्वास्थ्यवर्धक होता है। मधुमक्खियां अपने छत्ते में शहद बनाने के लिए फूलों से रस इकट्ठा करती हैं।"}'::jsonb, 
+  '{"en": "Did you know? Honey never spoils! You could eat honey that is 3,000 years old and it would still taste good!", "gu": "શું તમે જાણો છો? મધ ક્યારેય બગડતું નથી! તમે ૩,૦૦૦ વર્ષ જૂનું મધ પણ ખાઈ શકો છો અને તેનો સ્વાદ સારો જ હશે!", "hi": "क्या आप जानते हैं? शहद कभी खराब नहीं होता! आप 3,000 साल पुराना शहद भी खा सकते हैं और उसका स्वाद अभी भी अच्छा होगा!"}'::jsonb, 
+  'matching', 
+  true, 
+  9
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM ICE CREAM
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'ice_cream', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Ice Cream", "gu": "આઇસક્રીમ", "hi": "आइसक्रीम"}'::jsonb, 
+  '/assets/images/food_drink/ice_cream.png', 
+  '{"en": "This is Ice Cream. Ice cream is a cold and sweet dessert that we love in summer.", "gu": "આ આઇસક્રીમ છે. આઇસક્રીમ એ એક ઠંડી અને મીઠી વાનગી છે જે આપણને ઉનાળામાં ખૂબ ગમે છે.", "hi": "यह आइसक्रीम है। आइसक्रीम एक ठंडी और मीठी चीज़ है जिसे हम गर्मियों में बहुत पसंद करते हैं।"}'::jsonb, 
+  '{"en": "Ice cream is made from milk, cream, and sugar. It comes in many flavors like vanilla, chocolate, and strawberry.", "gu": "આઇસક્રીમ દૂધ, ક્રીમ અને ખાંડમાંથી બનાવવામાં આવે છે. તે વેનીલા, ચોકલેટ અને સ્ટ્રોબેરી જેવા ઘણા સ્વાદોમાં આવે છે.", "hi": "आसक्रीम दूध, मलाई और चीनी से बनाई जाती है। यह वेनिला, चॉकलेट और स्ट्रॉबेरी जैसे कई स्वादों में आती है।"}'::jsonb, 
+  '{"en": "Did you know? The most popular ice cream flavor in the world is vanilla!", "gu": "શું તમે જાણો છો? વિશ્વમાં આઇસક્રીમનો સૌથી લોકપ્રિય સ્વાદ વેનીલા છે!", "hi": "क्या आप जानते हैं? दुनिया में आइसक्रीम का सबसे लोकप्रिय स्वाद वेनिला है!"}'::jsonb, 
+  'matching', 
+  true, 
+  10
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM MILK
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'milk', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Milk", "gu": "દૂધ", "hi": "दूध"}'::jsonb, 
+  '/assets/images/food_drink/milk.png', 
+  '{"en": "This is Milk. Milk is a healthy white drink that makes our bones strong.", "gu": "આ દૂધ છે. દૂધ એ એક પૌષ્ટિક સફેદ પીણું છે જે આપણા હાડકાંને મજબૂત બનાવે છે.", "hi": "यह दूध है। दूध एक स्वास्थ्यवर्धक सफेद पेय है जो हमारी हड्डियों को मजबूत बनाता है।"}'::jsonb, 
+  '{"en": "Milk comes from cows, goats, and sheep. We use milk to make cheese, butter, and ice cream.", "gu": "દૂધ ગાય, બકરી અને ઘેટામાંથી મળે છે. આપણે ચીઝ, માખણ અને આઇસક્રીમ બનાવવા માટે દૂધનો ઉપયોગ કરીએ છીએ.", "hi": "दूध गाय, बकरी और भेड़ से मिलता है। हम पनीर, मक्खन और आइसक्रीम बनाने के लिए दूध का उपयोग करते हैं।"}'::jsonb, 
+  '{"en": "Did you know? Cats should not actually drink cow''s milk because it can make their tummies hurt!", "gu": "શું તમે જાણો છો? બિલાડીઓએ ખરેખર ગાયનું દૂધ પીવું જોઈએ નહીં કારણ કે તે તેમના પેટમાં દુખાવો કરી શકે છે!", "hi": "क्या आप जानते हैं? बिल्लियों को वास्तव में गाय का दूध नहीं पीना चाहिए क्योंकि इससे उनके पेट में दर्द हो सकता है!"}'::jsonb, 
+  'matching', 
+  true, 
+  11
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM MUFFIN
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'muffin', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Muffin", "gu": "મફિન", "hi": "मफ़िन"}'::jsonb, 
+  '/assets/images/food_drink/muffin.png', 
+  '{"en": "This is a Muffin. Muffins are small, sweet cake-like breads.", "gu": "આ મફિન છે. મફિન એ નાના, કેક જેવા મીઠા બ્રેડ છે.", "hi": "यह मफ़िन है। मफ़िन छोटे, केक जैसे मीठे ब्रेड होते हैं।"}'::jsonb, 
+  '{"en": "Muffins are baked in cups and can have blueberries, chocolate chips, or bananas inside. They are delicious snacks.", "gu": "મફિન કપમાં બેક કરવામાં આવે છે અને તેમાં બ્લુબેરી, ચોકલેટ ચિપ્સ અથવા કેળા હોઈ શકે છે. તેઓ સ્વાદિષ્ટ નાસ્તો છે.", "hi": "मफ़िन कपों में बेक किए जाते हैं और इनमें ब्लूबेरी, चॉकलेट चिप्स या केले हो सकते हैं। ये स्वादिष्ट स्नैक्स होते हैं।"}'::jsonb, 
+  '{"en": "Did you know? The name ''muffin'' comes from an old French word meaning ''soft bread''!", "gu": "શું તમે જાણો છો? ''મફિન'' નામ એક જૂના ફ્રેન્ચ શબ્દ પરથી આવ્યું છે જેનો અર્થ ''નરમ બ્રેડ'' થાય છે!", "hi": "क्या आप जानते हैं? ''मफ़िन'' नाम एक पुराने फ्रांसीसी शब्द से आया है जिसका अर्थ ''मुलायम ब्रेड'' होता है!"}'::jsonb, 
+  'matching', 
+  true, 
+  12
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM ORANGE JUICE
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'orange_juice', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Orange Juice", "gu": "નારંગીનો રસ", "hi": "संतरे का रस"}'::jsonb, 
+  '/assets/images/food_drink/orange_juice.png', 
+  '{"en": "This is Orange Juice. It is a sweet and tangy drink made from fresh oranges.", "gu": "આ નારંગીનો રસ છે. તે તાજી નારંગીમાંથી બનેલું મીઠું અને ખાટું પીણું છે.", "hi": "यह संतरे का रस है। यह ताज़े संतरों से बना एक मीठा और खट्टा पेय है।"}'::jsonb, 
+  '{"en": "Orange juice is full of Vitamin C which helps protect us from getting cold. It is refreshing to drink in the morning.", "gu": "નારંગીના રસમાં પુષ્કળ પ્રમાણમાં વિટામિન સી હોય છે જે આપણને શરદીથી બચાવવામાં મદદ કરે છે. સવારે તે પીવું ખૂબ તાજગીદાયક છે.", "hi": "संतरे के रस में प्रचुर मात्रा में विटामिन सी होता है जो हमें सर्दी से बचाने में मदद करता है। सुबह इसे पीना बहुत ताज़गी देता है।"}'::jsonb, 
+  '{"en": "Did you know? It takes about three to four oranges to make one single glass of orange juice!", "gu": "શું તમે જાણો છો? નારંગીનો એક જ ગ્લાસ રસ બનાવવા માટે લગભગ ત્રણથી ચાર નારંગીની જરૂર પડે છે!", "hi": "क्या आप जानते हैं? संतरे का एक गिलास रस बनाने के लिए लगभग तीन से चार संतरों की आवश्यकता होती है!"}'::jsonb, 
+  'matching', 
+  true, 
+  13
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM PANCAKE
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'pancake', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Pancake", "gu": "પેનકેક", "hi": "पैनकेक"}'::jsonb, 
+  '/assets/images/food_drink/pancake.png', 
+  '{"en": "This is a Pancake. Pancakes are flat, round cakes cooked in a pan.", "gu": "આ પેનકેક છે. પેનકેક એ પેન (કડાઈ) માં બનાવેલા સપાટ, ગોળ કેક છે.", "hi": "यह पैनकेक है। पैनकेक तवे पर बनाए जाने वाले चपटे, गोल केक होते हैं।"}'::jsonb, 
+  '{"en": "Pancakes are soft and fluffy. We eat them for breakfast with sweet syrup, honey, or fresh fruit on top.", "gu": "પેનકેક નરમ અને ફૂલેલા હોય છે. આપણે તેને સવારે મીઠા સીરપ, મધ અથવા તાજા ફળો સાથે નાસ્તામાં ખાઈએ છીએ.", "hi": "पैनकेक नरम और फूले हुए होते हैं। हम उन्हें सुबह मीठे सिरप, शहद या ताजे फलों के साथ नाश्ते में खाते हैं।"}'::jsonb, 
+  '{"en": "Did you know? The world''s largest pancake was over 49 feet wide!", "gu": "શું તમે જાણો છો? વિશ્વનો સૌથી મોટો પેનકેક ૪૯ ફૂટથી વધુ પહોળો હતો!", "hi": "क्या आप जानते हैं? दुनिया का सबसे बड़ा पैनकेक 49 फीट से अधिक चौड़ा था!"}'::jsonb, 
+  'matching', 
+  true, 
+  14
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM PIZZA
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'pizza', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Pizza", "gu": "પિઝા", "hi": "पिज़्ज़ा"}'::jsonb, 
+  '/assets/images/food_drink/pizza.png', 
+  '{"en": "This is a Pizza. Pizza is a flat round bread topped with cheese and tomato sauce.", "gu": "આ પિઝા છે. પિઝા એ ચીઝ અને ટામેટાની ચટણી સાથેનો એક ગોળ સપાટ બ્રેડ છે.", "hi": "यह पिज़्ज़ा है। पिज़्ज़ा पनीर और टमाटर की चटनी के साथ एक गोल चपटा ब्रेड होता है।"}'::jsonb, 
+  '{"en": "Pizza is baked in a very hot oven. We can add toppings like olives, corn, or mushrooms. It is cut into slices to eat.", "gu": "પિઝા ખૂબ જ ગરમ ઓવનમાં બેક કરવામાં આવે છે. આપણે તેના પર ઓલિવ, મકાઈ અથવા મશરૂમ જેવા ટોપિંગ્સ ઉમેરી શકીએ છીએ. તેને ટુકડા કરીને ખાવામાં આવે છે.", "hi": "पिज़्ज़ा को बहुत गर्म ओवन में बेक किया जाता है। हम इस पर जैतून, मक्का या मशरूम जैसी टॉपिंग डाल सकते हैं। इसके टुकड़े करके खाया जाता है।"}'::jsonb, 
+  '{"en": "Did you know? The first pizza was created in Italy over 1,000 years ago!", "gu": "શું તમે જાણો છો? પ્રથમ પિઝા ૧,૦૦૦ વર્ષ પહેલાં ઇટાલીમાં બનાવવામાં આવ્યો હતો!", "hi": "क्या आप जानते हैं? पहला पिज़्ज़ा 1,000 साल पहले इटली में बनाया गया था!"}'::jsonb, 
+  'matching', 
+  true, 
+  15
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM SANDWICH
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'sandwich', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Sandwich", "gu": "સેન્ડવીચ", "hi": "सैंडविच"}'::jsonb, 
+  '/assets/images/food_drink/sandwich.png', 
+  '{"en": "This is a Sandwich. Sandwiches are made of fillings between two slices of bread.", "gu": "આ સેન્ડવીચ છે. સેન્ડવીચ બ્રેડના બે ટુકડા વચ્ચે વિવિધ સામગ્રી ભરીને બનાવવામાં આવે છે.", "hi": "यह सैंडविच है। सैंडविच ब्रेड के दो टुकड़ों के बीच विभिन्न सामग्रियां भरकर बनाया जाता है।"}'::jsonb, 
+  '{"en": "We can put cheese, vegetables, or jam inside a sandwich. It is easy to carry for school lunches and picnics.", "gu": "આપણે સેન્ડવીચની અંદર ચીઝ, શાકભાજી અથવા જામ ઉમેરી શકીએ છીએ. તેને શાળાના ડબ્બા કે પિકનિક માટે લઈ જવું સરળ છે.", "hi": "हम सैंडविच के अंदर पनीर, सब्जियां या जैम डाल सकते हैं। इसे स्कूल के डिब्बे या पिकनिक के लिए ले जाना आसान है।"}'::jsonb, 
+  '{"en": "Did you know? The sandwich was named after the Earl of Sandwich, who wanted a meal he could eat with one hand while playing cards!", "gu": "શું તમે જાણો છો? સેન્ડવીચનું નામ અર્લ ઓફ સેન્ડવીચના નામ પરથી પડ્યું છે, જે પત્તા રમતી વખતે એક હાથે ખાઈ શકે તેવી વાનગી ઈચ્છતા હતા!", "hi": "क्या आप जानते हैं? सैंडविच का नाम अर्ल ऑफ सैंडविच के नाम पर रखा गया था, जो ताश खेलते समय एक हाथ से खाने योग्य भोजन चाहते थे!"}'::jsonb, 
+  'matching', 
+  true, 
+  16
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM SOUP
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'soup', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Soup", "gu": "સૂપ", "hi": "सूप"}'::jsonb, 
+  '/assets/images/food_drink/soup.png', 
+  '{"en": "This is Soup. Soup is a warm, liquid food made by boiling vegetables or meat in water.", "gu": "આ સૂપ છે. સૂપ એ શાકભાજી કે માંસને પાણીમાં ઉકાળીને બનાવેલો ગરમ, પ્રવાહી ખોરાક છે.", "hi": "यह सूप है। सूप सब्जियों या मांस को पानी में उबालकर बनाया जाने वाला गर्म, तरल भोजन है।"}'::jsonb, 
+  '{"en": "Soup is very cozy to eat when it is cold outside or when we feel sick. It is full of healthy vitamins.", "gu": "જ્યારે બહાર ઠંડી હોય અથવા આપણે બીમાર હોઈએ ત્યારે ગરમ સૂપ પીવો ખૂબ આરામદાયક લાગે છે. તે વિટામિન્સથી ભરપૂર હોય છે.", "hi": "जब बाहर ठंड हो या हम बीमार महसूस कर रहे हों, तब गर्म सूप पीना बहुत आरामदायक होता है। यह विटामिन से भरपूर होता है।"}'::jsonb, 
+  '{"en": "Did you know? People have been eating soup for over 20,000 years!", "gu": "શું તમે જાણો છો? લોકો ૨૦,૦૦૦ વર્ષથી વધુ સમયથી સૂપ પી રહ્યા છે!", "hi": "क्या आप जानते हैं? लोग 20,000 से अधिक वर्षों से सूप पी रहे हैं!"}'::jsonb, 
+  'matching', 
+  true, 
+  17
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM SPAGHETTI
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'spaghetti', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Spaghetti", "gu": "સ્પાઘેટ્ટી", "hi": "स्पेगेटी"}'::jsonb, 
+  '/assets/images/food_drink/spaghetti.png', 
+  '{"en": "This is Spaghetti. Spaghetti is long, thin pasta noodles that we twirl on a fork.", "gu": "આ સ્પાઘેટ્ટી છે. સ્પાઘેટ્ટી એ લાંબી, પાતળી પાસ્તા નૂડલ્સ છે જેને આપણે કાંટા ચમચી વડે ગોળ ફેરવીએ છીએ.", "hi": "यह स्पेगेटी है। स्पेगेटी लंबी, पतली पास्ता नूडल्स होती हैं जिन्हें हम कांटेदार चम्मच से घुमाते हैं।"}'::jsonb, 
+  '{"en": "Spaghetti is boiled in water and served with yummy tomato sauce and cheese. It is a popular Italian dish.", "gu": "સ્પાઘેટ્ટી પાણીમાં ઉકાળવામાં આવે છે અને સ્વાદિષ્ટ ટામેટાની ચટણી તથા ચીઝ સાથે પીરસવામાં આવે છે. તે ઇટાલીની લોકપ્રિય વાનગી છે.", "hi": "स्पेगेटी को पानी में उबाला जाता है और स्वादिष्ट टमाटर की चटनी तथा पनीर के साथ परोसा जाता है। यह इटली का एक लोकप्रिय व्यंजन है।"}'::jsonb, 
+  '{"en": "Did you know? In Italy, spaghetti is eaten with only a fork, never with a spoon!", "gu": "શું તમે જાણો છો? ઇટાલીમાં, સ્પાઘેટ્ટી ફક્ત કાંટા ચમચીથી જ ખવાય છે, ક્યારેય સાદી ચમચીથી નહીં!", "hi": "क्या आप जानते हैं? इटली में स्पेगेटी केवल कांटेदार चम्मच से ही खाई जाती है, चम्मच से कभी नहीं!"}'::jsonb, 
+  'matching', 
+  true, 
+  18
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM WATER
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'water', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Water", "gu": "પાણી", "hi": "पानी"}'::jsonb, 
+  '/assets/images/food_drink/water.png', 
+  '{"en": "This is Water. Water is the most important drink for all living things.", "gu": "આ પાણી છે. પાણી એ તમામ સજીવો માટેનું સૌથી મહત્વનું પીણું છે.", "hi": "यह पानी है। पानी सभी जीवित चीजों के लिए सबसे महत्वपूर्ण पेय है।"}'::jsonb, 
+  '{"en": "We need to drink water every day to stay active and healthy. Plants and animals also need water to live.", "gu": "સક્રિય અને સ્વસ્થ રહેવા માટે આપણે દરરોજ પાણી પીવું જરૂરી છે. છોડ અને પ્રાણીઓને પણ જીવવા માટે પાણીની જરૂર પડે છે.", "hi": "सक्रिय और स्वस्थ रहने के लिए हमें हर दिन पानी पीने की आवश्यकता होती है। पौधों और जानवरों को भी जीवित रहने के लिए पानी की आवश्यकता होती है।"}'::jsonb, 
+  '{"en": "Did you know? More than half of our body is actually made of water!", "gu": "શું તમે જાણો છો? આપણા શરીરનો અડધાથી વધુ ભાગ વાસ્તવમાં પાણીથી બનેલો છે!", "hi": "क्या आप जानते हैं? हमारे शरीर का आधे से अधिक भाग वास्तव में पानी से बना है!"}'::jsonb, 
+  'matching', 
+  true, 
+  19
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;
+
+-- ITEM YOGURT
+INSERT INTO public.food_drink 
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
+VALUES (
+  'yogurt', 
+  (SELECT id FROM categories WHERE category_key = 'food_drink' LIMIT 1), 
+  '{"en": "Yogurt", "gu": "દહીં", "hi": "दही (योगर्ट)"}'::jsonb, 
+  '/assets/images/food_drink/yogurt.png', 
+  '{"en": "This is Yogurt. Yogurt is a creamy and healthy food made from milk.", "gu": "આ દહીં (યોગર્ટ) છે. દહીં એ દૂધમાંથી બનેલો એક ક્રીમી અને પૌષ્ટિક ખોરાક છે.", "hi": "यह दही है। दही दूध से बना एक मलाईदार और पौष्टिक भोजन है।"}'::jsonb, 
+  '{"en": "Yogurt is full of good bacteria that help our stomach digest food. It can be sweet and flavored with fruits like strawberry or mango.", "gu": "દહીં સારા બેક્ટેરિયાથી ભરપૂર હોય છે જે આપણા પેટને ખોરાક પચાવવામાં મદદ કરે છે. તે સ્ટ્રોબેરી કે કેરી જેવા ફળો સાથે મીઠું અને ફ્લેવરવાળું હોઈ શકે છે.", "hi": "दही में अच्छे बैक्टीरिया होते हैं जो हमारे पेट को खाना पचाने में मदद करते हैं। यह स्ट्रॉबेरी या आम जैसे फलों के स्वाद वाला मीठा हो सकता है।"}'::jsonb, 
+  '{"en": "Did you know? Yogurt has been eaten for over 7,000 years, starting in ancient Central Asia!", "gu": "શું તમે જાણો છો? મધ્ય એશિયામાં લગભગ ૭,૦૦૦ વર્ષ પહેલાંથી દહીં ખાવામાં આવી રહ્યું છે!", "hi": "क्या आप जानते हैं? मध्य एशिया में लगभग 7,000 साल पहले से दही खाया जा रहा है!"}'::jsonb, 
+  'matching', 
+  true, 
+  20
+)
+ON CONFLICT (topic_key) DO UPDATE SET
+  category_id = EXCLUDED.category_id,
+  name = EXCLUDED.name,
+  image_path = EXCLUDED.image_path,
+  narration = EXCLUDED.narration,
+  explanation = EXCLUDED.explanation,
+  fact = EXCLUDED.fact,
+  display_order = EXCLUDED.display_order;

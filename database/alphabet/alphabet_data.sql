@@ -1,39 +1,9 @@
--- 1. Update cover image paths in categories table
-UPDATE categories
-SET image_path =
-CASE category_key
-    WHEN 'alphabet' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/alphabet.png'
-    WHEN 'colors' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/color.png'
-    WHEN 'numbers' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/numbers.png'
-    WHEN 'shapes' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/shapes.png'
-    WHEN 'animals' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/animals.png'
-    WHEN 'sports' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/sports.png'
-    WHEN 'vehicles' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/vehicles.png'
-    WHEN 'space' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/space.png'
-    WHEN 'countries' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/countries.png'
-    WHEN 'science' THEN 'https://pdhqylmzjdkvdbnezwhq.supabase.co/storage/v1/object/public/assets/covers/science.png'
-END
-WHERE category_key IN (
-    'alphabet',
-    'colors',
-    'numbers',
-    'shapes',
-    'animals',
-    'sports',
-    'vehicles',
-    'space',
-    'countries',
-    'science'
-);
-
-
--- 2. Create alphabet table and index
-CREATE TABLE IF NOT EXISTS public.alphabet (
+-- 1. Create alphabet table and index
+create table public.alphabet (
   id bigint generated always as identity not null,
   topic_key text not null,
   category_id bigint null,
   name jsonb not null default '{}'::jsonb,
-  svg_path text null,
   image_path text null,
   lottie_path text null,
   narration jsonb not null default '{}'::jsonb,
@@ -47,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.alphabet (
   constraint alphabet_category_id_fkey foreign KEY (category_id) references categories (id) on delete CASCADE
 ) TABLESPACE pg_default;
 
-CREATE INDEX IF NOT EXISTS idx_alphabet_topic_key on public.alphabet using btree (topic_key) TABLESPACE pg_default;
+create index IF not exists idx_alphabet_topic_key on public.alphabet using btree (topic_key) TABLESPACE pg_default;
 
 -- Disable Row Level Security (RLS) to fix private table access issues
 ALTER TABLE public.alphabet DISABLE ROW LEVEL SECURITY;
@@ -57,16 +27,15 @@ GRANT ALL ON public.alphabet TO anon;
 GRANT ALL ON public.alphabet TO authenticated;
 GRANT ALL ON public.alphabet TO service_role;
 
-
--- 3. Populate alphabet table with 26 letters data
+-- 2. Populate alphabet table with 26 letters data
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'a', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "A", "gu": "A", "hi": "A"}'::jsonb, 
-  '/assets/alphabets/a.svg', 
+  '/assets/images/alphabet/a.png', 
   '{"en": "A is for Apple! Apples are sweet and crunchy fruits.", "gu": "એ એટલે એપલ! સફરજન મીઠા અને ક્રન્ચી ફળ છે.", "hi": "ए से एप्पल! सेब मीठे और कुरकुरे फल होते हैं।"}'::jsonb, 
   '{"en": "Apples grow on trees and can be red, green, or yellow! They are very healthy for you.", "gu": "સફરજન ઝાડ પર ઉગે છે અને તે લાલ, લીલા કે પીળા હોઈ શકે છે! તે તમારા સ્વાસ્થ્ય માટે ખૂબ સારા છે.", "hi": "सेब पेड़ों पर उगते हैं और लाल, हरे या पीले हो सकते हैं! वे आपके स्वास्थ्य के लिए बहुत अच्छे हैं।"}'::jsonb, 
   '{"en": "Did you know? An apple tree can live for more than 100 years!", "gu": "શું તમે જાણો છો? સફરજનનું ઝાડ ૧૦૦ વર્ષથી વધુ જીવી શકે છે!", "hi": "क्या आपको पता है? सेब का पेड़ 100 साल से अधिक समय तक जीवित रह सकता है!"}'::jsonb, 
@@ -77,19 +46,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'b', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "B", "gu": "B", "hi": "B"}'::jsonb, 
-  '/assets/alphabets/b.svg', 
+  '/assets/images/alphabet/b.png', 
   '{"en": "B is for Ball! Balls are round and fun to bounce and play with.", "gu": "બી એટલે બોલ! દડા ગોળ હોય છે અને ઉછળવા અને રમવા માટે મજાના હોય છે.", "hi": "बी से बॉल! गेंदें गोल होती हैं और उछालने और खेलने में मजेदार होती हैं।"}'::jsonb, 
   '{"en": "We use balls to play games like soccer, basketball, and tennis with our friends!", "gu": "આપણે મિત્રો સાથે ફૂટબોલ, બાસ્કેટબોલ અને ટેનિસ જેવી રમતો રમવા માટે દડાનો ઉપયોગ કરીએ છીએ!", "hi": "हम अपने दोस्तों के साथ फुटबॉल, बास्केटबॉल और टेनिस जैसे खेल खेलने के लिए गेंदों का उपयोग करते हैं!"}'::jsonb, 
   '{"en": "Did you know? The oldest game played with a ball was invented over 3,000 years ago!", "gu": "શું તમે જાણો છો? દડા સાથે રમાતી સૌથી જૂની રમત ૩,૦૦૦ વર્ષ પહેલાં શોધાઈ હતી!", "hi": "क्या आपको पता है? गेंद से खेला जाने वाला सबसे पुराना खेल 3,000 साल से भी पहले आविष्कृत हुआ था!"}'::jsonb, 
@@ -100,19 +69,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'c', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "C", "gu": "C", "hi": "C"}'::jsonb, 
-  '/assets/alphabets/c.svg', 
+  '/assets/images/alphabet/c.png', 
   '{"en": "C is for Cat! Cats are cute pets that love to purr and play.", "gu": "સી એટલે કેટ! બિલાડીઓ સુંદર પાળતુ પ્રાણી છે જેને મ્યાઉં કરવું અને રમવું ગમે છે.", "hi": "सी से कैट! बिल्लियां प्यारे पालतू जानवर हैं जिन्हें म्याऊं करना और खेलना पसंद है।"}'::jsonb, 
   '{"en": "Cats have soft fur, long whiskers, and are very good at jumping and climbing!", "gu": "બિલાડીઓને નરમ રૂંવાટી, લાંબી મૂછો હોય છે અને તે કૂદવામાં અને ચઢવામાં ખૂબ જ કુશળ હોય છે!", "hi": "बिल्लियों के पास मुलायम फर, लंबी मूंछें होती हैं, और वे कूदने और चढ़ने में बहुत अच्छी होती हैं!"}'::jsonb, 
   '{"en": "Did you know? Cats can make over 100 different sounds, while dogs can only make about 10!", "gu": "શું તમે જાણો છો? બિલાડીઓ ૧૦૦ થી વધુ વિવિધ અવાજો કરી શકે છે, જ્યારે કૂતરા ફક્ત ૧૦ કરી શકે છે!", "hi": "क्या आपको पता है? बिल्लियां 100 से अधिक विभिन्न आवाजें निकाल सकती हैं, जबकि कुत्ते केवल 10 के करीब!"}'::jsonb, 
@@ -123,19 +92,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'd', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "D", "gu": "D", "hi": "D"}'::jsonb, 
-  '/assets/alphabets/d.svg', 
+  '/assets/images/alphabet/d.png', 
   '{"en": "D is for Dog! Dogs are loyal pets that love to wag their tails.", "gu": "ડી એટલે ડોગ! કૂતરા વફાદાર પાળતુ પ્રાણી છે જેમને પૂંછડી પટપટાવવી ગમે છે.", "hi": "डी से डॉग! कुत्ते वफादार पालतू जानवर हैं जिन्हें अपनी पूंछ हिलाना पसंद है।"}'::jsonb, 
   '{"en": "Dogs have a great sense of smell and love to play fetch and go for walks!", "gu": "કૂતરાઓની સૂંઘવાની શક્તિ અદ્ભુત હોય છે અને તેમને વસ્તુઓ પકડવી અને ફરવા જવું ગમે છે!", "hi": "कुत्तों के पास सूंघने की बेहतरीन शक्ति होती है और उन्हें चीजें पकड़ना और टहलना बहुत पसंद होता है!"}'::jsonb, 
   '{"en": "Did you know? Dogs can understand up to 250 words and gestures, making them very smart!", "gu": "શું તમે જાણો છો? કૂતરા ૨૫૦ જેટલા શબ્દો અને ઈશારા સમજી શકે છે, જે તેમને ખૂબ સ્માર્ટ બનાવે છે!", "hi": "क्या आपको पता है? कुत्ते 250 शब्दों और इशारों को समझ सकते हैं, जिससे वे बहुत समझदार होते हैं!"}'::jsonb, 
@@ -146,19 +115,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'e', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "E", "gu": "E", "hi": "E"}'::jsonb, 
-  '/assets/alphabets/e.svg', 
+  '/assets/images/alphabet/e.png', 
   '{"en": "E is for Elephant! Elephants are the largest land animals.", "gu": "ઇ એટલે એલિફન્ટ! હાથી જમીન પરના સૌથી મોટા પ્રાણીઓ છે.", "hi": "ई से एलीफेंट! हाथी जमीन पर रहने वाले सबसे बड़े जानवर हैं।"}'::jsonb, 
   '{"en": "They have long trunks for breathing and spraying water, and very big ears!", "gu": "તેમની પાસે શ્વાસ લેવા અને પાણી છાંટવા માટે લાંબી સૂંઢ અને ખૂબ મોટા કાન હોય છે!", "hi": "उनके पास सांस लेने और पानी छिड़कने के लिए लंबी सूंड होती है, और बहुत बड़े कान होते हैं!"}'::jsonb, 
   '{"en": "Did you know? Elephants can swim! They use their trunks like snorkels in deep water.", "gu": "શું તમે જાણો છો? હાથીઓ તરી શકે છે! તેઓ ઊંડા પાણીમાં તેમની સૂંઢનો ઉપયોગ શ્વાસ લેવા માટે કરે છે.", "hi": "क्या आपको पता है? हाथी तैर सकते हैं! वे गहरे पानी में सांस लेने के लिए अपनी सूंड का इस्तेमाल करते हैं।"}'::jsonb, 
@@ -169,19 +138,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'f', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "F", "gu": "F", "hi": "F"}'::jsonb, 
-  '/assets/alphabets/f.svg', 
+  '/assets/images/alphabet/f.png', 
   '{"en": "F is for Fish! Fish live underwater and swim with their fins.", "gu": "એફ એટલે ફિશ! માછલીઓ પાણીની નીચે રહે છે અને તેમના મીનપક્ષોથી તરે છે.", "hi": "एफ से फिश! मछलियां पानी के नीचे रहती हैं और अपने पंखों से तैरती हैं।"}'::jsonb, 
   '{"en": "Fish breathe underwater using gills and come in many bright, beautiful colors!", "gu": "માછલીઓ ઝાલરની મદદથી પાણીની અંદર શ્વાસ લે છે અને તે ઘણા તેજસ્વી, સુંદર રંગોમાં આવે છે!", "hi": "मछलियां गलफड़ों का उपयोग करके पानी के भीतर सांस लेती हैं और कई चमकीले, सुंदर रंगों में आती हैं!"}'::jsonb, 
   '{"en": "Did you know? Some fish, like goldfish, can remember things for up to five months!", "gu": "શું તમે જાણો છો? ગોલ્ડફિશ જેવી કેટલીક માછલીઓ પાંચ મહિના સુધી વસ્તુઓ યાદ રાખી શકે છે!", "hi": "क्या आपको पता है? कुछ मछलियां, जैसे गोल्डफिश, पांच महीने तक चीजें याद रख सकती हैं!"}'::jsonb, 
@@ -192,22 +161,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'g', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "G", "gu": "G", "hi": "G"}'::jsonb, 
-  '/assets/alphabets/g.svg', 
-  '{"en": "G is for Grapes! Grapes are sweet, juicy berries that grow in bunches.", "gu": "જી એટલે ગ્રેપ્સ! દ્રાક્ષ મીઠી, રસદાર બેરી છે જે ઝુમખામાં ઉગે છે.", "hi": "जी से ग्रेप्स! अंगूर मीठे, रसीले फल हैं जो गुच्छों में उगते हैं।"}'::jsonb, 
-  '{"en": "Grapes can be green, red, or purple. They are delicious and healthy to eat!", "gu": "દ્રાક્ષ લીલી, લાલ કે જાંબલી હોઈ શકે છે. તે ખાવામાં સ્વાદિષ્ટ અને આરોગ્યપ્રદ છે!", "hi": "अंगूर हरे, लाल या बैंगनी हो सकते हैं। वे खाने में स्वादिष्ट और स्वास्थ्यवर्धक होते हैं!"}'::jsonb, 
-  '{"en": "Did you know? Grapes are actually botanical berries, and about 8,000 grapes make a bottle of juice!", "gu": "શું તમે જાણો છો? દ્રાક્ષ વાસ્તવમાં બેરી છે, અને જ્યુસની એક બોટલ બનાવવા માટે લગભગ ૮,૦૦૦ દ્રાક્ષની જરૂર પડે છે!", "hi": "क्या आपको पता है? अंगूर वास्तव में बेरी हैं, और रस की एक बोतल बनाने के लिए लगभग 8,000 अंगूरों की आवश्यकता होती है!"}'::jsonb, 
+  '/assets/images/alphabet/g.png', 
+  '{"en": "G is for Giraffe! Giraffes are the tallest animals in the world.", "gu": "જી એટલે જીરાફ! જીરાફ એ દુનિયાના સૌથી ઊંચા પ્રાણીઓ છે.", "hi": "जी से जिराफ़! जिराफ़ दुनिया के सबसे ऊंचे जानवर होते हैं।"}'::jsonb, 
+  '{"en": "They have very long necks to reach green leaves at the tops of tall trees, and long legs to run fast!", "gu": "ઊંચા ઝાડની ટોચ પરના લીલા પાંદડા સુધી પહોંચવા માટે તેમની પાસે ખૂબ જ લાંબી ગરદન અને ઝડપથી દોડવા માટે લાંબા પગ હોય છે!", "hi": "ऊंचे पेड़ों की चोटी पर हरी पत्तियों तक पहुँचने के लिए उनके पास बहुत लंबी गर्दन और तेज़ दौड़ने के लिए लंबे पैर होते हैं!"}'::jsonb, 
+  '{"en": "Did you know? A giraffe''s neck has only seven bones, which is the exact same number as a human neck!", "gu": "શું તમે જાણો છો? જીરાફની ગરદનમાં માત્ર સાત જ હાડકાં હોય છે, જે મનુષ્યની ગરદનના હાડકાંની બરાબર જ સંખ્યા છે!", "hi": "क्या आपको पता है? जिराफ़ की गर्दन में केवल सात हड्डियाँ होती हैं, जो कि इंसान की गर्दन की हड्डियों की संख्या के बिल्कुल बराबर है!"}'::jsonb, 
   'memory', 
   true, 
   7
@@ -215,22 +184,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'h', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "H", "gu": "H", "hi": "H"}'::jsonb, 
-  '/assets/alphabets/h.svg', 
-  '{"en": "H is for Hat! Hats are worn on our heads to keep us warm or block the sun.", "gu": "એચ એટલે હેટ! હેટ માથા પર પહેરવામાં આવે છે જેથી આપણને ગરમી મળે અથવા સૂર્ય રોકી શકાય.", "hi": "एच से हैट! टोपी हमारे सिर पर पहनी जाती है ताकि हमें गर्मी मिले या धूप से बचाया जा सके।"}'::jsonb, 
-  '{"en": "Hats come in many styles, like baseball caps, sun hats, and warm beanies!", "gu": "ટોપીઓ ઘણી શૈલીઓમાં આવે છે, જેમ કે બેઝબોલ કેપ્સ, સન હેટ્સ અને ગરમ ટોપીઓ!", "hi": "टोपियां कई शैलियों में आती हैं, जैसे बेसबॉल कैप, धूप से बचाने वाली टोपियां और गर्म ऊनी टोपियां!"}'::jsonb, 
-  '{"en": "Did you know? The earliest known hat was worn by a bronze-age man found frozen in a glacier!", "gu": "શું તમે જાણો છો? જાણીતી સૌથી જૂની ટોપી ગ્લેશિયરમાં થીજી ગયેલા બ્રોન્ઝ યુગના માણસે પહેરી હતી!", "hi": "क्या आपको पता है? सबसे पहले ज्ञात टोपी एक कांस्य युग के व्यक्ति द्वारा पहनी गई थी जो ग्लेशियर में जमे मिले थे!"}'::jsonb, 
+  '/assets/images/alphabet/h.png', 
+  '{"en": "H is for Horse! Horses are strong animals that we can ride.", "gu": "એચ એટલે ઘોડો! ઘોડા મજબૂત પ્રાણીઓ છે જેના પર આપણે સવારી કરી શકીએ છીએ.", "hi": "एच से घोड़ा! घोड़े मजबूत जानवर होते हैं जिन पर हम सवारी कर सकते हैं।"}'::jsonb, 
+  '{"en": "Horses live in stables, eat hay and grass, and can run very fast on their hooves.", "gu": "ઘોડા તબેલામાં રહે છે, ઘાસ અને સૂકું ઘાસ ખાય છે, અને તેમની ખરીઓ (નખ) પર ખૂબ જ ઝડપથી દોડી શકે છે.", "hi": "घोड़े अस्तबल में रहते हैं, घास और भूसा खाते हैं, और अपने खुरों पर बहुत तेज़ दौड़ सकते हैं।"}'::jsonb, 
+  '{"en": "Did you know? Horses can sleep both lying down and standing up!", "gu": "શું તમે જાણો છો? ઘોડા સૂતા અને ઊભા રહીને બંને રીતે સૂઈ શકે છે!", "hi": "क्या आपको पता है? घोड़े लेटकर और खड़े होकर दोनों तरह से सो सकते हैं!"}'::jsonb, 
   'memory', 
   true, 
   8
@@ -238,22 +207,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'i', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "I", "gu": "I", "hi": "I"}'::jsonb, 
-  '/assets/alphabets/i.svg', 
-  '{"en": "I is for Ice Cream! Ice cream is a cold, sweet, and delicious treat.", "gu": "આઈ એટલે આઈસ્ક્રીમ! આઈસ્ક્રીમ એક ઠંડી, મીઠી અને સ્વાદિષ્ટ મીઠાઈ છે.", "hi": "आई से आइसक्रीम! आइसक्रीम एक ठंडी, मीठी और स्वादिष्ट मिठाई है।"}'::jsonb, 
-  '{"en": "It comes in many flavors like chocolate, vanilla, strawberry, and mango!", "gu": "તે ચોકલેટ, વેનીલા, સ્ટ્રોબેરી અને મેંગો જેવા ઘણા સ્વાદોમાં આવે છે!", "hi": "यह चॉकलेट, वेनिला, स्ट्रॉबेरी और आम जैसे कई स्वादों में आती है!"}'::jsonb, 
-  '{"en": "Did you know? The tallest ice cream cone ever made was over 9 feet tall in Italy!", "gu": "શું તમે જાણો છો? ઇટાલીમાં બનેલો અત્યાર સુધીનો સૌથી ઊંચો આઇસક્રીમ કોન ૯ ફૂટથી વધુ ઊંચો હતો!", "hi": "क्या आपको पता है? इटली में बना अब तक का सबसे ऊंचा आइसक्रीम कोन 9 फीट से ज्यादा ऊंचा था!"}'::jsonb, 
+  '/assets/images/alphabet/i.png', 
+  '{"en": "I is for Igloo! An igloo is a round house built from blocks of snow.", "gu": "આઈ એટલે ઇગ્લૂ! ઇગ્લૂ એ બરફના ચોસલામાંથી બનેલું ગોળાકાર ઘર છે.", "hi": "आई से इग्लू! इग्लू बर्फ के टुकड़ों से बना एक गोल घर होता है।"}'::jsonb, 
+  '{"en": "It is built in cold, snowy places. The snow blocks trap warm air inside to keep people warm!", "gu": "તે ઠંડા, બરફીલા સ્થળોએ બનાવવામાં આવે છે. બરફના ચોસલા અંદરની ગરમ હવાને પકડી રાખે છે જેથી લોકોને ગરમી મળે!", "hi": "यह ठंडी, बर्फीली जगहों पर बनाया जाता है। बर्फ के टुकड़े अंदर की गर्म हवा को रोकते हैं जिससे लोग गर्म रहें!"}'::jsonb, 
+  '{"en": "Did you know? The temperature inside an igloo can be up to 40 degrees warmer than the freezing air outside!", "gu": "શું તમે જાણો છો? ઇગ્લૂની અંદરનું તાપમાન બહારની થીજી જતી હવા કરતાં ૪૦ ડિગ્રી જેટલું ગરમ હોઈ શકે છે!", "hi": "क्या आपको पता है? इग्लू के अंदर का तापमान बाहर की ठंडी हवा की तुलना में 40 डिग्री तक अधिक गर्म हो सकता है!"}'::jsonb, 
   'memory', 
   true, 
   9
@@ -261,22 +230,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'j', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "J", "gu": "J", "hi": "J"}'::jsonb, 
-  '/assets/alphabets/j.svg', 
-  '{"en": "J is for Jellyfish! Jellyfish are transparent animals that drift in the ocean.", "gu": "જે એટલે જેલીફિશ! જેલીફિશ પારદર્શક પ્રાણીઓ છે જે સમુદ્રમાં તરે છે.", "hi": "जे से जेलीफिश! जेलीफिश पारदर्शी जानवर हैं जो समुद्र में बहते हैं।"}'::jsonb, 
-  '{"en": "They have soft, jelly-like bodies and long tentacles that flow in the water!", "gu": "તેમની પાસે નરમ, જેલી જેવા શરીર અને લાંબા સ્પર્શકો હોય છે જે પાણીમાં વહે છે!", "hi": "उनके पास नरम, जेली जैसे शरीर और लंबे तंतु होते हैं जो पानी में तैरते हैं!"}'::jsonb, 
-  '{"en": "Did you know? Jellyfish have been swimming in oceans for over 500 million years, older than dinosaurs!", "gu": "શું તમે જાણો છો? જેલીફિશ ૫૦૦ મિલિયન વર્ષોથી સમુદ્રમાં તરી રહી છે, જે ડાયનાસોર કરતા પણ જૂની છે!", "hi": "क्या आपको पता है? जेलीफिश 50 करोड़ से अधिक वर्षों से समुद्र में तैर रही हैं, जो डायनासोर से भी पुरानी हैं!"}'::jsonb, 
+  '/assets/images/alphabet/j.png', 
+  '{"en": "J is for Jug! A jug is a container used for holding and pouring liquids.", "gu": "જે એટલે જગ! જગ એ પ્રવાહી ભરવા અને રેડવા માટે વપરાતું એક વાસણ છે.", "hi": "जे से जग! जग तरल पदार्थ रखने और डालने के लिए इस्तेमाल किया जाने वाला एक बर्तन है।"}'::jsonb, 
+  '{"en": "A jug has a handle and a spout to pour water, milk, or juice into cups easily.", "gu": "જગમાં હેન્ડલ અને નળી હોય છે જેથી પાણી, દૂધ કે જ્યુસને કપમાં સરળતાથી રેડી શકાય.", "hi": "जग में एक हैंडल और एक पाइप होता है जिससे पानी, दूध या रस को कप में आसानी से डाला जा सके।"}'::jsonb, 
+  '{"en": "Did you know? In ancient times, jugs were made of clay and decorated with beautiful patterns!", "gu": "શું તમે જાણો છો? પ્રાચીન સમયમાં, જગ માટીના બનેલા હતા અને સુંદર ભાતથી શણગારવામાં આવતા હતા!", "hi": "क्या आपको पता है? प्राचीन काल में, जग मिट्टी के बने होते थे और सुंदर डिजाइनों से सजाए जाते थे!"}'::jsonb, 
   'memory', 
   true, 
   10
@@ -284,22 +253,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'k', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "K", "gu": "K", "hi": "K"}'::jsonb, 
-  '/assets/alphabets/k.svg', 
-  '{"en": "K is for Kite! Kites are colorful toys that fly high in the windy sky.", "gu": "કે એટલે કાઈટ! પતંગ રંગબેરંગી રમકડાં છે જે પવનવાળા આકાશમાં ઊંચે ઉડે છે.", "hi": "के से काइट! पतंग रंग-बिरंगे खिलौने हैं जो हवादार आसमान में ऊंचे उड़ते हैं।"}'::jsonb, 
-  '{"en": "We hold onto a string and watch the wind lift the kite high above the trees!", "gu": "આપણે દોરી પકડી રાખીએ છીએ અને પવન પતંગને વૃક્ષોથી ઉપર હવામાં ઉંચકે તે જોઈએ છીએ!", "hi": "हम एक धागे को पकड़ते हैं और हवा को पतंग को पेड़ों के ऊपर ऊंचा उठाते हुए देखते हैं!"}'::jsonb, 
-  '{"en": "Did you know? Kites were invented in China over 2,000 years ago, originally used for military signals!", "gu": "શું તમે જાણો છો? પતંગોની શોધ ૨,૦૦૦ વર્ષ પહેલાં ચીનમાં થઈ હતી, જે મૂળ સૈન્ય સંકેતો માટે વપરાતી હતી!", "hi": "क्या आपको पता है? पतंगों का आविष्कार 2,000 साल से भी पहले चीन में हुआ था, मूल रूप से सैन्य संकेतों के लिए!"}'::jsonb, 
+  '/assets/images/alphabet/k.png', 
+  '{"en": "K is for Kangaroo! Kangaroos are hopping animals with a pouch.", "gu": "કે એટલે કાંગારુ! કાંગારુ એ એક કોથળી ધરાવતું કૂદતું પ્રાણી છે.", "hi": "के से कंगारू! कंगारू थैली वाले कूदने वाले जानवर होते हैं।"}'::jsonb, 
+  '{"en": "They use their strong back legs to hop very high, and mother kangaroos carry their babies in a pouch on their bellies!", "gu": "તેઓ ખૂબ ઊંચા કૂદવા માટે તેમના પાછળના મજબૂત પગનો ઉપયોગ કરે છે, અને માદા કાંગારુ તેમના બચ્ચાને તેમના પેટ પરની કોથળીમાં રાખે છે!", "hi": "वे बहुत ऊंची छलांग लगाने के लिए अपने पिछले मजबूत पैरों का उपयोग करते हैं, और मादा कंगारू अपने बच्चों को अपने पेट पर बनी थैली में रखती हैं!"}'::jsonb, 
+  '{"en": "Did you know? Baby kangaroos are called joeys, and when they are born, they are only about the size of a jellybean!", "gu": "શું તમે જાણો છો? કાંગારુના બચ્ચાને ''જોઈ'' કહેવામાં આવે છે, અને જ્યારે તેઓ જન્મે છે ત્યારે તેઓ માત્ર એક જેલીબીન જેટલા કદના હોય છે!", "hi": "क्या आपको पता है? कंगारू के बच्चों को ''जोई'' कहा जाता है, और जब वे पैदा होते हैं, तो वे केवल एक जेलीबीन के आकार के होते हैं!"}'::jsonb, 
   'memory', 
   true, 
   11
@@ -307,22 +276,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'l', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "L", "gu": "L", "hi": "L"}'::jsonb, 
-  '/assets/alphabets/l.svg', 
-  '{"en": "L is for Leaf! Leaves grow on trees and plants to help them breathe.", "gu": "એલ એટલે લીફ! પાંદડા વૃક્ષો અને છોડ પર ઉગે છે જેથી તેમને શ્વાસ લેવામાં મદદ મળે.", "hi": "एल से लीफ! पत्तियां पेड़ों और पौधों पर उगती हैं ताकि उन्हें सांस लेने में मदद मिल सके।"}'::jsonb, 
-  '{"en": "Leaves are green in summer and turn yellow, orange, and red in autumn!", "gu": "પાંદડા ઉનાળામાં લીલા હોય છે અને પાનખરમાં પીળા, નારંગી અને લાલ થઈ જાય છે!", "hi": "पत्तियां गर्मियों में हरी होती हैं और पतझड़ में पीली, नारंगी और लाल हो जाती हैं!"}'::jsonb, 
-  '{"en": "Did you know? The giant water lily leaf can grow up to 8 feet wide and support a child''s weight!", "gu": "શું તમે જાણો છો? વિશાળ વોટર લીલીનું પાન ૮ ફૂટ પહોળું વધી શકે છે અને બાળકનું વજન સહન કરી શકે છે!", "hi": "क्या आपको पता है? विशाल वाटर लिली का पत्ता 8 फीट तक चौड़ा हो सकता है और बच्चे का वजन संभाल सकता है!"}'::jsonb, 
+  '/assets/images/alphabet/l.png', 
+  '{"en": "L is for Lion! Lions are known as the King of the Jungle.", "gu": "એલ એટલે સિંહ! સિંહને જંગલના રાજા તરીકે ઓળખવામાં આવે છે.", "hi": "एल से शेर! शेरों को जंगल के राजा के रूप में जाना जाता है।"}'::jsonb, 
+  '{"en": "Lions are big, strong wild cats with golden fur. Male lions have a beautiful circle of long hair around their neck called a mane.", "gu": "સિંહ એ સોનેરી રુવાંટીવાળી મોટી અને મજબૂત જંગલી બિલાડીઓ છે. નર સિંહની ગરદનની આસપાસ લાંબા વાળનું સુંદર વર્તુળ હોય છે જેને કેશવાળી કહે છે.", "hi": "शेर सुनहरे बालों वाली बड़ी और मजबूत जंगली बिल्लियां हैं। नर शेरों के गले के चारों ओर लंबे बालों का एक सुंदर घेरा होता है जिसे अयाल कहते हैं।"}'::jsonb, 
+  '{"en": "Did you know? A lion''s roar is so loud that it can be heard from five miles away!", "gu": "શું તમે જાણો છો? સિંહની ગર્જના એટલી મોટી હોય છે કે તેને પાંચ માઇલ દૂરથી પણ સાંભળી શકાય છે!", "hi": "क्या आपको पता है? शेर की दहाड़ इतनी तेज़ होती है कि इसे पाँच मील दूर से भी सुना जा सकता है!"}'::jsonb, 
   'memory', 
   true, 
   12
@@ -330,19 +299,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'm', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "M", "gu": "M", "hi": "M"}'::jsonb, 
-  '/assets/alphabets/m.svg', 
+  '/assets/images/alphabet/m.png', 
   '{"en": "M is for Monkey! Monkeys are playful animals that love to swing on trees.", "gu": "એમ એટલે મંકી! વાંદરાઓ તોફાની પ્રાણીઓ છે જેમને ઝાડ પર ઝૂલવું ગમે છે.", "hi": "एम से मंकी! बंदर चंचल जानवर हैं जिन्हें पेड़ों पर झूलना पसंद है।"}'::jsonb, 
   '{"en": "Monkeys use their long tails to balance and hold branches while searching for food!", "gu": "વાંદરાઓ ખોરાક શોધતી વખતે સંતુલન રાખવા અને ડાળીઓ પકડવા તેમની લાંબી પૂંછડીનો ઉપયોગ કરે છે!", "hi": "बंदर भोजन की तलाश करते समय संतुलन बनाने और शाखाओं को पकड़ने के लिए अपनी लंबी पूंछ का उपयोग करते हैं!"}'::jsonb, 
   '{"en": "Did you know? Monkeys can use tools, like rocks to crack open nuts, just like humans!", "gu": "શું તમે જાણો છો? વાંદરાઓ મનુષ્યની જેમ જ નટ્સ તોડવા માટે પથ્થર જેવા સાધનોનો ઉપયોગ કરી શકે છે!", "hi": "क्या आपको पता है? बंदर इंसानों की तरह ही नट्स तोड़ने के लिए पत्थरों जैसे औजारों का उपयोग कर सकते हैं!"}'::jsonb, 
@@ -353,19 +322,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'n', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "N", "gu": "N", "hi": "N"}'::jsonb, 
-  '/assets/alphabets/n.svg', 
+  '/assets/images/alphabet/n.png', 
   '{"en": "N is for Nest! Nests are cozy homes built by birds for their eggs.", "gu": "એન એટલે નેસ્ટ! માળો એ પક્ષીઓ દ્વારા તેમના ઇંડા માટે બનાવવામાં આવેલ આરામદાયક ઘર છે.", "hi": "एन से नेस्ट! घोंसला पक्षियों द्वारा अपने अंडों के लिए बनाया गया एक आरामदायक घर है।"}'::jsonb, 
   '{"en": "Birds use twigs, leaves, and grass to weave a safe, warm bowl in the trees.", "gu": "પક્ષીઓ ઝાડમાં સુરક્ષિત, ગરમ વાટકો બનાવવા માટે ડાળીઓ, પાંદડા અને ઘાસનો ઉપયોગ કરે છે.", "hi": "पक्षी पेड़ों में एक सुरक्षित, गर्म कटोरा बनाने के लिए टहनियों, पत्तियों और घास का उपयोग करते हैं।"}'::jsonb, 
   '{"en": "Did you know? Some nests are tiny like a thimble, while others can be as large as a car!", "gu": "શું તમે જાણો છો? કેટલાક માળા અંગૂઠા જેવા નાના હોય છે, જ્યારે અન્ય કાર જેટલા મોટા હોઈ શકે છે!", "hi": "क्या आपको पता है? कुछ घोंसले अंगूठे के कवर जितने छोटे होते हैं, जबकि अन्य कार जितने बड़े हो सकते हैं!"}'::jsonb, 
@@ -376,19 +345,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'o', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "O", "gu": "O", "hi": "O"}'::jsonb, 
-  '/assets/alphabets/o.svg', 
+  '/assets/images/alphabet/o.png', 
   '{"en": "O is for Orange! Oranges are round, sweet, and juicy citrus fruits.", "gu": "ઓ એટલે ઓરેન્જ! નારંગી ગોળ, મીઠા અને રસદાર સાઇટ્રસ ફળો છે.", "hi": "ओ से ऑरेंज! संतरे गोल, मीठे और रसीले खट्टे फल होते हैं।"}'::jsonb, 
   '{"en": "They are packed with Vitamin C, which helps keep you strong and healthy!", "gu": "તેઓ વિટામિન સી થી ભરપૂર હોય છે, જે તમને મજબૂત અને સ્વસ્થ રાખવામાં મદદ કરે છે!", "hi": "वे विटामिन सी से भरपूर होते हैं, जो आपको मजबूत और स्वस्थ रखने में मदद करता है!"}'::jsonb, 
   '{"en": "Did you know? Oranges are actually a hybrid of mandarins and pomelos, created long ago!", "gu": "શું તમે જાણો છો? નારંગી વાસ્તવમાં મેન્ડરિન અને પોમેલોની સંકર પ્રજાતિ છે, જે લાંબા સમય પહેલા બનાવાઈ હતી!", "hi": "क्या आपको पता है? संतरे वास्तव में मंदारिन और चकोतरा की संकर नस्ल हैं, जो बहुत पहले बनाई गई थी!"}'::jsonb, 
@@ -399,22 +368,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'p', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "P", "gu": "P", "hi": "P"}'::jsonb, 
-  '/assets/alphabets/p.svg', 
-  '{"en": "P is for Pear! Pears are sweet, bell-shaped fruits that grow on trees.", "gu": "પી એટલે પિઅર! નાશપતિ મીઠા, ઘંટ આકારના ફળો છે જે ઝાડ પર ઉગે છે.", "hi": "पी से पियर! नाशपाती मीठे, घंटी के आकार के फल हैं जो पेड़ों पर उगते हैं।"}'::jsonb, 
-  '{"en": "Pears can be green, yellow, or red. They are juicy and soft when ripe!", "gu": "નાશપતિ લીલી, પીળી કે લાલ હોઈ શકે છે. તે પાકે ત્યારે રસદાર અને નરમ હોય છે!", "hi": "नाशपाती हरी, पीली या लाल हो सकती है। वे पकने पर रसीली और मुलायम होती हैं!"}'::jsonb, 
-  '{"en": "Did you know? Pear trees can produce fruit for up to 75 years, and they belong to the rose family!", "gu": "શું તમે જાણો છો? નાશપતિના ઝાડ ૭૫ વર્ષ સુધી ફળ આપી શકે છે, અને તે ગુલાબ પરિવારના છે!", "hi": "क्या आपको पता है? नाशपाती के पेड़ 75 साल तक फल दे सकते हैं, और वे गुलाब परिवार से संबंधित हैं!"}'::jsonb, 
+  '/assets/images/alphabet/p.png', 
+  '{"en": "P is for Panda! Pandas are cute, fluffy bears with black and white fur.", "gu": "પી એટલે પાન્ડા! પાન્ડા કાળી અને સફેદ રુવાંટીવાળા સુંદર, રુંવાટીદાર રીંછ છે.", "hi": "पी से पैंडा! पैंडा काले और सफेद बालों वाले प्यारे, रोएंदार भालू होते हैं।"}'::jsonb, 
+  '{"en": "Pandas love to eat bamboo all day. They live in cool forests in the mountains and are very good at climbing trees!", "gu": "પાન્ડાને આખો દિવસ વાંસ ખાવાનું ખૂબ ગમે છે. તેઓ પર્વતોના ઠંડા જંગલોમાં રહે છે અને ઝાડ પર ચઢવામાં ખૂબ કુશળ હોય છે!", "hi": "पैंडा को सारा दिन बांस खाना बहुत पसंद है। वे पहाड़ों के ठंडे जंगलों में रहते हैं और पेड़ों पर चढ़ने में बहुत कुशल होते हैं!"}'::jsonb, 
+  '{"en": "Did you know? A giant panda spends about 12 hours a day eating bamboo to get enough energy!", "gu": "શું તમે જાણો છો? એક વિશાળ પાન્ડા પૂરતી ઊર્જા મેળવવા માટે દિવસમાં લગભગ ૧૨ કલાક વાંસ ખાવામાં વિતાવે છે!", "hi": "क्या आपको पता है? एक विशाल पैंडा पर्याप्त ऊर्जा प्राप्त करने के लिए दिन में लगभग 12 घंटे बांस खाने में बिताता है!"}'::jsonb, 
   'memory', 
   true, 
   16
@@ -422,19 +391,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'q', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "Q", "gu": "Q", "hi": "Q"}'::jsonb, 
-  '/assets/alphabets/q.svg', 
+  '/assets/images/alphabet/q.png', 
   '{"en": "Q is for Queen! A queen is a female ruler of a royal kingdom.", "gu": "ક્યુ એટલે ક્વીન! રાણી એ શાહી રાજ્યની સ્ત્રી શાસક છે.", "hi": "क्यू से क्वीन! रानी एक शाही साम्राज्य की महिला शासक होती है।"}'::jsonb, 
   '{"en": "Queens wear beautiful golden crowns and live in historic castles!", "gu": "રાણીઓ સુંદર સોનાના મુગટ પહેરે છે અને ઐતિહાસિક કિલ્લાઓમાં રહે છે!", "hi": "रानियां सुंदर सोने के मुकुट पहनती हैं और ऐतिहासिक महलों में रहती हैं!"}'::jsonb, 
   '{"en": "Did you know? Queen Elizabeth the Second was the longest-reigning queen in world history!", "gu": "શું તમે જાણો છો? રાણી એલિઝાબેથ દ્વિતીય વિશ્વના ઇતિહાસમાં સૌથી લાંબો સમય શાસન કરનાર રાણી હતા!", "hi": "क्या आपको पता है? रानी एलिजाबेथ द्वितीय विश्व इतिहास में सबसे लंबे समय तक शासन करने वाली रानी थीं!"}'::jsonb, 
@@ -445,22 +414,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'r', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "R", "gu": "R", "hi": "R"}'::jsonb, 
-  '/assets/alphabets/r.svg', 
-  '{"en": "R is for Ring! Rings are circular jewelry worn on our fingers.", "gu": "આર એટલે રિંગ! વીંટી એ આંગળીઓ પર પહેરવામાં આવતા ગોળાકાર ઘરેણાં છે.", "hi": "आर से रिंग! अंगूठी उंगलियों पर पहने जाने वाले गोलाकार आभूषण हैं।"}'::jsonb, 
-  '{"en": "Rings are often made of gold or silver and can hold sparkling diamonds or gems!", "gu": "વીંટી ઘણીવાર સોના કે ચાંદીની બનેલી હોય છે અને તેમાં ચમકતા હીરા અથવા રત્નો હોઈ શકે છે!", "hi": "अंगूठियां अक्सर सोने या चांदी की बनी होती हैं और उनमें चमकीले हीरे या रत्न हो सकते हैं!"}'::jsonb, 
-  '{"en": "Did you know? In ancient Rome, people wore rings made of iron to show strength and commitment!", "gu": "શું તમે જાણો છો? પ્રાચીન રોમમાં લોકો શક્તિ અને પ્રતિબદ્ધતા દર્શાવવા લોખંડની બનેલી વીંટી પહેરતા હતા!", "hi": "क्या आपको पता है? प्राचीन रोम में, लोग ताकत और प्रतिबद्धता दिखाने के लिए लोहे की अंगूठियां पहनते थे!"}'::jsonb, 
+  '/assets/images/alphabet/r.png', 
+  '{"en": "R is for Rabbit! Rabbits are small animals with long ears and fluffy tails.", "gu": "આર એટલે સસલું! સસલા એ લાંબા કાન અને રુંવાટીદાર પૂંછડીવાળા નાના પ્રાણીઓ છે.", "hi": "आर से खरगोश! खरगोश लंबे कान और रोएंदार पूंछ वाले छोटे जानवर होते हैं।"}'::jsonb, 
+  '{"en": "Rabbits hop around on their strong legs and love to munch on green grass, leaves, and carrots!", "gu": "સસલા તેમના મજબૂત પગ પર કૂદકા મારે છે અને લીલું ઘાસ, પાંદડા અને ગાજર ખાવાનું પસંદ કરે છે!", "hi": "खरगोश अपने मजबूत पैरों पर कूदते हैं और हरी घास, पत्तियां और गाजर चबाना पसंद करते हैं!"}'::jsonb, 
+  '{"en": "Did you know? A rabbit''s ears can grow up to 4 inches long and can rotate 270 degrees to hear sounds!", "gu": "શું તમે જાણો છો? સસલાના કાન ૪ ઇંચ સુધી લાંબા થઈ શકે છે અને અવાજ સાંભળવા માટે ૨૭૦ ડિગ્રી ફરી શકે છે!", "hi": "क्या आपको पता है? खरगोश के कान 4 इंच तक लंबे हो सकते हैं और आवाज़ सुनने के लिए 270 डिग्री घूम सकते हैं!"}'::jsonb, 
   'memory', 
   true, 
   18
@@ -468,22 +437,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   's', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "S", "gu": "S", "hi": "S"}'::jsonb, 
-  '/assets/alphabets/s.svg', 
-  '{"en": "S is for Sun! The sun is a giant, hot star at the center of our solar system.", "gu": "એસ એટલે સન! સૂર્ય આપણી સૌરમંડળના કેન્દ્રમાં આવેલો એક વિશાળ, ગરમ તારો છે.", "hi": "एस से सन! सूर्य हमारे सौरमंडल के केंद्र में स्थित एक विशाल, गर्म तारा है।"}'::jsonb, 
-  '{"en": "The sun gives us light and warmth, which helps plants grow and keeps us active!", "gu": "સૂર્ય આપણને પ્રકાશ અને ગરમી આપે છે, જે છોડને વધવામાં મદદ કરે છે અને આપણને સક્રિય રાખે છે!", "hi": "सूर्य हमें प्रकाश और गर्मी देता है, जो पौधों को बढ़ने में मदद करता है और हमें सक्रिय रखता है!"}'::jsonb, 
-  '{"en": "Did you know? One million Earths could fit inside the sun! That is how huge it is.", "gu": "શું તમે જાણો છો? સૂર્યની અંદર દસ લાખ પૃથ્વી સમાઈ શકે છે! તે એટલો વિશાળ છે.", "hi": "क्या आपको पता है? सूर्य के भीतर दस लाख पृथ्वी समा सकती हैं! वह इतना विशाल है।"}'::jsonb, 
+  '/assets/images/alphabet/s.png', 
+  '{"en": "S is for Squirrel! Squirrels are small, furry animals with bushy tails.", "gu": "એસ એટલે ખિસકોલી! ખિસકોલી એ રુંવાટીદાર પૂંછડીવાળા નાના પ્રાણીઓ છે.", "hi": "एस से गिलहरी! गिलहरी झाड़ीदार पूंछ वाले छोटे, प्यारे जानवर होते हैं।"}'::jsonb, 
+  '{"en": "Squirrels climb trees very fast, gather nuts and acorns, and bury them in the ground to eat later!", "gu": "ખિસકોલીઓ ખૂબ જ ઝડપથી ઝાડ પર ચઢી જાય છે, નટ્સ અને એકોર્ન એકઠા કરે છે અને પછીથી ખાવા માટે જમીનમાં દાટી દે છે!", "hi": "गिलहरियां बहुत तेजी से पेड़ों पर चढ़ती हैं, नट्स और बलूत के फल इकट्ठा करती हैं, और बाद में खाने के लिए उन्हें जमीन में गाड़ देती हैं!"}'::jsonb, 
+  '{"en": "Did you know? Squirrels plant millions of trees because they forget where they hid their acorns!", "gu": "શું તમે જાણો છો? ખિસકોલીઓ લાખો વૃક્ષો વાવે છે કારણ કે તેઓ ભૂલી જાય છે કે તેમણે તેમના એકોર્ન ક્યાં છુપાવ્યા હતા!", "hi": "क्या आपको पता है? गिलहरियां लाखों पेड़ लगाती हैं क्योंकि वे भूल जाती हैं कि उन्होंने अपने बलूत के फल कहाँ छुपाए थे!"}'::jsonb, 
   'memory', 
   true, 
   19
@@ -491,22 +460,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   't', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "T", "gu": "T", "hi": "T"}'::jsonb, 
-  '/assets/alphabets/t.svg', 
-  '{"en": "T is for Tree! Trees are tall, strong plants that provide shade and oxygen.", "gu": "ટી એટલે ટ્રી! વૃક્ષો ઊંચા, મજબૂત છોડ છે જે છાંયડો અને ઓક્સિજન આપે છે.", "hi": "टी से ट्री! पेड़ ऊंचे, मजबूत पौधे होते हैं जो छाया और ऑक्सीजन प्रदान करते हैं।"}'::jsonb, 
-  '{"en": "Trees have trunks, branches, and leaves. They are homes to many birds and squirrels!", "gu": "વૃક્ષોને થડ, ડાળીઓ અને પાંદડા હોય છે. તે ઘણા પક્ષીઓ અને ખિસકોલીઓનું ઘર છે!", "hi": "पेड़ों में तने, शाखाएं और पत्तियां होती हैं। वे कई पक्षियों और गिलहरियों के घर होते हैं!"}'::jsonb, 
-  '{"en": "Did you know? Trees can communicate with each other through underground root networks!", "gu": "શું તમે જાણો છો? વૃક્ષો જમીનની અંદર મૂળના નેટવર્ક દ્વારા એકબીજા સાથે વાતચીત કરી શકે છે!", "hi": "क्या आपको पता है? पेड़ जमीन के नीचे जड़ों के जाल के जरिए एक-दूसरे से संवाद कर सकते हैं!"}'::jsonb, 
+  '/assets/images/alphabet/t.png', 
+  '{"en": "T is for Tiger! Tigers are large, wild cats with orange fur and black stripes.", "gu": "ટી એટલે વાઘ! વાઘ સોનેરી-નારંગી રુવાંટી અને કાળી પટ્ટીઓ ધરાવતી મોટી જંગલી બિલાડીઓ છે.", "hi": "टी से बाघ! बाघ नारंगी बालों और काली धारियों वाली बड़ी, जंगली बिल्लियां हैं।"}'::jsonb, 
+  '{"en": "Tigers are strong hunters that live in jungles and grasslands. They love water and are excellent swimmers!", "gu": "વાઘ એ જંગલો અને ઘાસના મેદાનોમાં રહેતા મજબૂત શિકારી છે. તેમને પાણી ગમે છે અને તેઓ ઉત્કૃષ્ટ તરવૈયા છે!", "hi": "बाघ मजबूत शिकारी होते हैं जो जंगलों और घास के मैदानों में रहते हैं। उन्हें पानी पसंद होता है और वे बेहतरीन तैराक होते हैं!"}'::jsonb, 
+  '{"en": "Did you know? Just like our fingerprints, no two tigers have the exact same pattern of stripes!", "gu": "શું તમે જાણો છો? આપણી ફિંગરપ્રિન્ટની જેમ જ, કોઈપણ બે વાઘ પર પટ્ટીઓની સમાન પેટર્ન હોતી નથી!", "hi": "क्या आपको पता है? हमारी उंगलियों के निशान की तरह ही, किन्हीं दो बाघों पर धारियों का एक जैसा पैटर्न नहीं होता है!"}'::jsonb, 
   'memory', 
   true, 
   20
@@ -514,22 +483,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'u', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "U", "gu": "U", "hi": "U"}'::jsonb, 
-  '/assets/alphabets/u.svg', 
+  '/assets/images/alphabet/u.png', 
   '{"en": "U is for Umbrella! Umbrellas keep us dry when it rains.", "gu": "યુ એટલે અમબ્રેલા! છત્રી આપણને વરસાદ પડે ત્યારે સૂકા રાખે છે.", "hi": "यू से अम्ब्रेला! छतरियां हमें बारिश होने पर सूखा रखती हैं।"}'::jsonb, 
   '{"en": "We open them over our heads to block the raindrops or shade us from the hot sun!", "gu": "આપણે વરસાદના ટીપાં રોકવા અથવા સૂર્યથી બચવા માટે તેને માથા પર ખોલીએ છીએ!", "hi": "हम बारिश की बूंदों को रोकने या धूप से बचने के लिए उन्हें अपने सिर के ऊपर खोलते हैं!"}'::jsonb, 
-  '{"en": "Did you know? The word umbrella comes from the Latin word ''umbra'', which means shade!", "gu": "શું તમે જાણો છો? અમ્બ્રેલા શબ્દ લેટિન શબ્દ ''umbra'' પરથી આવ્યો છે, જેનો અર્થ છાંયડો થાય છે!", "hi": "क्या आपको पता है? अम्ब्रेला शब्द लैटिन शब्द ''umbra'' से आया है, जिसका अर्थ छाया होता है!"}'::jsonb, 
+  '{"en": "Did you know? The word umbrella comes from the Latin word ''umbra'', which means shade!", "gu": "શું તમે જાણો છો? અમ્બ્રેલા શબ્દ લેટિન શબ્દ ''umbra'' પરથી આવ્યો છે, જેનો અર્થ છાંયડો થાય છે!", "hi": "क्या आपको पता है? अम्ब्रेला शब्द ''umbra'' से आया है, जिसका अर्थ छाया होता है!"}'::jsonb, 
   'memory', 
   true, 
   21
@@ -537,22 +506,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'v', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "V", "gu": "V", "hi": "V"}'::jsonb, 
-  '/assets/alphabets/v.svg', 
-  '{"en": "V is for Vase! A vase is a beautiful container used to hold flowers.", "gu": "વી એટલે વાઝ! ફૂલદાની એ ફૂલો રાખવા માટે વપરાતું એક સુંદર પાત્ર છે.", "hi": "वी से वाज़! फूलदान फूलों को रखने के लिए इस्तेमाल किया जाने वाला एक सुंदर बर्तन है।"}'::jsonb, 
-  '{"en": "We fill it with water and put colorful roses, daisies, or lilies inside to decorate!", "gu": "આપણે તેને પાણીથી ભરીએ છીએ અને સજાવટ માટે અંદર રંગબેરંગી ગુલાબ અથવા મોગરા રાખીએ છીએ!", "hi": "हम इसे पानी से भरते हैं और सजाने के लिए इसके अंदर रंग-बिरंगे गुलाब या चमेली रखते हैं!"}'::jsonb, 
-  '{"en": "Did you know? The oldest ceramic vases ever found are over 10,000 years old, made in China!", "gu": "શું તમે જાણો છો? અત્યાર સુધી મળેલી સૌથી જૂની ફૂલદાની ૧૦,૦૦૦ વર્ષથી વધુ જૂની છે, જે ચીનમાં બની હતી!", "hi": "क्या आपको पता है? अब तक पाए गए सबसे पुराने चीनी मिट्टी के फूलदान 10,000 साल से भी अधिक पुराने हैं, जो चीन में बने थे!"}'::jsonb, 
+  '/assets/images/alphabet/v.png', 
+  '{"en": "V is for Vegetables! Vegetables are healthy plants that we eat.", "gu": "વી એટલે શાકભાજી! શાકભાજી એ પૌષ્ટિક છોડ છે જે આપણે ખાઈએ છીએ.", "hi": "वी से सब्जियां! सब्जियां स्वास्थ्यवर्धक पौधे होते हैं जिन्हें हम खाते हैं।"}'::jsonb, 
+  '{"en": "Vegetables like carrots, broccoli, and spinach give us vitamins and minerals to grow strong and healthy!", "gu": "ગાજર, બ્રોકોલી અને પાલક જેવી શાકભાજી આપણને મજબૂત અને સ્વસ્થ વધવા માટે વિટામિન્સ અને મિનરલ્સ આપે છે!", "hi": "गाजर, ब्रोकली और पालक जैसी सब्जियां हमें मजबूत और स्वस्थ बढ़ने के लिए विटामिन और खनिज देती हैं!"}'::jsonb, 
+  '{"en": "Did you know? Tomatoes and pumpkins are scientifically fruits, but we cook and eat them as vegetables!", "gu": "શું તમે જાણો છો? ટામેટા અને કોળું વૈજ્ઞાનિક રીતે ફળો છે, પરંતુ આપણે તેને શાકભાજી તરીકે રાંધીને ખાઈએ છીએ!", "hi": "क्या आपको पता है? टमाटर और कद्दू वैज्ञानिक रूप से फल हैं, लेकिन हम उन्हें सब्जियों के रूप में पकाते और खाते हैं!"}'::jsonb, 
   'memory', 
   true, 
   22
@@ -560,19 +529,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'w', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "W", "gu": "W", "hi": "W"}'::jsonb, 
-  '/assets/alphabets/w.svg', 
+  '/assets/images/alphabet/w.png', 
   '{"en": "W is for Watermelon! Watermelons are large, sweet, and juicy summer fruits.", "gu": "ડબલ્યુ એટલે વોટરમેલન! તરબૂચ મોટા, મીઠા અને રસદાર ઉનાળાના ફળો છે.", "hi": "डब्ल्यू से वाटरमेलन! तरबूज गर्मियों के बड़े, मीठे और रसीले फल होते हैं।"}'::jsonb, 
   '{"en": "They have a green rind on the outside, and a sweet red inside with black seeds!", "gu": "તેમને બહારથી લીલી છાલ હોય છે, અને કાળા બીજ સાથે અંદરનો ભાગ મીઠો અને લાલ હોય છે!", "hi": "उनके बाहर एक हरा छिलका होता है, और काले बीजों के साथ अंदर का हिस्सा मीठा और लाल होता है!"}'::jsonb, 
   '{"en": "Did you know? Watermelons are 92 percent water, making them perfect for staying hydrated!", "gu": "શું તમે જાણો છો? તરબૂચમાં ૯૨ ટકા પાણી હોય છે, જે આપણને હાઇડ્રેટેડ રાખવા માટે શ્રેષ્ઠ બનાવે છે!", "hi": "क्या आपको पता है? तरबूज में 92 प्रतिशत पानी होता है, जो हमें हाइड्रेटेड रखने के लिए सबसे अच्छा है!"}'::jsonb, 
@@ -583,19 +552,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'x', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "X", "gu": "X", "hi": "X"}'::jsonb, 
-  '/assets/alphabets/x.svg', 
+  '/assets/images/alphabet/x.png', 
   '{"en": "X is for Xylophone! A xylophone is a musical instrument with colorful bars.", "gu": "એક્સ એટલે ઝાયલોફોન! ઝાયલોફોન એ રંગબેરંગી પટ્ટીઓ ધરાવતું સંગીતનું સાધન છે.", "hi": "एक्स से ज़ायलोफ़ोन! ज़ायलोफ़ोन रंग-बिरंगी पट्टियों वाला एक संगीत वाद्ययंत्र है।"}'::jsonb, 
   '{"en": "We hit the bars with mallets to make bright, happy bell-like sounds!", "gu": "આપણે તેજસ્વી, ખુશ ઘંટ જેવા અવાજો કરવા માટે લાકડીઓથી પટ્ટીઓ પર પ્રહાર કરીએ છીએ!", "hi": "हम चमकीली, खुश घंटी जैसी आवाजें निकालने के लिए छड़ियों से पट्टियों पर प्रहार करते हैं!"}'::jsonb, 
   '{"en": "Did you know? The name xylophone comes from Greek words meaning ''wood sound''!", "gu": "શું તમે જાણો છો? ઝાયલોફોન નામ ગ્રીક શબ્દો પરથી આવ્યું છે જેનો અર્થ ''લાકડાનો અવાજ'' થાય છે!", "hi": "क्या आपको पता है? ज़ायलोफ़ोन नाम ग्रीक शब्दों से आया है जिसका अर्थ ''लकड़ी की आवाज़'' होता है!"}'::jsonb, 
@@ -606,22 +575,22 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'y', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "Y", "gu": "Y", "hi": "Y"}'::jsonb, 
-  '/assets/alphabets/y.svg', 
-  '{"en": "Y is for Yo-yo! A yo-yo is a fun toy that goes up and down on a string.", "gu": "વાય એટલે યો-યો! યો-યો એક મનોરંજક રમકડાં છે જે દોરી પર ઉપર અને નીચે જાય છે.", "hi": "वाई से यो-यो! यो-यो एक मजेदार खिलौना है जो धागे पर ऊपर और नीचे जाता है।"}'::jsonb, 
-  '{"en": "We wind the string, drop the yo-yo, and pull it back up using a finger loop!", "gu": "આપણે દોરી લપેટીએ છીએ, યો-યો છોડીએ છીએ અને આંગળીના લૂપનો ઉપયોગ કરીને તેને પાછું ખેંચીએ છીએ!", "hi": "हम धागा लपेटते हैं, यो-यो छोड़ते हैं और उंगली के लूप का उपयोग करके इसे वापस खींचते हैं!"}'::jsonb, 
-  '{"en": "Did you know? Yo-yos are the second oldest toys in history, only dolls are older!", "gu": "શું તમે જાણો છો? યો-યો ઇતિહાસમાં બીજા ક્રમનું સૌથી જૂનું રમકડું છે, માત્ર ઢીંગલીઓ તેનાથી જૂની છે!", "hi": "क्या आपको पता है? यो-यो इतिहास में दूसरा सबसे पुराना खिलौना है, केवल गुड़िया उससे पुरानी हैं!"}'::jsonb, 
+  '/assets/images/alphabet/y.png', 
+  '{"en": "Y is for Yarn! Yarn is a long thread of wool used to make warm clothes.", "gu": "વાય એટલે યાર્ન! યાર્ન એ ગરમ કપડાં બનાવવા માટે વપરાતો ઊનનો લાંબો દોરો છે.", "hi": "वाई से ऊन! ऊन ऊन का एक लंबा धागा होता है जिसका उपयोग गर्म कपड़े बनाने के लिए किया जाता है।"}'::jsonb, 
+  '{"en": "People use yarn with knitting needles to make cozy sweaters, soft hats, and colorful socks for winter!", "gu": "લોકો શિયાળા માટે આરામદાયક સ્વેટર, નરમ ટોપીઓ અને રંગબેરંગી મોજાં બનાવવા માટે ગૂંથણકામની સોય સાથે યાર્નનો ઉપયોગ કરે છે!", "hi": "लोग सर्दियों के लिए आरामदायक स्वेटर, मुलायम टोपी और रंग-बिरंगे मोज़े बनाने के लिए बुनाई की सुइयों के साथ ऊन का उपयोग करते हैं!"}'::jsonb, 
+  '{"en": "Did you know? Yarn can be made from sheep wool, cotton plants, and even fluffy rabbit fur!", "gu": "શું તમે જાણો છો? યાર્ન ઘેટાના ઊન, કપાસના છોડ અને સસલાના નરમ રુવાંટીમાંથી પણ બનાવી શકાય છે!", "hi": "क्या आपको पता है? ऊन भेड़ के ऊन, कपास के पौधों और यहाँ तक कि खरगोश के मुलायम बालों से भी बनाया जा सकता है!"}'::jsonb, 
   'memory', 
   true, 
   25
@@ -629,19 +598,19 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,
   display_order = EXCLUDED.display_order;
 
 INSERT INTO public.alphabet 
-(topic_key, category_id, name, svg_path, narration, explanation, fact, game_type, is_free, display_order)
+(topic_key, category_id, name, image_path, narration, explanation, fact, game_type, is_free, display_order)
 VALUES (
   'z', 
   (SELECT id FROM categories WHERE category_key = 'alphabet' OR category_key = 'abc_alphabets' LIMIT 1), 
   '{"en": "Z", "gu": "Z", "hi": "Z"}'::jsonb, 
-  '/assets/alphabets/z.svg', 
+  '/assets/images/alphabet/z.png', 
   '{"en": "Z is for Zebra! Zebras are wild horses with black and white stripes.", "gu": "ઝેડ એટલે ઝીબ્રા! ઝીબ્રા કાળી અને સફેદ પટ્ટીઓવાળા જંગલી ઘોડા છે.", "hi": "जेड से ज़ीब्रा! ज़ीब्रा काली और सफेद धारियों वाले जंगली घोड़े हैं।"}'::jsonb, 
   '{"en": "They live in herds in Africa and run very fast to escape predators like lions!", "gu": "તેઓ આફ્રિકામાં ટોળામાં રહે છે અને સિંહ જેવા શિકારીઓથી બચવા માટે ખૂબ જ ઝડપથી દોડે છે!", "hi": "वे अफ्रीका में झुंड में रहते हैं और शेर जैसे शिकारियों से बचने के लिए बहुत तेजी से दौड़ते हैं!"}'::jsonb, 
   '{"en": "Did you know? No two zebras have the same stripes! They are unique, just like fingerprints.", "gu": "શું તમે જાણો છો? કોઈપણ બે ઝીબ્રા પર સમાન પટ્ટીઓ હોતી નથી! તેઓ ફિંગરપ્રિન્ટની જેમ જ અનન્ય છે.", "hi": "क्या आपको पता है? किन्हीं दो ज़ीब्रा पर एक जैसी धारियां नहीं होती हैं! वे उंगलियों के निशान की तरह ही अद्वितीय हैं।"}'::jsonb, 
@@ -652,7 +621,7 @@ VALUES (
 ON CONFLICT (topic_key) DO UPDATE SET
   category_id = EXCLUDED.category_id,
   name = EXCLUDED.name,
-  svg_path = EXCLUDED.svg_path,
+  image_path = EXCLUDED.image_path,
   narration = EXCLUDED.narration,
   explanation = EXCLUDED.explanation,
   fact = EXCLUDED.fact,

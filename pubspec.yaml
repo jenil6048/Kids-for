@@ -67,7 +67,19 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/flower/
+    - assets/images/nature/
+    - assets/images/shapes/
+    - assets/images/sports/
     - assets/images/animals/
+    - assets/images/flowers/
+    - assets/images/science/
+    - assets/images/alphabet/
+    - assets/images/vehicles/
+    - assets/images/body_parts/
+    - assets/images/food_drink/
+    - assets/images/occupation/
+    - assets/images/household_items/
     - assets/images/test/
     - assets/images/categories/
     - assets/covers/
