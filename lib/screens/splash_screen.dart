@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../constants/app_strings.dart';
 import '../constants/app_assets.dart';
+import '../repositories/config_repository.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_image.dart';
 
@@ -59,7 +60,15 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       CurvedAnimation(parent: _progressController, curve: Curves.easeInOut),
     );
 
-    _progressController.forward().then((_) {
+    // Run config sync concurrently with the progress animation.
+    // If offline or Supabase unreachable, catchError ensures the app
+    // still proceeds to home (offline mode).
+    Future.wait([
+      _progressController.forward(),
+      ConfigRepository.instance
+          .fetchAndSync()
+          .catchError((_) {}),
+    ]).then((_) {
       // Small pause after hitting 100%
       Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {

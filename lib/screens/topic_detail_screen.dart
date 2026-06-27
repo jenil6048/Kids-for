@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../config/app_config.dart';
 import '../models/category_model.dart';
 import '../models/topic_model.dart';
-import '../services/supabase_service.dart';
+import '../repositories/topic_repository.dart';
 import '../services/tts_service.dart';
 import '../widgets/custom_image.dart';
 import '../widgets/custom_text.dart';
@@ -74,7 +74,7 @@ class CategoryTopicsScreen extends StatefulWidget {
 }
 
 class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with SingleTickerProviderStateMixin {
-  final SupabaseService _supabaseService = SupabaseService.instance;
+  final TopicRepository _topicRepository = TopicRepository.instance;
   final List<TopicModel> _topics = [];
   bool _isLoading = false;
   bool _isLoadedAll = false;
@@ -130,7 +130,7 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
     });
 
     try {
-      final newTopics = await _supabaseService.getTopicsForCategory(
+      final newTopics = await _topicRepository.getTopics(
         widget.category.categoryKey,
         widget.category.id,
         limit: AppConfig.defaultPageSize,
@@ -293,17 +293,22 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
           SafeArea(
             child: Builder(
               builder: (context) {
+                final screenWidth = MediaQuery.of(context).size.width;
+                final isMobile = screenWidth < 600;
+                final crossAxisCount = isMobile ? 2 : (screenWidth / 220).floor().clamp(2, 6);
+                final childAspectRatio = isMobile ? 0.8 : 0.85;
+
                 if (_topics.isEmpty && _isLoading) {
                   return GridView.builder(
                     padding: const EdgeInsets.all(20),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: crossAxisCount,
                       mainAxisSpacing: 16,
                       crossAxisSpacing: 16,
-                      childAspectRatio: 0.85,
+                      childAspectRatio: childAspectRatio,
                     ),
                     itemCount: 9,
-                    itemBuilder: (context, index) => const CustomLoading(borderRadius: 24),
+                    itemBuilder: (context, index) => _buildShimmerCard(themeColor),
                   );
                 }
 
@@ -340,11 +345,11 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
                       SliverPadding(
                         padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
                         sliver: SliverGrid(
-                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: crossAxisCount,
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16,
-                            childAspectRatio: 0.8,
+                            childAspectRatio: childAspectRatio,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             (context, index) {
@@ -480,6 +485,56 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
       ),
     );
   }
+
+  Widget _buildShimmerCard(Color themeColor) {
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(
+          color: themeColor.withOpacity(0.2),
+          width: 2,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: themeColor.withOpacity(0.05),
+                shape: BoxShape.circle,
+              ),
+              child: const CustomLoading(
+                borderRadius: 999,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+            height: 22,
+            child: const CustomLoading(
+              borderRadius: 12,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 // ==========================================
@@ -539,7 +594,7 @@ class _TopicDetailScreenState extends State<TopicDetailScreen> with SingleTicker
       if (!mounted) return;
       final title = widget.topic.getName(locale: widget.activeLanguage);
       final narration = widget.topic.getNarration(locale: widget.activeLanguage);
-      final String speechText = "$title. $narration";
+      final String speechText = narration;
       TtsService.instance.speak(speechText, widget.activeLanguage);
     });
   }

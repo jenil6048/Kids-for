@@ -1,20 +1,23 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../constants/app_strings.dart';
 import '../constants/app_assets.dart';
 import '../models/category_model.dart';
 import '../models/group_model.dart';
 import '../models/localized_text.dart';
-import '../services/supabase_service.dart';
+import '../repositories/category_repository.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/custom_button.dart';
 import '../widgets/custom_image.dart';
 import '../widgets/language_selector.dart';
 import '../widgets/custom_loading.dart';
 import 'topic_detail_screen.dart';
-import '../services/tts_service.dart';
+import 'settings_screen.dart';
+import '../repositories/auth_repository.dart';
+import '../repositories/config_repository.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +27,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
-  final SupabaseService _supabaseService = SupabaseService.instance;
   late Future<List<CategoryModel>> _categoriesFuture;
 
   late AnimationController _cloudsController;
@@ -35,14 +37,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     super.initState();
     _loadCategories();
 
-    _cloudsController = AnimationController(
-      duration: const Duration(seconds: 40),
-      vsync: this,
-    )..repeat();
+    _cloudsController = AnimationController(duration: const Duration(seconds: 40), vsync: this)..repeat();
 
-    _cloudsAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _cloudsController, curve: Curves.linear),
-    );
+    _cloudsAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _cloudsController, curve: Curves.linear));
   }
 
   @override
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   void _loadCategories() {
     setState(() {
-      _categoriesFuture = _supabaseService.getCategories();
+      _categoriesFuture = CategoryRepository.instance.getCategories();
     });
   }
 
@@ -85,11 +85,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       } else {
         group = GroupModel(
           id: cat.groupId.isNotEmpty ? cat.groupId : 'other',
-          name: LocalizedText(
-            en: 'Other Exploration',
-            gu: 'અન્ય સંશોધન',
-            hi: 'अन्य अन्વેषण',
-          ),
+          name: LocalizedText(en: 'Other Exploration', gu: 'અન્ય સંશોધન', hi: 'अन्य अन्વેषण'),
           icon: 'https://assets5.lottiefiles.com/packages/lf20_qp1a7a00.json',
           displayOrder: 999, // default to bottom if group is unlinked
         );
@@ -122,10 +118,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         animation: _cloudsAnimation,
         builder: (context, child) {
           final scale = 1.0 + math.sin(_cloudsAnimation.value * 2 * math.pi) * 0.05;
-          return Transform.scale(
-            scale: scale,
-            child: child,
-          );
+          return Transform.scale(scale: scale, child: child);
         },
         child: Container(
           width: 70,
@@ -134,13 +127,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             shape: BoxShape.circle,
             color: const Color(0xFFFFD93D),
             border: Border.all(color: Colors.white, width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFFFB74D).withOpacity(0.5),
-                blurRadius: 12,
-                spreadRadius: 2,
-              )
-            ],
+            boxShadow: [BoxShadow(color: const Color(0xFFFFB74D).withOpacity(0.5), blurRadius: 12, spreadRadius: 2)],
           ),
           child: const Stack(
             alignment: Alignment.center,
@@ -157,10 +144,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Positioned(
-                top: 32,
-                child: Icon(Icons.sentiment_satisfied_alt_rounded, color: Color(0xFF7C5730), size: 22),
-              ),
+              Positioned(top: 32, child: Icon(Icons.sentiment_satisfied_alt_rounded, color: Color(0xFF7C5730), size: 22)),
             ],
           ),
         ),
@@ -180,18 +164,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           left: xPos,
           child: Transform.scale(
             scale: scale,
-            child: Opacity(
-              opacity: 0.8,
-              child: child,
-            ),
+            child: Opacity(opacity: 0.8, child: child),
           ),
         );
       },
-      child: const Icon(
-        Icons.cloud_rounded,
-        color: Colors.white,
-        size: 120,
-      ),
+      child: const Icon(Icons.cloud_rounded, color: Colors.white, size: 120),
     );
   }
 
@@ -205,31 +182,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             color: Colors.white,
             borderRadius: BorderRadius.circular(24),
             border: Border.all(color: const Color(0xFFFFD93D), width: 3),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: const Offset(0, 4))],
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              CustomText(
-                title,
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: const Color(0xFF7C5730),
-              ),
+              CustomText(title, fontSize: 15, fontWeight: FontWeight.bold, color: const Color(0xFF7C5730)),
               const SizedBox(height: 2),
-              CustomText(
-                subtitle,
-                fontSize: 18,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFF9E2A2B),
-              ),
+              CustomText(subtitle, fontSize: 18, maxLines: 2, fontWeight: FontWeight.w900, color: const Color(0xFF9E2A2B)),
             ],
           ),
         ),
@@ -291,10 +252,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Container(
                 width: 200,
                 height: 200,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.25),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.25)),
               ),
             ),
             Positioned(
@@ -303,17 +261,20 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Container(
                 width: 120,
                 height: 120,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.15),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.15)),
               ),
             ),
 
             SafeArea(
               child: RefreshIndicator(
                 onRefresh: () async {
-                  _loadCategories();
+                  try {
+                    await ConfigRepository.instance.fetchAndSync();
+                  } catch (_) {}
+                  setState(() {
+                    _categoriesFuture = CategoryRepository.instance.getCategories(forceRefresh: true);
+                  });
+                  await _categoriesFuture;
                 },
                 color: const Color(0xFF2E7D32),
                 child: CustomScrollView(
@@ -322,7 +283,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     // App Header
                     SliverToBoxAdapter(
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 10.0),
+                        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 0.0),
                         child: Column(
                           children: [
                             Row(
@@ -330,47 +291,78 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               children: [
                                 // Greeting speech bubble
                                 Expanded(
-                                  child: _buildSpeechBubble(
-                                    tr(AppStrings.helloExplorer),
-                                    tr(AppStrings.chooseAdventure),
-                                  ),
+                                  child: _buildSpeechBubble(tr(AppStrings.helloExplorer), tr(AppStrings.chooseAdventure)),
                                 ),
                                 const SizedBox(width: 14),
-                                // Lion Explorer avatar
-                                Container(
-                                  padding: const EdgeInsets.all(4),
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Colors.white,
-                                    border: Border.all(color: const Color(0xFFFFD93D), width: 3),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black.withOpacity(0.12),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 4),
-                                      )
-                                    ],
-                                  ),
-                                  child: ClipOval(
-                                    child: CustomImage(
-                                      pathOrUrl: AppAssets.lionExplorer,
-                                      width: 64,
-                                      height: 64,
-                                      fit: BoxFit.cover,
-                                      errorWidget: Container(
-                                        width: 64,
-                                        height: 64,
-                                        color: Colors.orange,
-                                        child: const Icon(Icons.face_rounded, color: Colors.white),
-                                      ),
-                                    ),
+                                // Lion Explorer avatar (Tappable for Settings)
+                                GestureDetector(
+                                  onTap: () {
+                                    HapticFeedback.lightImpact();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+                                  },
+                                  child: ValueListenableBuilder<UserModel?>(
+                                    valueListenable: AuthRepository.instance.currentUserNotifier,
+                                    builder: (context, user, child) {
+                                      return Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Colors.white,
+                                          border: Border.all(color: const Color(0xFFFFD93D), width: 3),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black.withOpacity(0.12),
+                                              blurRadius: 8,
+                                              offset: const Offset(0, 4),
+                                            ),
+                                          ],
+                                        ),
+                                        child: ClipOval(
+                                          child: CustomImage(
+                                            pathOrUrl: user?.avatarUrl ?? AppAssets.lionExplorer,
+                                            width: 64,
+                                            height: 64,
+                                            fit: BoxFit.cover,
+                                            errorWidget: Container(
+                                              width: 64,
+                                              height: 64,
+                                              color: Colors.orange,
+                                              child: const Icon(Icons.face_rounded, color: Colors.white),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: 18),
-                            // Language Selection row
-                            const LanguageSelector(),
+                            // Language Selection row & Settings button
+                            Row(
+                              spacing: 12,
+                              children: [
+                                const Expanded(
+                                  child: SingleChildScrollView(scrollDirection: Axis.horizontal, child: LanguageSelector()),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    HapticFeedback.mediumImpact();
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: const Color(0xFFFFD93D), width: 3),
+                                      boxShadow: [BoxShadow(color: const Color(0xFFD7D3C5), offset: const Offset(0, 4))],
+                                    ),
+                                    child: const Icon(Icons.settings_rounded, color: Color(0xFF2E7D32), size: 24),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),
@@ -384,7 +376,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return SliverList(
                             delegate: SliverChildBuilderDelegate(
                               (context, index) => Padding(
-                                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                                padding: const EdgeInsets.fromLTRB(0, 20, 20, 0),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -456,18 +448,50 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           return SliverFillRemaining(
                             hasScrollBody: false,
                             child: Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.sentiment_dissatisfied_rounded, size: 64, color: Colors.orange),
-                                  const SizedBox(height: 16),
-                                  CustomText(
-                                    tr(AppStrings.noAdventures),
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: const Color(0xFF7C5730),
-                                  ),
-                                ],
+                              child: FutureBuilder<List<ConnectivityResult>>(
+                                future: Connectivity().checkConnectivity(),
+                                builder: (ctx, connSnap) {
+                                  final isOffline =
+                                      connSnap.data != null && connSnap.data!.every((r) => r == ConnectivityResult.none);
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        isOffline ? Icons.wifi_off_rounded : Icons.sentiment_dissatisfied_rounded,
+                                        size: 64,
+                                        color: isOffline ? const Color(0xFF9E2A2B) : Colors.orange,
+                                      ),
+                                      const SizedBox(height: 16),
+                                      CustomText(
+                                        isOffline ? 'Please turn on internet to start' : tr(AppStrings.noAdventures),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        textAlign: TextAlign.center,
+                                        color: isOffline ? const Color(0xFF9E2A2B) : const Color(0xFF7C5730),
+                                      ),
+                                      if (isOffline) ...[
+                                        const SizedBox(height: 8),
+                                        CustomText(
+                                          'Connect to the internet so we can\ndownload your adventures!',
+                                          fontSize: 14,
+                                          textAlign: TextAlign.center,
+                                          color: Colors.grey.shade600,
+                                        ),
+                                        const SizedBox(height: 24),
+                                        CustomButton(
+                                          backgroundColor: const Color(0xFF2E7D32),
+                                          onPressed: _loadCategories,
+                                          child: const CustomText(
+                                            'Try Again',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  );
+                                },
                               ),
                             ),
                           );
@@ -476,23 +500,18 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         final grouped = _groupCategories(categories);
 
                         return SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              final group = grouped.keys.elementAt(index);
-                              final groupCategories = grouped[group]!;
+                          delegate: SliverChildBuilderDelegate((context, index) {
+                            final group = grouped.keys.elementAt(index);
+                            final groupCategories = grouped[group]!;
 
-                              return _buildGroupRow(group, groupCategories, currentLang);
-                            },
-                            childCount: grouped.keys.length,
-                          ),
+                            return _buildGroupRow(group, groupCategories, currentLang);
+                          }, childCount: grouped.keys.length),
                         );
                       },
                     ),
 
                     // Extra bottom padding
-                    const SliverToBoxAdapter(
-                      child: SizedBox(height: 40),
-                    ),
+                    const SliverToBoxAdapter(child: SizedBox(height: 40)),
                   ],
                 ),
               ),
@@ -509,7 +528,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       children: [
         // Group Header
         Padding(
-          padding: const EdgeInsets.fromLTRB(20.0, 28.0, 20.0, 12.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 16.0, 20.0, 12.0),
           child: Row(
             children: [
               // Group Icon
@@ -520,12 +539,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFF4CAF50), width: 3),
-                  boxShadow: [
-                    BoxShadow(
-                      color: const Color(0xFF2E7D32).withOpacity(0.3),
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: const Color(0xFF2E7D32).withOpacity(0.3), offset: const Offset(0, 4))],
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -599,11 +613,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ),
               title: Row(
                 children: [
-                  Icon(
-                    category.isPremium ? Icons.star_rounded : Icons.explore_rounded,
-                    color: themeColor,
-                    size: 32,
-                  ),
+                  Icon(category.isPremium ? Icons.star_rounded : Icons.explore_rounded, color: themeColor, size: 32),
                   const SizedBox(width: 8),
                   Expanded(
                     child: CustomText(
@@ -622,10 +632,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     child: Container(
                       width: 140,
                       height: 140,
-                      decoration: BoxDecoration(
-                        color: themeColor.withOpacity(0.15),
-                        shape: BoxShape.circle,
-                      ),
+                      decoration: BoxDecoration(color: themeColor.withOpacity(0.15), shape: BoxShape.circle),
                       child: CustomImage(
                         fit: BoxFit.fill,
                         pathOrUrl: (category.lottiePath != null && category.lottiePath!.toLowerCase().contains('.json'))
@@ -636,10 +643,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   ),
                   const SizedBox(height: 20),
                   CustomText(
-                    category.isPremium
-                        ? tr(AppStrings.unlockPremium)
-                        : tr(AppStrings.readyExplore),
+                    category.isPremium ? tr(AppStrings.unlockPremium) : tr(AppStrings.readyExplore),
                     fontSize: 16,
+                    maxLines: 3,
                     fontWeight: FontWeight.bold,
                     textAlign: TextAlign.center,
                     color: const Color(0xFF7C5730),
@@ -647,39 +653,26 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ],
               ),
               actionsAlignment: MainAxisAlignment.center,
-              actionsPadding: const EdgeInsets.only(bottom: 24, left: 16, right: 16),
               actions: [
                 CustomButton(
                   backgroundColor: Colors.grey.shade400,
                   onPressed: () => Navigator.of(context).pop(),
-                  child: CustomText(
-                    tr(AppStrings.goBack),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
+                  child: CustomText(tr(AppStrings.goBack), fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
-                const SizedBox(width: 12),
                 CustomButton(
                   backgroundColor: themeColor,
                   onPressed: () {
                     Navigator.of(context).pop();
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CategoryTopicsScreen(
-                            category: category,
-                            activeLanguage: locale,
-                          ),
-                        ),
-                      );
-                    },
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CategoryTopicsScreen(category: category, activeLanguage: locale),
+                      ),
+                    );
+                  },
                   child: CustomText(
-                    category.isPremium
-                        ? tr(AppStrings.unlockStar)
-                        : tr(AppStrings.letsGo),
-                    fontSize: 16,
+                    category.isPremium ? tr(AppStrings.unlockStar) : tr(AppStrings.letsGo),
+                    fontSize: 13,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -723,12 +716,9 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
     final hsl = HSLColor.fromColor(cardColor);
     final shadowColor = hsl.withLightness((hsl.lightness - 0.15).clamp(0.0, 1.0)).toColor();
 
-    final bool hasLottie = category.lottiePath != null && 
-                           category.lottiePath!.toLowerCase().contains('.json');
-    
-    final assetPath = hasLottie 
-        ? category.lottiePath! 
-        : (category.imagePath ?? '');
+    final bool hasLottie = category.lottiePath != null && category.lottiePath!.toLowerCase().contains('.json');
+
+    final assetPath = hasLottie ? category.lottiePath! : (category.imagePath ?? '');
 
     return GestureDetector(
       onTapDown: (_) {
@@ -760,21 +750,11 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
           border: Border.all(color: Colors.white, width: 4.0),
           boxShadow: [
             if (!_isPressed) ...[
-              BoxShadow(
-                color: shadowColor,
-                offset: const Offset(0, 8),
-              ),
-              BoxShadow(
-                color: Colors.black.withOpacity(0.08),
-                blurRadius: 8,
-                offset: const Offset(0, 10),
-              ),
+              BoxShadow(color: shadowColor, offset: const Offset(0, 8)),
+              BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 8, offset: const Offset(0, 10)),
             ] else ...[
-              BoxShadow(
-                color: shadowColor,
-                offset: const Offset(0, 2),
-              ),
-            ]
+              BoxShadow(color: shadowColor, offset: const Offset(0, 2)),
+            ],
           ],
         ),
         child: Stack(
@@ -785,10 +765,7 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
               child: Container(
                 width: 90,
                 height: 90,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.18),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.18)),
               ),
             ),
             Positioned(
@@ -797,10 +774,7 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
               child: Container(
                 width: 60,
                 height: 60,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.1),
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white.withOpacity(0.1)),
               ),
             ),
             Padding(
@@ -813,10 +787,7 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
                       padding: const EdgeInsets.all(4.0),
                       child: Hero(
                         tag: 'cat_img_${category.id}',
-                        child: CustomImage(
-                          pathOrUrl: assetPath,
-                          fit: BoxFit.contain,
-                        ),
+                        child: CustomImage(pathOrUrl: assetPath, fit: BoxFit.contain),
                       ),
                     ),
                   ),
@@ -845,19 +816,9 @@ class _CategoryCard3DState extends State<CategoryCard3D> {
                     color: const Color(0xFFFFD93D),
                     shape: BoxShape.circle,
                     border: Border.all(color: Colors.white, width: 2),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      )
-                    ],
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.15), blurRadius: 4, offset: const Offset(0, 2))],
                   ),
-                  child: const Icon(
-                    Icons.star_rounded,
-                    size: 16,
-                    color: Color(0xFF7C5730),
-                  ),
+                  child: const Icon(Icons.star_rounded, size: 16, color: Color(0xFF7C5730)),
                 ),
               ),
           ],

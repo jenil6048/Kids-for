@@ -9,11 +9,10 @@ class LanguageSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 10,
       children: [
         _buildLanguagePill(context, 'en', '🇬🇧 English'),
-        const SizedBox(width: 10),
         _buildLanguagePill(context, 'gu', '🇮🇳 ગુજરાતી'),
-        const SizedBox(width: 10),
         _buildLanguagePill(context, 'hi', '🇮🇳 हिन्दी'),
       ],
     );

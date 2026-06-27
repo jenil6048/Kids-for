@@ -1,4 +1,5 @@
 import 'package:flutter_tts/flutter_tts.dart';
+import '../repositories/settings_repository.dart';
 
 class TtsService {
   TtsService._internal();
@@ -9,7 +10,21 @@ class TtsService {
 
   bool get isSpeaking => _isSpeaking;
 
+  /// Warm up and initialize the native TTS engine.
+  Future<void> init() async {
+    try {
+      await _flutterTts.setLanguage('en-US');
+      await _flutterTts.setPitch(1.3);
+      await _flutterTts.setSpeechRate(0.42);
+      // Play a silent space character to force the OS to bind to the TTS service in background
+      await _flutterTts.speak(" ");
+    } catch (_) {}
+  }
+
   Future<void> speak(String text, String languageCode) async {
+    if (!SettingsRepository.instance.isSoundEnabled) {
+      return;
+    }
     try {
       await stop();
 
