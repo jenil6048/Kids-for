@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
+import '../config/app_config.dart';
 import '../models/category_model.dart';
 import '../models/topic_model.dart';
 import '../services/supabase_service.dart';
@@ -74,8 +75,13 @@ class CategoryTopicsScreen extends StatefulWidget {
 
 class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with SingleTickerProviderStateMixin {
   final SupabaseService _supabaseService = SupabaseService.instance;
-  late Future<List<TopicModel>> _topicsFuture;
+  final List<TopicModel> _topics = [];
+  bool _isLoading = false;
+  bool _isLoadedAll = false;
+  bool _hasError = false;
+
   late PageController _pageController;
+  late ScrollController _scrollController;
   int _currentPage = 0;
   bool _isGridView = true; // Toggle between Grid and Slider
 
@@ -85,10 +91,8 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
   void initState() {
     super.initState();
     _pageController = PageController();
-    _topicsFuture = _supabaseService.getTopicsForCategory(
-      widget.category.categoryKey,
-      widget.category.id,
-    );
+    _scrollController = ScrollController()..addListener(_onScroll);
+    _loadNextPage();
 
     _bgAnimationController = AnimationController(
       duration: const Duration(seconds: 20),
@@ -99,9 +103,55 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
   @override
   void dispose() {
     _pageController.dispose();
+    _scrollController.dispose();
     _bgAnimationController.dispose();
     TtsService.instance.stop();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.position.pixels;
+    // Trigger load when within 200px of bottom
+    if (maxScroll - currentScroll <= 200) {
+      _loadNextPage();
+    }
+  }
+
+  Future<void> _loadNextPage() async {
+    if (_isLoading || _isLoadedAll) return;
+    
+    // Lock synchronously immediately to prevent double hit
+    _isLoading = true;
+    
+    setState(() {
+      _hasError = false;
+    });
+
+    try {
+      final newTopics = await _supabaseService.getTopicsForCategory(
+        widget.category.categoryKey,
+        widget.category.id,
+        limit: AppConfig.defaultPageSize,
+        offset: _topics.length,
+      );
+
+      setState(() {
+        _topics.addAll(newTopics);
+        _isLoading = false;
+        if (newTopics.length < AppConfig.defaultPageSize) {
+          _isLoadedAll = true;
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+        if (_topics.isEmpty) {
+          _hasError = true;
+        }
+      });
+    }
   }
 
   Color _parseHexColor(String hexString) {
@@ -150,62 +200,47 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
           ),
         ),
         actions: [
-          // View Toggle Button
-          FutureBuilder<List<TopicModel>>(
-            future: _topicsFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                  child: CustomButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    backgroundColor: Colors.white.withOpacity(0.3),
-                    borderRadius: 12,
-                    elevation: 0,
-                    onPressed: () {
-                      setState(() {
-                        _isGridView = !_isGridView;
-                        if (!_isGridView) {
-                          _pageController = PageController(initialPage: _currentPage);
-                        }
-                      });
-                    },
-                    child: Icon(
-                      _isGridView ? Icons.view_carousel_rounded : Icons.grid_view_rounded,
-                      color: Colors.white,
-                    ),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          FutureBuilder<List<TopicModel>>(
-            future: _topicsFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                final total = snapshot.data!.length;
-                return Padding(
-                  padding: const EdgeInsets.only(right: 12.0, top: 8, bottom: 8),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: CustomText(
-                      '${_currentPage + 1} / $total',
-                      color: Colors.white,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 14,
-                    ),
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+          if (_topics.isNotEmpty) ...[
+            // View Toggle Button
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+              child: CustomButton(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                backgroundColor: Colors.white.withOpacity(0.3),
+                borderRadius: 12,
+                elevation: 0,
+                onPressed: () {
+                  setState(() {
+                    _isGridView = !_isGridView;
+                    if (!_isGridView) {
+                      _pageController = PageController(initialPage: _currentPage);
+                    }
+                  });
+                },
+                child: Icon(
+                  _isGridView ? Icons.view_carousel_rounded : Icons.grid_view_rounded,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 12.0, top: 8, bottom: 8),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.3),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: CustomText(
+                  '${_currentPage + 1} / ${_topics.length}',
+                  color: Colors.white,
+                  fontWeight: FontWeight.w900,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ]
         ],
       ),
       body: Stack(
@@ -256,10 +291,9 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
           ),
 
           SafeArea(
-            child: FutureBuilder<List<TopicModel>>(
-              future: _topicsFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+            child: Builder(
+              builder: (context) {
+                if (_topics.isEmpty && _isLoading) {
                   return GridView.builder(
                     padding: const EdgeInsets.all(20),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -273,7 +307,7 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
                   );
                 }
 
-                if (snapshot.hasError || !snapshot.hasData || snapshot.data!.isEmpty) {
+                if (_hasError || (_topics.isEmpty && !_isLoading)) {
                   return Center(
                     child: KidCloudCard(
                       borderRadius: 32,
@@ -298,91 +332,121 @@ class _CategoryTopicsScreenState extends State<CategoryTopicsScreen> with Single
                   );
                 }
 
-                final topics = snapshot.data!;
-
                 if (_isGridView) {
-                  return GridView.builder(
-                    padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  return CustomScrollView(
+                    controller: _scrollController,
                     physics: const BouncingScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                      childAspectRatio: 0.8,
-                    ),
-                    itemCount: topics.length,
-                    itemBuilder: (context, index) {
-                      final topic = topics[index];
-                      final imgPath = (topic.imagePath != null && topic.imagePath!.isNotEmpty)
-                          ? topic.imagePath!
-                          : ((topic.svgPath != null && topic.svgPath!.isNotEmpty)
-                              ? topic.svgPath!
-                              : (topic.lottiePath ?? ''));
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                        sliver: SliverGrid(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 16,
+                            crossAxisSpacing: 16,
+                            childAspectRatio: 0.8,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final topic = _topics[index];
+                              final imgPath = (topic.imagePath != null && topic.imagePath!.isNotEmpty)
+                                  ? topic.imagePath!
+                                  : ((topic.svgPath != null && topic.svgPath!.isNotEmpty)
+                                      ? topic.svgPath!
+                                      : (topic.lottiePath ?? ''));
 
-                      return CustomButton(
-                        padding: const EdgeInsets.all(4),
-                        backgroundColor: Colors.white,
-                        borderRadius: 24,
-                        elevation: 6,
-                        borderColor: themeColor.withOpacity(0.2),
-                        borderWidth: 2,
-                        onPressed: () {
-                          setState(() {
-                            _currentPage = index;
-                            _isGridView = false;
-                            _pageController = PageController(initialPage: index);
-                          });
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: themeColor.withOpacity(0.05),
-                                  shape: BoxShape.circle,
+                              return CustomButton(
+                                padding: const EdgeInsets.all(4),
+                                backgroundColor: Colors.white,
+                                borderRadius: 24,
+                                elevation: 6,
+                                borderColor: themeColor.withOpacity(0.2),
+                                borderWidth: 2,
+                                onPressed: () {
+                                  setState(() {
+                                    _currentPage = index;
+                                    _isGridView = false;
+                                    _pageController = PageController(initialPage: index);
+                                  });
+                                },
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(8),
+                                        decoration: BoxDecoration(
+                                          color: themeColor.withOpacity(0.05),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CustomImage(
+                                          pathOrUrl: imgPath,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 6),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                      decoration: BoxDecoration(
+                                        color: themeColor.withOpacity(0.1),
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: CustomText(
+                                        topic.getName(locale: widget.activeLanguage),
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w900,
+                                        color: themeColor,
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                child: CustomImage(
-                                  pathOrUrl: imgPath,
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: themeColor.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: CustomText(
-                                topic.getName(locale: widget.activeLanguage),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w900,
-                                color: themeColor,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                              ),
-                            ),
-                          ],
+                              );
+                            },
+                            childCount: _topics.length,
+                          ),
                         ),
-                      );
-                    },
+                      ),
+                      if (_isLoading)
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 24.0),
+                            child: Center(
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 4,
+                                  valueColor: AlwaysStoppedAnimation<Color>(themeColor),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
                   );
                 }
 
                 return PageView.builder(
                   controller: _pageController,
                   physics: const BouncingScrollPhysics(),
-                  itemCount: topics.length,
+                  itemCount: _topics.length + (_isLoadedAll ? 0 : 1),
                   onPageChanged: (index) {
                     setState(() {
                       _currentPage = index;
                     });
+                    if (index >= _topics.length - 1) {
+                      _loadNextPage();
+                    }
                   },
                   itemBuilder: (context, index) {
-                    final topic = topics[index];
+                    if (index >= _topics.length) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    
+                    final topic = _topics[index];
                     return TopicDetailScreen(
                       topic: topic,
                       category: widget.category,

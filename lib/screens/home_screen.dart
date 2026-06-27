@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             hi: 'अन्य अन्વેषण',
           ),
           icon: 'https://assets5.lottiefiles.com/packages/lf20_qp1a7a00.json',
+          displayOrder: 999, // default to bottom if group is unlinked
         );
       }
 
@@ -98,10 +99,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       groupedByCategoryKey.putIfAbsent(group.id, () => []).add(cat);
     }
 
+    // Sort groups alphabetically or by displayOrder
+    final sortedGroups = groupMap.values.toList();
+    sortedGroups.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
+
     final Map<GroupModel, List<CategoryModel>> result = {};
-    for (var groupId in groupMap.keys) {
-      final group = groupMap[groupId]!;
-      final cats = groupedByCategoryKey[groupId]!;
+    for (var group in sortedGroups) {
+      final cats = groupedByCategoryKey[group.id]!;
       // Sort categories within the group by displayOrder
       cats.sort((a, b) => a.displayOrder.compareTo(b.displayOrder));
       result[group] = cats;

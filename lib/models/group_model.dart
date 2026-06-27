@@ -4,11 +4,13 @@ class GroupModel {
   final String id;
   final LocalizedText name;
   final String icon;
+  final int displayOrder;
 
   GroupModel({
     required this.id,
     required this.name,
     required this.icon,
+    this.displayOrder = 0,
   });
 
   factory GroupModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class GroupModel {
               hi: '',
             ),
       icon: json['icon'] as String? ?? '',
+      displayOrder: json['display_order'] as int? ?? 0,
     );
   }
 
@@ -30,6 +33,7 @@ class GroupModel {
       'id': id,
       'name': name.toJson(),
       'icon': icon,
+      'display_order': displayOrder,
     };
   }
 
